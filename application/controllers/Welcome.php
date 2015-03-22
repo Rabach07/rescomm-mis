@@ -18,8 +18,24 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
+	public function index() {
 		$this->load->view('welcome_message');
+	}
+
+	public function db() {
+		//using our mysql db config, like we normally do	
+		//$query = $this->db->query("SELECT * FROM up_dosen");
+		//var_dump($query->result());
+
+		//load the pdo db config 
+		$this->pdo = $this->load->database('pdo', true);
+
+		//using the pdo config
+		$stmt = $this->pdo->query("SELECT * FROM up_dosen");  
+		var_dump($stmt->result());
+
+		//using the pdo config with active record
+		$stmt = $this->pdo->get("up_dosen");  
+		var_dump($stmt->result());	
 	}
 }
