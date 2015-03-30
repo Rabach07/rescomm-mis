@@ -9,9 +9,10 @@ if (!defined('BASEPATH'))
 
 //Registration Errors
 $lang['auth.email_exists'] = 'The email address is already registered.';
+$lang['auth.user_exists'] = 'The username is already registered.';
 
 //Login errors
-$lang['auth.invalid_credentials'] = 'Invalid email or password';
+$lang['auth.invalid_credentials'] = 'Invalid username or password';
 $lang['auth.user_id_unavailable'] = 'The user id is not available';
 
 //Groups and privileges errors

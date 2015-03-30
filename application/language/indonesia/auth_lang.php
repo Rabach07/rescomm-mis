@@ -9,9 +9,10 @@ if (!defined('BASEPATH'))
 
 //Registration Errors
 $lang['auth.email_exists'] = 'Email sudah digunakan';
+$lang['auth.user_exists'] = 'Username sudah digunakan';
 
 //Login errors
-$lang['auth.invalid_credentials'] = 'Email atau password salah';
+$lang['auth.invalid_credentials'] = 'Username atau password salah';
 $lang['auth.user_id_unavailable'] = 'User id tidak ada';
 
 //Groups and privileges errors

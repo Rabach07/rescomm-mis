@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>P3M PENS | Login</title>
+    <title>P3M PENS | Buat Akun</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="<?=base_url();?>public/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -15,21 +15,6 @@
     <!-- favicon -->
     <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
 
-    <style type="text/css">
-        .error-wrap {
-            padding: 4px;
-            text-align: center;
-            color: #f0f0f0;
-            background-color: #E36A5D;
-            -o-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            -ms-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            -moz-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            margin: 0 0 10px 0;
-        }
-    </style>
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -38,52 +23,60 @@
     <![endif]-->
 </head>
 
-<body class="login-page">
-    <div class="login-box">
-        <div class="login-logo">
+<body class="register-page">
+    <div class="register-box">
+        <div class="register-logo">
             <a href="<?=base_url();?>"><b>P3M</b>PENS</a>
         </div>
-        <!-- /.login-logo -->
-        <div class="login-box-body">
-            <?php if(isset($error)){ ?><div class="error-wrap"><h4><?= $error; ?></h4></div><?php } ?>
-            <p class="login-box-msg">Silakan login untuk masuk ke Dashboard</p>
+        <!-- /.register-logo -->
+        <div class="register-box-body">
+            <p class="register-box-msg"><?php echo validation_errors(); ?></p>
+            <p class="register-box-msg">Silakan isi from untuk buat akun baru</p>
             <?php
                 $attributes = array(
                     'id' => 'login',
                     'role' => 'form'
                 ); 
-                echo form_open('login/dologin',$attributes);
+                echo form_open('daftar/buatakun',$attributes);
             ?>
                 <div class="form-group has-feedback">
-                    <input name="l_username" type="text" class="form-control" placeholder="Username" value="<?php echo set_value('l_username'); ?>" required />
+                    <input name="d_username" type="text" class="form-control" placeholder="Username" value="<?php echo set_value('d_username'); ?>" required />
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input name="l_password" type="password" class="form-control" placeholder="Password" required />
+                    <input name="d_email" type="text" class="form-control" placeholder="Email" value="<?php echo set_value('d_email'); ?>" required />
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input name="d_pass" type="password" class="form-control" placeholder="Password" required />
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    <input name="d_confpass" type="password" class="form-control" placeholder="Retype password" required/>
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
                         <div class="checkbox icheck">
                             <label>
-                                <input name="l_ingat" type="checkbox" value="ingat"> Ingat Saya
+                                <input name="d_cek" type="checkbox" required > Saya menyetujui <a href="#">persyaratan</a>
                             </label>
                         </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-success btn-block btn-flat">Masuk &nbsp;<i class="fa fa-chevron-right"></i></button>
+                        <button type="submit" class="btn btn-success btn-block btn-flat">Buat &nbsp;<i class="fa fa-chevron-right"></i></button>
                     </div>
                     <!-- /.col -->
                 </div>
             <?php echo form_close(); ?> 
 
-            <a href="<?=site_url()?>login/lupa">Lupa Password ?</a> | <a href="<?=site_url()?>daftar">Buat akun baru</a>
+            <a href="<?=site_url()?>login">Saya sudah punya akun ?</a>
 
         </div>
         <!-- /.login-box-body -->
         <div style="margin: 5px auto; opacity: 0.5; text-align: center;">
-            Copyright &copy; 2015 - P3M PENS<br><b>Best in Chrome Browser. <i>{elapsed_time} detik</i></b>
+            Copyright &copy; 2015 - P3M PENS<br><b>Best in Chrome Browser</b>
         </div>
         <!-- /.login-box-footer -->
     </div>

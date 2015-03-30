@@ -5,10 +5,10 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 class User_model extends CI_Model {
 
     /**
-     * Library vars
-     * @var mixed Holds the status messages
-     * @var mixed Holds the error messages
-     * @var settings Holds the library settings
+     * variabel library 
+     * @var menyimpan pesan status
+     * @var menyimpan pesan error 
+     * @var menyimpan konfigurasi dari library
      */
     private $status;
     private $errors;
@@ -17,19 +17,21 @@ class User_model extends CI_Model {
     public function __construct() {
         parent::__construct();
 
-        //Load database driver
+        // membuka database driver
         $this->load->database();
-        //Load session library
+        // membuka session library
         $this->load->library('session');
+        // membuka helper
+        $this->load->helper('language');
 
-        //Ini variables
+        // inisialisasi variabel
         $this->status = array();
         $this->errors = array();
 
-        //Load language file
+        // membuka language file
         $this->lang->load('auth');
 
-        //Ini settengs data
+        // konfigurasi default
         $this->settings = array(
             //Website Title. This is used when sending emails            
             "website_title" => 'P3M PENS',
@@ -42,9 +44,9 @@ class User_model extends CI_Model {
             //Remember me cookie expiration time in SECONDS
             "remember_me_cookie_expiration" => 60 * 60 * 24 * 30, #Default 30 days
             //ip login attempts limit
-            "ip_login_limit" => 10,
+            "ip_login_limit" => 5,
             //Identity login attempts limit
-            "identity_login_limit" => 10,
+            "identity_login_limit" => 5,
             //Ban time in SECONDS if login attempts excedded.
             "ban_time" => 10, #Default = 10 Sec
             //When should the password reset email expire? in seconds
@@ -55,9 +57,9 @@ class User_model extends CI_Model {
             //and must end with .php extension
             "email_templates" => array(
                 //Template for activating account
-                "activation" => "emails/email_verification",
+                "activation" => "Emails/email_verification",
                 //Template for a forgotten password retrieval
-                "password_reset" => "emails/password_reset",
+                "password_reset" => "Emails/password_reset",
             ),
             //Email type. Either text or html
             "email_type" => 'html',
@@ -84,34 +86,29 @@ class User_model extends CI_Model {
      *
      * $custom_data = array("is_active" => 1);
      * @param string $email
+     * @param string $username
      * @param string $password
      * @param int $group_id
      * @param mixed $custom_data
-     * @return mixed user_id on success or FALSE otherwise
+     * @return mixed user_id on success
      */
     public function create_account($email, $username, $password, $role_id = NULL, $custom_data = NULL) {
-        //Make sure the email is unique
-        if ($this->email_exists($email)) {
-            //Set error message and return FALSE
-            $this->set_error_message('auth.email_exists');
-            return FALSE;
-        }
-
         //Load PHPass library to encrypt password
         $this->load->library('phpass');
 
-        //Encrupt pass
+        //Encrypt pass
         $encrypted_pass = $this->phpass->hash($password);
 
         //Insert data and return;
-        $this->db->set('email', $email);
-        $this->db->set('password', $encrypted_pass);
-        //Add date of registration
-        $this->db->set('date_added', 'NOW()', FALSE);
+        $this->db->set('user_email', $email);
+        $this->db->set('user_login', $username);
+        $this->db->set('user_pass', $encrypted_pass);
+        
         //Add group id
-        if (!empty($group_id) && $group_id > 0) {
-            $this->db->set('group_id', $group_id);
+        if (!empty($role_id) && $role_id > 0) {
+            $this->db->set('role_id', $role_id);
         }
+        
         //Add custom data
         if (!empty($custom_data) && is_array($custom_data)) {
             foreach ($custom_data as $key => $value) {
@@ -122,7 +119,7 @@ class User_model extends CI_Model {
         }
 
         //Run query
-        $this->db->insert('accounts');
+        $this->db->insert('tb_user');
 
         //Insert ID || user id
         $user_id = $this->db->insert_id();
@@ -147,9 +144,9 @@ class User_model extends CI_Model {
             return FALSE;
         }
         //Activate user
-        $this->db->set('is_active', 1);
+        $this->db->set('user_status', 1);
         $this->db->where('user_id', $user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
         //return 1 or 0
         return $this->db->affected_rows();
     }
@@ -161,9 +158,9 @@ class User_model extends CI_Model {
      */
     public function deactivate_account($user_id) {
 
-        $this->db->set('is_active', 0);
+        $this->db->set('user_status', 9);
         $this->db->where('user_id', $user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
         return $this->db->affected_rows();
     }
 
@@ -192,14 +189,14 @@ class User_model extends CI_Model {
      * @param bool $remember_me
      * @return boolean
      */
-    public function login($email, $password, $remember_me = FALSE) {
+    public function login($username, $password, $remember_me = FALSE) {
 
         //Check database records to match identity
-        $this->db->where('email', $email);
+        $this->db->where('user_login', $username);
         $this->db->limit(1);
-        $query = $this->db->get('accounts');
+        $query = $this->db->get('tb_user');
 
-        //If email found in db, check password
+        //If username found in db, check password
         if ($query->num_rows() < 1) {
             //Set error message and return false
             $this->set_error_message('auth.invalid_credentials');
@@ -211,20 +208,20 @@ class User_model extends CI_Model {
 
         //Check if user has a ban
         $now = new DateTime('now');
-        $login_ban = new DateTime($row->login_ban);
+        $login_ban = new DateTime($row->user_loginban);
         if ($login_ban >= $now) {
             $this->set_error_message('auth.user_banned');
             return FALSE;
         }
 
         //Check if the number of failed logins exceeds the limit
-        if ((int) $row->login_attempts >= $this->settings['identity_login_limit']) {
+        if ((int) $row->user_loginattempts >= $this->settings['identity_login_limit']) {
             //Add ban to user identity
             $now->modify("+{$this->settings['ban_time']} SECONDS");
             $login_ban_until = $now->format('Y-m-d H:i:s');
-            $this->db->set('login_ban', $login_ban_until);
+            $this->db->set('user_loginban', $login_ban_until);
             $this->db->where('user_id', $row->user_id);
-            $this->db->update('accounts');
+            $this->db->update('tb_user');
 
             //Reset faild login attempts
             $this->_reset_attempts($row->user_id);
@@ -243,17 +240,17 @@ class User_model extends CI_Model {
         $this->load->library('phpass');
 
         //Check password
-        if (!$this->phpass->check($password, $row->password)) {
+        if (!$this->phpass->check($password, $row->user_pass)) {
             //Password not found
             $this->set_error_message('auth.invalid_credentials');
 
             //Increment failed login attempt
-            $this->_increment_login_attempts($row->user_id, $row->login_attempts);
+            $this->_increment_login_attempts($row->user_id, $row->user_loginattempts);
             return FALSE;
         }
 
         //User has valid credentials
-        if ($row->login_attempts > 0) {
+        if ($row->user_loginattempts > 0) {
             //Reset faild login attempts
             $this->_reset_attempts($row->user_id);
         }
@@ -279,7 +276,7 @@ class User_model extends CI_Model {
         $this->db->where('ip', $this->input->ip_address());
         $this->db->where('number_of_attempts >=', (int) $this->settings['ip_login_limit']);
         $this->db->where("DATE_ADD(last_failed_attempt, INTERVAL {$this->settings['ban_time']} SECOND) <= ", 'NOW()', FALSE);
-        $ip_query = $this->db->get('ip_attempts');
+        $ip_query = $this->db->get('tb_ip_attempts');
         //If record exists return true
         if ($ip_query->num_rows() > 0) {
             return TRUE;
@@ -301,19 +298,22 @@ class User_model extends CI_Model {
             return FALSE;
         }
 
-        if ($user->group_id) {
-            $query = $this->db->select("is_admin")
-                    ->where('group_id', $user->group_id)
-                    ->get('groups');
+        if ($user->role_id) {
+            $query = $this->db->select("role_admin, role_nama")
+                    ->where('role_id', $user->role_id)
+                    ->get('tb_role');
         }
 
-        $group = $query->row();
+        $role = $query->row();
 
         $sess_data = array(
             "is_logged_in" => TRUE,
-            "is_admin" => (bool) $group->is_admin,
+            "is_admin" => (bool) $role->role_admin,
+            "user_role" => (string) $role->role_nama,
             "via_password" => (bool) $via_password,
-            "user_id" => (int) $user->user_id
+            "user_id" => (int) $user->user_id,
+            "user_login" => (string) $user->user_login,
+            "user_email" => (string) $user->user_email
         );
 
         $this->session->set_userdata($sess_data);
@@ -357,7 +357,7 @@ class User_model extends CI_Model {
         //Load token from database
         $where = array('user_id' => $user_id);
         $this->db->where($where);
-        $query = $this->db->get('remembered_users');
+        $query = $this->db->get('tb_remembered_users');
         //Check to see if user_id->token association exists
         if ($query->num_rows() < 1) {
             return FALSE;
@@ -385,7 +385,7 @@ class User_model extends CI_Model {
         }
 
         //Get user account data
-        $user = $this->db->get_where('accounts', $where)->row();
+        $user = $this->db->get_where('tb_user', $where)->row();
 
         //Set login session
         //User has not logged in via password
@@ -450,12 +450,12 @@ class User_model extends CI_Model {
      * @return int
      */
     public function login_attempts($user_id) {
-        $this->db->select('login_attempts');
+        $this->db->select('user_loginattempts');
         $this->db->where('user_id', $user_id);
-        $query = $this->db->get('accounts');
+        $query = $this->db->get('tb_user');
         //If user exists, return login attempts
         if ($query->num_rows() > 0) {
-            return $query->row()->login_attempts;
+            return $query->row()->user_loginattempts;
         }
 
         return 0;
@@ -470,27 +470,27 @@ class User_model extends CI_Model {
      */
     private function _increment_login_attempts($user_id, $attempts = 0) {
         //Increment identity login attempts
-        $this->db->set('login_attempts', $attempts + 1);
+        $this->db->set('user_loginattempts', $attempts + 1);
         $this->db->where('user_id', $user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
         $update_affected_rows = $this->db->affected_rows();
 
         //Check if ip exists
         $this->db->select('number_of_attempts');
         $this->db->where('ip', $this->input->ip_address());
-        $query = $this->db->get('ip_attempts');
+        $query = $this->db->get('tb_ip_attempts');
         if ($query->num_rows() > 0) {
             $row = $query->row();
             //Increment ip login attempts
             $this->db->set('number_of_attempts', $row->number_of_attempts + 1);
             $this->db->set('last_failed_attempt', 'NOW()', FALSE);
-            $this->db->update('ip_attempts');
+            $this->db->update('tb_ip_attempts');
         } else {
             //Insert first attempt
             $this->db->set('ip', $this->input->ip_address());
             $this->db->set('number_of_attempts', 1);
             $this->db->set('last_failed_attempt', 'NOW()', FALSE);
-            $this->db->insert('ip_attempts');
+            $this->db->insert('tb_ip_attempts');
         }
 
         return $this->db->affected_rows() + $update_affected_rows;
@@ -504,15 +504,15 @@ class User_model extends CI_Model {
      */
     private function _reset_attempts($user_id) {
         //reset Identity failed login attempts
-        $this->db->set('login_attempts', 0);
+        $this->db->set('user_loginattempts', 0);
         $this->db->where('user_id', $user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
         $u = $this->db->affected_rows();
 
         //reset ip failed login attempts
         $this->db->set('number_of_attempts', 0);
         $this->db->where('ip', $this->input->ip_address());
-        $this->db->update('ip_attempts');
+        $this->db->update('tb_ip_attempts');
 
         return $this->db->affected_rows() + $u;
     }
@@ -569,7 +569,7 @@ class User_model extends CI_Model {
         $this->db->set('token', $token);
         $this->db->set('user_id', $user_id);
         $this->db->set('date', 'NOW()', FALSE);
-        $this->db->insert('remembered_users');
+        $this->db->insert('tb_remembered_users');
 
         return $random;
     }
@@ -596,7 +596,7 @@ class User_model extends CI_Model {
 
         //Remove record of token from database
         $this->db->where('user_id', $user_id);
-        $query = $this->db->get('remembered_users');
+        $query = $this->db->get('tb_remembered_users');
         if ($query->num_rows() > 0) {
             //Load Phpass Library
             $connection_id = FALSE;
@@ -609,7 +609,7 @@ class User_model extends CI_Model {
             }
             if ($connection_id) {
                 $this->db->where('connection_id', $connection_id);
-                $this->db->delete('remembered_users');
+                $this->db->delete('tb_remembered_users');
             }
         }
 
@@ -657,9 +657,9 @@ class User_model extends CI_Model {
      */
     public function send_verification_email($user_id) {
         //Get user from db   
-        $this->db->select('email');
+        $this->db->select('user_email');
         $this->db->where('user_id', $user_id);
-        $query = $this->db->get('accounts');
+        $query = $this->db->get('tb_user');
         if ($query->num_rows() != 1) {
             //User does not exist
             return FALSE;
@@ -712,10 +712,10 @@ class User_model extends CI_Model {
 
         $this->load->library('phpass');
         $encrypted_token = $this->phpass->hash($token);
-        $this->db->set('email_verification_tk', $encrypted_token);
-        $this->db->set('email_verification_date', 'NOW()');
+        $this->db->set('user_emailverf', $encrypted_token);
+        $this->db->set('user_emailverf_date', 'NOW()');
         $this->db->where('user_id', $user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
 
         return $token;
     }
@@ -730,9 +730,9 @@ class User_model extends CI_Model {
      */
     public function verify_email_verification_token($user_id, $token) {
         //Get hashed token and token generation date
-        $this->db->select('email_verfication_tk AS token, email_verfication_date AS date');
+        $this->db->select('user_emailverf AS token, user_emailverf_date AS date');
         $this->db->where('user_id', $user_id);
-        $query = $this->db->get('accounts');
+        $query = $this->db->get('tb_user');
 
         if ($query->num_rows() != 1) {
             //Invalid user id
@@ -773,9 +773,9 @@ class User_model extends CI_Model {
         $encrypted = $this->phpass->hash($new_password);
         $this->db->set('password', $encrypted);
         //Reset token
-        $this->db->set('reset_password_tk', '');
+        $this->db->set('user_resetpass', '');
         $this->db->where('user_id', $user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
 
         return $this->db->affected_rows();
     }
@@ -791,9 +791,9 @@ class User_model extends CI_Model {
      * @return boolean
      */
     public function verify_password_reset_tk($email, $token) {
-        $this->db->select('reset_password_tk, reset_password_tk_date');
-        $this->db->where('email', $email);
-        $query = $this->db->get('accounts');
+        $this->db->select('user_resetpass, user_resetpass_date');
+        $this->db->where('user_email', $email);
+        $query = $this->db->get('tb_user');
 
         if ($query->num_rows() != 1) {
             //email does not exist
@@ -804,13 +804,13 @@ class User_model extends CI_Model {
         $row = $query->row();
 
         //chack if email expired
-        if (empty($row->reset_password_tk)) {
+        if (empty($row->user_resetpass)) {
             //Token does not exist
             return FALSE;
         }
 
         $now = new DateTime('now');
-        $tk_date = new DateTime($row->reset_password_tk_date);
+        $tk_date = new DateTime($row->user_resetpass_date);
         $tk_date->modify("+{$this->settings['password_reset_date_limit']} SECONDS");
         ;
 
@@ -820,7 +820,7 @@ class User_model extends CI_Model {
         }
 
         $this->load->library('phpass');
-        if (!$this->phpass->check($token, $row->reset_password_tk)) {
+        if (!$this->phpass->check($token, $row->user_resetpass)) {
             //Token does not match
             return FALSE;
         }
@@ -838,8 +838,8 @@ class User_model extends CI_Model {
         $email = trim($email);
         //Check if email exists
         $this->db->select('user_id');
-        $this->db->where('email', $email);
-        $query = $this->db->get('accounts');
+        $this->db->where('user_email', $email);
+        $query = $this->db->get('tb_user');
 
         if ($query->num_rows() != 1) {
             //Email does not exist
@@ -857,10 +857,10 @@ class User_model extends CI_Model {
         $encrypted_token = $this->phpass->hash($token);
 
         //Store token in DB
-        $this->db->set('reset_password_tk', $encrypted_token);
-        $this->db->set('reset_password_tk_date', 'NOW()', FALSE);
+        $this->db->set('user_resetpass', $encrypted_token);
+        $this->db->set('user_resetpass_date', 'NOW()', FALSE);
         $this->db->where('user_id', $row->user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
 
         //Edit email to make it ok to pass through the url
         $email_address = explode('@', $email);
@@ -900,11 +900,27 @@ class User_model extends CI_Model {
     public function email_exists($email) {
         //Check database
         $this->db->select('user_id');
-        $this->db->where('email', $email);
+        $this->db->where('user_email', $email);
         $num = $this->db
-                ->get('accounts')
+                ->get('tb_user')
                 ->num_rows();
         //if num > 0 then emails exists so return true, false otherwise
+        return ($num > 0);
+    }
+
+    /**
+     * Check if user exists in database
+     * @param string $user
+     * @return boolean
+     */
+    public function user_exists($user) {
+        //Check database
+        $this->db->select('user_id');
+        $this->db->where('user_login', $user);
+        $num = $this->db
+                ->get('tb_user')
+                ->num_rows();
+        //if num > 0 then users exists so return true, false otherwise
         return ($num > 0);
     }
 
@@ -916,15 +932,15 @@ class User_model extends CI_Model {
      * @return int affected rows
      */
     public function set_user_group($user_id, $group_id) {
-        $this->db->set('group_id', $group_id);
+        $this->db->set('role_id', $group_id);
         $this->db->where("user_id", $user_id);
-        $this->db->update('accounts');
+        $this->db->update('tb_user');
 
         return $this->db->affected_rows();
     }
 
     /**
-     *
+     * gak pake ini dulu
      * @param int $user_id
      * @param int $privilege_id
      * @return mixed number of affected rows | FALSE if connection exisits previously
@@ -958,48 +974,48 @@ class User_model extends CI_Model {
     public function create_group($name, $description, $is_admin = FALSE) {
 
         //Name has to be unique
-        $this->db->select('group_id');
-        $this->db->where('name', $name);
-        $num = $this->db->get('groups')->num_rows();
+        $this->db->select('role_id');
+        $this->db->where('role_nama', $name);
+        $num = $this->db->get('tb_role')->num_rows();
         if ($num > 0) {
             $this->set_error_message('auth.group_name_exists');
             return FALSE;
         }
 
-        $this->db->set('name', $name);
-        $this->db->set('description', $description);
-        $this->db->set('is_admin', $is_admin);
-        $this->db->insert('groups');
+        $this->db->set('role_nama', $name);
+        $this->db->set('role_deskripsi', $description);
+        $this->db->set('role_admin', $is_admin);
+        $this->db->insert('tb_role');
 
         return $this->db->insert_id();
     }
 
-    /**
-     * Create priviledge
+    /** 
+     * Membuat hak akses
      * @param string $name
      * @param string $description
      * @return int privilege id
      */
     public function create_priviledge($name, $description) {
         //Privilege name must be unique
-        $this->db->select('privilege_id');
-        $this->db->where('name', $name);
-        $num = $this->db->get('privileges')->num_rows();
+        $this->db->select('akses_id');
+        $this->db->where('akses_nama', $name);
+        $num = $this->db->get('tb_hakakses')->num_rows();
         if ($num > 0) {
             $this->set_error_message('auth.privilege_name_exists');
             return FALSE;
         }
 
-        $this->db->set('name', $name);
-        $this->db->set('description', $description);
-        $this->db->insert('privileges');
+        $this->db->set('akses_nama', $name);
+        $this->db->set('akses_deskripsi', $description);
+        $this->db->insert('tb_hakakses');
 
         return $this->db->insert_id();
     }
 
     /**
-     * connect a priviledge to a group
-     * The param $unique is to test if the connection is unique before insertion
+     * memberikan hak akses ke role/grup
+     * parameter $unique untuk mengecek apakah hak akses sudah diberikan atau belum
      *
      * @param int $priviledge_id
      * @param int $group_id
@@ -1010,9 +1026,9 @@ class User_model extends CI_Model {
         $insert = TRUE;
         if ($unique) {
             //Make sure the connection is unique
-            $this->db->where('group_id', $group_id);
-            $this->db->where('privilege_id', $priviledge_id);
-            $query = $this->db->get('group_privilege');
+            $this->db->where('role_id', $group_id);
+            $this->db->where('akses_id', $priviledge_id);
+            $query = $this->db->get('tb_roleakses');
 
             $num = $query->num_rows();
 
@@ -1021,9 +1037,9 @@ class User_model extends CI_Model {
         }
 
         if ($insert) {
-            $this->db->set('privilege_id', $priviledge_id);
-            $this->db->set('group_id', $group_id);
-            $this->db->insert('group_privilege');
+            $this->db->set('akses_id', $priviledge_id);
+            $this->db->set('role_id', $group_id);
+            $this->db->insert('tb_roleakses');
 
             return $this->db->insert_id();
         }
@@ -1033,30 +1049,30 @@ class User_model extends CI_Model {
     }
 
     /**
-     * Does user have privilege
+     * untuk mengecek apakah user mempunyai hak akses
      * @param int $privilege_id
      * @param int $user_id
      *
-     * @return (mixed) False if connection exists | int number of rows affected on success
+     * @return (mixed) False jika hak akses sudah ada | int total baris ketika sukses
      */
     public function has_privilege($privilege_id, $user_id = NULL) {
-        $this->db->select('connection_id');
-        $this->db->where(array('user_id' => $user_id, 'privilege_id' => $privilege_id));
-        $num = $this->db->get('account_privilege')->num_rows();
+        $this->db->select('conn_id');
+        $this->db->where(array('user_id' => $user_id, 'akses_id' => $privilege_id));
+        $num = $this->db->get('tb_userakses')->num_rows();
         if ($num > 0) {
             $this->set_error_message('auth.privilege_connection_exists');
             return FALSE;
         }
 
-        $this->db->set('privilege_id', $privilege_id);
+        $this->db->set('akses_id', $privilege_id);
         $this->db->set('user_id', $user_id);
-        $this->db->insert('account_privilege');
+        $this->db->insert('tb_userakses');
 
         return $this->db->affected_rows();
     }
 
     /**
-     * Is user in group
+     * mengecek apakah user ada di role/grup tertentu
      * @param int $group_id Must provide the group id
      * @param int $user_id Leave null if checking current logged in user
      */
@@ -1069,10 +1085,10 @@ class User_model extends CI_Model {
             }
         }
 
-        $this->db->select('group_id');
+        $this->db->select('role_id');
         $this->db->where('user_id', $user_id);
-        $this->db->where('group_id', $group_id);
-        $query = $this->db->get('accounts');
+        $this->db->where('role_id', $group_id);
+        $query = $this->db->get('tb_user');
 
         if ($query->num_rows() < 1)
             return FALSE;
@@ -1092,7 +1108,7 @@ class User_model extends CI_Model {
      *
      */
     public function list_groups() {
-        $query = $this->db->get('groups');
+        $query = $this->db->get('tb_role');
 
         if ($query->num_rows() > 0)
             return $query->result();
@@ -1113,7 +1129,7 @@ class User_model extends CI_Model {
      * $obj->description
      */
     public function list_privileges() {
-        $query = $this->db->get('privileges');
+        $query = $this->db->get('tb_hakakses');
 
         if ($query->num_rows() > 0)
             return $query->result();
@@ -1171,21 +1187,21 @@ class User_model extends CI_Model {
      * 
      */
     public function user_group($user_id) {
-        $this->db->select('group_id');
+        $this->db->select('role_id');
         $this->db->where('user_id', $user_id);
-        $query = $this->db->get('accounts');
+        $query = $this->db->get('tb_user');
         if ($query->num_rows() != 1) {
             //User doesn't exists
             return false;
         }
         $user = $query->row();
-        if ($user->group_id < 1) {
+        if ($user->role_id < 1) {
             //user is not in a group
             return FALSE;
         }
 
-        $this->db->where('group_id', $user->group_id);
-        $group_query = $this->db->get('groups');
+        $this->db->where('role_id', $user->role_id);
+        $group_query = $this->db->get('tb_role');
         if ($group_query->num_rows() != 1) {
             //couldn't find group
             return false;
@@ -1325,16 +1341,6 @@ class User_model extends CI_Model {
         return $token;
     }
 
-    function get_login_info($parameter) {
-        $this->db->select('tb_user.');
-        $this->db->from('tb_user u');
-        $this->db->join('tb_role r','tb_user.role_id = tb_role.role_id');
-        $this->db->join('tb_dosen d','tb_dosen.user_id = tb_user.user_id');
-        $this->db->where($parameter);
-        $query = $this->db->get();
-        return (count($query->row_array()) > 0 ? $query->row()->Total : 0);
-    }
-
     function get_menu($role) {
     		$sql = 'SELECT 49_tc_usermenu.* FROM 49_tc_userakses INNER JOIN 49_tc_usermenu
     				ON (49_tc_userakses.akses_menu = 49_tc_usermenu.akses_menu) WHERE
@@ -1390,21 +1396,6 @@ class User_model extends CI_Model {
             $query = $this->db->get();
             return (count($query->row_array()) > 0 ? $query->row()->Total : 0);
         }
-    }
-
-    function get_role() {
-        $this->db->select('*');
-        $this->db->from('49_49_tc_role');
-        $query = $this->db->get();
-        return (count($query->num_rows()) > 0 ? $query->result() : NULL);
-    }
-
-    function cek($parameter) {
-        $this->db->select('*');
-        $this->db->from('49_tc_user');
-        $this->db->where($parameter);
-        $query = $this->db->get();
-        return $query;
     }
 
     function insert($data) {
