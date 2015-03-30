@@ -3,9 +3,9 @@ Management Information Systems of Research Center and Community Service Activiti
 
 # planning
 plan for this project :
-- using CodeIgniter Framework 3.0 RC
-- using PDO for MySQL
-- using Bootsrap template that using Bootstrap v3.0
-- using AngularJS for client side
+- using CodeIgniter Framework 3.0 RC3 (probably update to stable release)
+- using Mysqli for MySQL
+- using Bootsrap template that using Bootstrap v3.0 (AdminLTE 2.x)
+- using AngularJS for client side (probably)
 - using PHP minimum v5.0
 - other plan will be update in the future
