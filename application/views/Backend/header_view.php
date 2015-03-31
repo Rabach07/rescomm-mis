@@ -9,18 +9,62 @@
     <!-- Font Awesome Icons -->
     <link href="<?=base_url('public/plugins/font-awesome-4.3.0/css/font-awesome.min.css')?>" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
-    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/plugins/ionicons-2.0.1/css/ionicons.min.css')?>" rel="stylesheet" type="text/css" />
     <!-- Morris chart -->
-    <link href="plugins/morris/morris.css" rel="stylesheet" type="text/css" />
-    <!-- jvectormap -->
-    <link href="plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/plugins/morris/morris.css')?>" rel="stylesheet" type="text/css" />
     <!-- Daterange picker -->
-    <link href="plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/plugins/daterangepicker/daterangepicker-bs3.css')?>" rel="stylesheet" type="text/css" />
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link href="<?=base_url('public/plugins/iCheck/all.css');?>" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap Color Picker -->
+    <link href="<?=base_url('public/plugins/colorpicker/bootstrap-colorpicker.min.css');?>" rel="stylesheet"/>
+    <!-- Bootstrap time Picker -->
+    <link href="<?=base_url('public/plugins/timepicker/bootstrap-timepicker.min.css');?>" rel="stylesheet"/>
+    <!-- DATA TABLES -->
+    <link href="<?=base_url('public/plugins/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="<?=base_url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css');?>" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/dist/css/AdminLTE.min.css')?>" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
-    <link href="dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/dist/css/skins/_all-skins.min.css')?>" rel="stylesheet" type="text/css" />
+
+    <!-- Javascript -->
+    <!-- jQuery -->
+    <script src="<?=base_url('public/plugins/jQuery/jQuery-2.1.3.min.js');?>"></script>
+    <!-- Bootstrap -->
+    <script src="<?=base_url('public/bootstrap/js/bootstrap.min.js');?>" type="text/javascript"></script>
+    <!-- Datatables -->
+    <script src="<?=base_url('public/plugins/datatables/jquery.dataTables.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/datatables/dataTables.bootstrap.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/datatables/dataTables.reload.js');?>" type="text/javascript"></script>
+    <!-- InputMask -->
+    <script src="<?=base_url('public/js/plugins/input-mask/jquery.inputmask.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/js/plugins/input-mask/jquery.inputmask.date.extensions.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/js/plugins/input-mask/jquery.inputmask.extensions.js');?>" type="text/javascript"></script>
+    <!-- Sparkline -->
+    <script src="<?=base_url('public/js/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
+    <!-- daterangepicker -->
+    <script src="<?=base_url('public/js/plugins/daterangepicker/daterangepicker.js');?>" type="text/javascript"></script>
+    <!-- datepicker -->
+    <script src="<?=base_url('public/js/plugins/datepicker/bootstrap-datepicker.js');?>" type="text/javascript"></script>
+    <!-- bootstrap time picker -->
+    <script src="<?=base_url('public/js/plugins/timepicker/bootstrap-timepicker.min.js');?>" type="text/javascript"></script>
+    <!-- iCheck -->
+    <script src="<?=base_url('public/js/plugins/iCheck/icheck.min.js');?>" type="text/javascript"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="<?=base_url('public/js/plugins/slimScroll/jquery.slimscroll.min.js');?>" type="text/javascript"></script>
+    <!-- ChartJS 1.0.1 -->
+    <script src="<?=base_url('public/js/plugins/chartjs/Chart.min.js');?>" type="text/javascript"></script>
+    <!-- CK Editor -->
+    <script src="<?=base_url('public/js/plugins/ckeditor/ckeditor.js');?>"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="<?=base_url('public/js/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js');?>" type="text/javascript"></script>
+    <!-- Sparkline -->
+    <script src="<?=base_url('public/js/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="<?=base_url('public/js/plugins/jqueryKnob/jquery.knob.js');?>" type="text/javascript"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
