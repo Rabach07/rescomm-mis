@@ -263,6 +263,11 @@ class User_model extends CI_Model {
             $this->set_remember_me_cookie($row->user_id);
         }
 
+        // update user status
+        $this->db->set('user_status', 3);
+        $this->db->where('user_id', $row->user_id);
+        $this->db->update('tb_user');
+
         return TRUE;
     }
 
@@ -843,6 +848,7 @@ class User_model extends CI_Model {
 
         if ($query->num_rows() != 1) {
             //Email does not exist
+            $this->set_error_message('auth.email_unavailable');
             return FALSE;
         }
 

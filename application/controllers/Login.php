@@ -9,9 +9,9 @@ class Login extends CI_Controller {
 	
 	public function index() {
 		if(!$this->user_model->is_logged_in()){
-            if($this->session->userdata('p3m_pesan')) {
-                $data['error'] = $this->session->userdata('p3m_pesan');
-                $this->session->unset_userdata('p3m_pesan');
+            if($this->session->userdata('p3m_pesan_error')) {
+                $data['error'] = $this->session->userdata('p3m_pesan_error');
+                $this->session->unset_userdata('p3m_pesan_error');
                 $this->load->view('Backend/login_view',$data);
             } else {
                 $this->load->view('Backend/login_view');
@@ -19,6 +19,20 @@ class Login extends CI_Controller {
 		}else{
             redirect('dashboard');
 		}
+	}
+
+	public function lupa() {
+		if($this->session->userdata('p3m_pesan_error')) {
+            $data['error'] = $this->session->userdata('p3m_pesan_error');
+            $this->session->unset_userdata('p3m_pesan_error');
+            $this->load->view('Backend/lupa_view',$data);
+        } else if($this->session->userdata('p3m_pesan_sukses')) {
+        	$data['sukses'] = $this->session->userdata('p3m_pesan_sukses');
+            $this->session->unset_userdata('p3m_pesan_sukses');
+            $this->load->view('Backend/lupa_view',$data);
+        } else {
+            $this->load->view('Backend/lupa_view');
+        }
 	}
 
 	public function dologin() {
@@ -36,7 +50,7 @@ class Login extends CI_Controller {
             $flag = $this->user_model->login($username, $password, $ingat);
 
             if(!$flag) {
-            	$this->session->set_userdata('p3m_pesan', $this->user_model->error_messages());
+            	$this->session->set_userdata('p3m_pesan_error', $this->user_model->error_messages());
             	redirect('login');
             } else {
             	redirect('dashboard');
@@ -44,41 +58,38 @@ class Login extends CI_Controller {
             //redirect('daftar');
 
         } else {
-        	$this->session->set_userdata('p3m_pesan', validation_errors());
+        	$this->session->set_userdata('p3m_pesan_error', validation_errors());
             redirect('login');
         	// $this->load->view('Backend/daftar_view');
         }
 	}
 
-    public function lupa() {
-        // ambil value dari form
-        $uname = $this->input->post('username');
-        $pass1 = $this->input->post('password');
-        $pass2 = $this->input->post('password2');
+    public function dolupa() {
+        $this->load->library('form_validation');
+        // mengambil input dari form daftar dan menetapkan rule
+        $this->form_validation->set_rules('l_email', 'Email','trim|required|strip_tags|valid_email');
         
-        $cekuser = $cekpass = FALSE;
-        $pesan = "";
-        
-        $data = array(
-            'user_name' => $uname
-        );
-        $cek = $this->model_user->reset($data);
-        if(!is_null($cek)) {
-            $cekuser = TRUE;
-            if($pass1 == $pass2) {
-                $cekpass = TRUE;
-                redirect('auth');
-            }
-        }
-        
-        if(!$cekuser) $pesan = "Username tidak terdaftar";
-        elseif(!$cekpass) $pesan = "Password tidak sama";
+        if ($this->form_validation->run() == TRUE) {
+            //Jika sukses
+            $email = addslashes($this->input->post('l_email', TRUE));
 
-        $newdata = array(
-            'ukm_pesan' => $pesan
-        );
-        $this->session->set_userdata($newdata);
-        redirect('auth/fals');
+            // kasih flag
+            $flag = $this->user_model->send_reset_password_email($email);
+
+            // pengecekan flag
+            if(!$flag) {
+            	$this->session->set_userdata('p3m_pesan_error', $this->user_model->error_messages());
+            	redirect('login/lupa');
+            } else {
+            	$this->session->set_userdata('p3m_pesan_sukses', "Link Ganti Password telah dikirim ke email Anda");
+            	redirect('login/lupa');
+            }
+            //redirect('daftar');
+
+        } else {
+        	$this->session->set_userdata('p3m_pesan_error', validation_errors());
+            redirect('login/lupa');
+        }
     }
 
 }

@@ -28,3 +28,4 @@ $lang['auth.user_banned'] = 'Batas percobaan login melampaui batas. Mohon tunggu
 //Email title
 $lang['auth.password_reset_email_subject'] = 'Password Reset';
 $lang['auth.email_verification_email_subject'] = 'Verifikasi Email';
+$lang['auth.email_unavailable'] = 'Email tidak dikenal';

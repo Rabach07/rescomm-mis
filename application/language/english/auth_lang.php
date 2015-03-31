@@ -28,3 +28,4 @@ $lang['auth.user_banned'] = 'Login attempts exceeded. Please wait few seconds an
 //Email title
 $lang['auth.password_reset_email_subject'] = 'Password Reset';
 $lang['auth.email_verification_email_subject'] = 'Email Verification';
+$lang['auth.email_unavailable'] = 'Email not registered';

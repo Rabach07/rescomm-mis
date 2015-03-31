@@ -6,7 +6,7 @@ class MY_Controller extends CI_Controller {
 		if(!$this->user_model->is_logged_in()) {
 			// di redirect ke bagian login
 			$newdata = array(
-                'p3m_pesan' => "Anda harus login untuk mengakses halaman: " . $this->router->class . "",
+                'p3m_pesan_error' => "Anda harus login untuk mengakses halaman: " . $this->router->class . "",
                 'p3m_urlke' => current_url()
             );
             $this->session->set_userdata($newdata);
