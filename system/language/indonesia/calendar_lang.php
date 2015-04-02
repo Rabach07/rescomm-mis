@@ -28,12 +28,12 @@
  *
  * @package	CodeIgniter
  * @author	EllisLab Dev Team
+ * @author	Translate - Yufi Eko Firmansyah
  * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (http://ellislab.com/)
  * @copyright	Copyright (c) 2014 - 2015, British Columbia Institute of Technology (http://bcit.ca/)
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	http://codeigniter.com
  * @since	Version 1.0.0
- * @translate Yufi Eko Firmansyah
  * @filesource
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -43,9 +43,9 @@ $lang['cal_mo'] = 'Sn';
 $lang['cal_tu'] = 'Sl';
 $lang['cal_we'] = 'Rb';
 $lang['cal_th'] = 'Km';
-$lang['cal_fr'] = 'Ju';
-$lang['cal_sa'] = 'Sa';
-$lang['cal_sun'] = 'Mgu';
+$lang['cal_fr'] = 'Jm';
+$lang['cal_sa'] = 'Sb';
+$lang['cal_sun'] = 'Min';
 $lang['cal_mon'] = 'Sen';
 $lang['cal_tue'] = 'Sel';
 $lang['cal_wed'] = 'Rab';
