@@ -9,3 +9,7 @@ plan for this project :
 - using AngularJS for client side (probably)
 - using PHP minimum v5.0
 - other plan will be update in the future
+
+# release
+beta: 5th May
+v1.0.0: 15th May
