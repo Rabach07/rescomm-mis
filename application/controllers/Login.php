@@ -53,7 +53,9 @@ class Login extends CI_Controller {
             	$this->session->set_userdata('p3m_pesan_error', $this->user_model->error_messages());
             	redirect('login');
             } else {
-            	redirect('dashboard');
+                $urlke = $this->session->userdata('p3m_urlke') == NULL ? 'dashboard' : $this->session->userdata('p3m_urlke');
+            	//echo "<script>alert('" . $urlke . "');</script>";
+                redirect($urlke);
             }
             //redirect('daftar');
 

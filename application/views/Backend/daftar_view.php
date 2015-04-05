@@ -65,7 +65,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-xs-4">
-                        <button type="submit" class="btn btn-success btn-block btn-flat">Buat &nbsp;<i class="fa fa-chevron-right"></i></button>
+                        <button type="submit" class="btn btn-info btn-block btn-flat">Buat &nbsp;<i class="fa fa-chevron-right"></i></button>
                     </div>
                     <!-- /.col -->
                 </div>

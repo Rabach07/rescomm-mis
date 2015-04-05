@@ -8,4 +8,14 @@ class Dashboard extends MY_Controller {
 		$this->load->view('Backend/dashboard_view');
 	}
 
+	public function log() {
+		$this->load->view('Backend/header_view');
+		$this->load->view('Backend/dashboard_view');
+	}
+
+	public function logout() {
+		$this->user_model->logout();
+		redirect('login');
+	}
+
 }
