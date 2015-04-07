@@ -1,0 +1,85 @@
+# menu
+- dashboard (admin, dosen, operator)
+- berita (admin, dosen, operator)
+- agenda (admin, dosen, operator)
+- penelitian (admin, dosen)
+- panduan (admin, dosen)
+- download (admin, operator)
+- review (admin, dosen)
+- manajemen menu (admin)
+- manajemen user (admin)
+- manajemen dosen (admin)
+- hak akses (admin)
+- role (admin)
+- topik (admin, operator)
+- notifikasi (admin, dosen)
+- berkas (admin)
+- log (admin)
+- jurusan (admin, operator)
+
+INSERT INTO `rescomm_db`.`tb_hakakses` (`akses_nama`, `akses_deskripsi`) 
+VALUES 
+('edit-berita', 'memodifikasi data berita'), 
+('hapus-berita', 'menghapus berita'),
+('tambah-berita', 'membuat berita baru'),
+('tambah-tipe', 'membuat tipe baru'),
+('edit-tipe', 'memodifikasi data tipe'),
+('hapus-tipe', 'menghapus tipe'),
+('tipe', 'melihat daftar tipe'),
+('agenda', 'melihat daftar dan isi agenda'),
+('tambah-agenda', 'membuat agenda baru'),
+('edit-agenda', 'memodifikasi data agenda'),
+('hapus-agenda', 'menghapus agenda'),
+('penelitian', 'melihat daftar dan isi penelitian'),
+('tambah-penelitian', 'membuat data penelitian baru'),
+('edit-penelitian', 'memodifikasi data penelitian'),
+('hapus-penelitian', 'menghapus data penelitian'),
+('panduan', 'melihat daftar dan isi panduan'),
+('tambah-panduan', 'menambahkan panduan baru'),
+('edit-panduan', 'memodifikasi panduan'),
+('hapus-panduan', 'menghapus panduan'),
+('download', 'melakukan download'),
+('tambah-reviewer', 'menambahkan reviewer'),
+('edit-reviewer', 'edit reviewer'),
+('hapus-reviewer', 'hapus reviewer'),
+('reviewer', 'lihat reviewer'),
+('edit-menu', 'mengubah menu'),
+('tambah-menu', 'menambahkan menu'),
+('hapus-menu', 'hapus menu'),
+('menu', 'menu'),
+('edit-user', 'mengubah user'),
+('tambah-user', 'menambahkan user'),
+('hapus-user', 'menghapus user'),
+('user', 'user'),
+('edit-dosen', 'mengubah dosen'),
+('tambah-dosen', 'menambahkan dosen'),
+('hapus-dosen', 'menghapus dosen'),
+('dosen', 'dosen'),
+('edit-hakakses', 'mengubah hakakses'),
+('tambah-hakakses', 'menambahkan hakakses'),
+('hapus-hakakses', 'menghapus hakakses'),
+('hakakses', 'hakakses'),
+('edit-role', 'mengubah role'),
+('tambah-role', 'menambahkan role'),
+('hapus-role', 'menghapus role'),
+('role', 'role'),
+('edit-topik', 'mengubah topik'),
+('tambah-topik', 'menambahkan topik'),
+('hapus-topik', 'menghapus topik'),
+('topik', 'topik'),
+('edit-notifikasi', 'mengubah notifikasi'),
+('tambah-notifikasi', 'menambahkan notifikasi'),
+('hapus-notifikasi', 'menghapus notifikasi'),
+('notifikasi', 'notifikasi'),
+('edit-berkas', 'mengubah berkas'),
+('tambah-berkas', 'menambahkan berkas'),
+('hapus-berkas', 'menghapus berkas'),
+('berkas', 'berkas'),
+('edit-log', 'mengubah log'),
+('tambah-log', 'menambahkan log'),
+('hapus-log', 'menghapus log'),
+('log', 'log'),
+('edit-jurusan', 'mengubah jurusan'),
+('tambah-jurusan', 'menambahkan jurusan'),
+('hapus-jurusan', 'menghapus jurusan'),
+('jurusan', 'jurusan');
