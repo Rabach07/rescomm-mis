@@ -422,6 +422,14 @@ class User_model extends CI_Model {
     }
 
     /**
+     * Returns the role id of the logged in user
+     * @return False if user is not logged in | (int) ID otherwise
+     */
+    public function get_roleid() {
+        return $this->session->userdata('role_id');
+    }
+
+    /**
      * check if user is logged in and is admin
      * @return bool
      */
@@ -442,6 +450,10 @@ class User_model extends CI_Model {
      * @return void
      */
     public function logout() {
+        // update user status
+        $this->db->set('user_status', 1);
+        $this->db->where('user_id', $this->user_id);
+        $this->db->update('tb_user');
         //Unset rember me cookie
         $this->unset_remember_me_cookie($this->user_id());
         //Distroy session

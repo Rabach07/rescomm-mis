@@ -12,5 +12,8 @@ class MY_Controller extends CI_Controller {
             $this->session->set_userdata($newdata);
 			redirect('login');
 		} 
+
+		// generate menu list
+		$datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
 	}
 }
