@@ -315,6 +315,7 @@ class User_model extends CI_Model {
             "is_logged_in" => TRUE,
             "is_admin" => (bool) $role->role_admin,
             "user_role" => (string) $role->role_nama,
+            "role_id" => (int) $user->role_id,
             "via_password" => (bool) $via_password,
             "user_id" => (int) $user->user_id,
             "user_login" => (string) $user->user_login,
@@ -427,6 +428,22 @@ class User_model extends CI_Model {
      */
     public function get_roleid() {
         return $this->session->userdata('role_id');
+    }
+
+    /**
+     * Returns the username of the logged in user
+     * @return False if user is not logged in | (int) ID otherwise
+     */
+    public function get_username() {
+        return $this->session->userdata('user_login');
+    }
+
+    /**
+     * Returns the user email of the logged in user
+     * @return False if user is not logged in | (int) ID otherwise
+     */
+    public function get_email() {
+        return $this->session->userdata('user_email');
     }
 
     /**
@@ -1360,37 +1377,60 @@ class User_model extends CI_Model {
     }
 
     function get_menu($role) {
-    		$sql = 'SELECT 49_tc_usermenu.* FROM 49_tc_userakses INNER JOIN 49_tc_usermenu
+            //$select = 'tb_menu.*, , privileges.description AS privilege_description, '
+            //        . 'privileges.privilege_id AS privilege_id';
+            $this->db->select('tb_menu.*');
+            $this->db->join('tb_hakakses', 'tb_hakakses.akses_id = tb_roleakses.akses_id');
+            $this->db->join('tb_menu', 'tb_menu.menu_akses = tb_hakakses.akses_nama');
+            $this->db->where('tb_roleakses.role_id', $role);
+            $this->db->where('tb_menu.menu_tipe', 0);
+            $this->db->where('tb_menu.menu_aktif', 1);
+            $this->db->order_by('tb_menu.menu_urutan');
+            $result = $this->db->get('tb_roleakses');
+
+    		/*$sql = 'SELECT 49_tc_usermenu.* FROM 49_tc_userakses INNER JOIN 49_tc_usermenu
     				ON (49_tc_userakses.akses_menu = 49_tc_usermenu.akses_menu) WHERE
     				49_tc_userakses.role_id="'.$role.'" AND 49_tc_usermenu.menu_tipe="0" AND 49_tc_usermenu.menu_aktif="1"
     				ORDER BY 49_tc_usermenu.menu_urutan';
-    		$result = $this->db->query($sql);
+    		$result = $this->db->query($sql);*/
 
     		$menu = '';
     		$menu_child = '';
 
     		if($result->num_rows()>0){
     			foreach ($result->result() as $parent){
-    				$li_parent='';
+    				$li_parent = '';
+                    $menu_child = '';
 
-    				$sql = 'SELECT 49_tc_usermenu.* FROM 49_tc_userakses INNER JOIN 49_tc_usermenu
+    				/*$sql = 'SELECT 49_tc_usermenu.* FROM 49_tc_userakses INNER JOIN 49_tc_usermenu
     						ON (49_tc_userakses.akses_menu = 49_tc_usermenu.akses_menu) WHERE
     						49_tc_userakses.role_id="'.$role.'" AND 49_tc_usermenu.menu_tipe="1" AND 49_tc_usermenu.menu_aktif="1" AND 49_tc_usermenu.menu_parent="'.$parent->akses_menu.' "
     						ORDER BY 49_tc_usermenu.menu_urutan';
 
-                    $result_child=$this->db->query($sql);
+                    $result_child=$this->db->query($sql);*/
+
+                    $this->db->select('tb_menu.*');
+                    $this->db->join('tb_hakakses', 'tb_hakakses.akses_id = tb_roleakses.akses_id');
+                    $this->db->join('tb_menu', 'tb_menu.menu_akses = tb_hakakses.akses_nama');
+                    $this->db->where('tb_roleakses.role_id', $role);
+                    $this->db->where('tb_menu.menu_tipe', 1);
+                    $this->db->where('tb_menu.menu_aktif', 1);
+                    $this->db->where('tb_menu.menu_parent', $parent->menu_akses);
+                    $this->db->order_by('tb_menu.menu_urutan');
+                    $result_child = $this->db->get('tb_roleakses');
+
     				if($result_child->num_rows()>0){
-    				    $li_parent='class="treeview"';
-    					$menu_child='<ul class="treeview-menu">';
+    				    $li_parent = 'class="treeview"';
+    					$menu_child = '<i class="fa fa-angle-left pull-right"></i><ul class="treeview-menu">';
     					foreach ($result_child->result() as $child){
-    						$menu_child = $menu_child.'<li><a href="'.site_url()."/dashboard".$child->menu_url.'"><i class="'.$child->menu_icon.'"></i> '.$child->menu_nama.'</a></li>';
+    						$menu_child = $menu_child.'<li id="child-'.$child->menu_akses.'"><a href="'.site_url()."dashboard".$child->menu_url.'"><i class="'.$child->menu_icon.'"></i> '.$child->menu_nama.'</a></li>';
     					}
     					$menu_child = $menu_child.'</ul>';
     				}
 
     				$menu = $menu.'
-                                <li '.$li_parent.' id="li-'.$parent->akses_menu.'">
-                                    <a href="'.site_url()."/dashboard".$parent->menu_url.'">
+                                <li '.$li_parent.' id="parent-'.$parent->menu_akses.'">
+                                    <a href="'.site_url()."dashboard".$parent->menu_url.'">
                                         <i class="'.$parent->menu_icon.'"></i> <span>'.$parent->menu_nama.'</span>
                                         '.$menu_child.'
                                     </a>

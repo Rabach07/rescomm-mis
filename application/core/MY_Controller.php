@@ -14,6 +14,6 @@ class MY_Controller extends CI_Controller {
 		} 
 
 		// generate menu list
-		$datah['menu'] = $this->user_model->get_menu($this->access->get_roleid());
+		// $datah['menu'] = $this->user_model->get_menu($this->user_model->get_roleid());
 	}
 }

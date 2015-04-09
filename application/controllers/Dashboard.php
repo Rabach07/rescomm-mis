@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Dashboard extends MY_Controller {
 
 	public function index() {
-		$this->load->view('Backend/header_view');
+		$datah['menu'] = $this->user_model->get_menu($this->user_model->get_roleid());
+		$this->load->view('Backend/header_view', $datah);
 		$this->load->view('Backend/dashboard_view');
 	}
 
