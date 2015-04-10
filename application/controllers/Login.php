@@ -13,6 +13,10 @@ class Login extends CI_Controller {
                 $data['error'] = $this->session->userdata('p3m_pesan_error');
                 $this->session->unset_userdata('p3m_pesan_error');
                 $this->load->view('Backend/login_view',$data);
+            } else if($this->session->userdata('p3m_pesan_sukses')) {
+                $data['sukses'] = $this->session->userdata('p3m_pesan_sukses');
+                $this->session->unset_userdata('p3m_pesan_sukses');
+                $this->load->view('Backend/login_view',$data);
             } else {
                 $this->load->view('Backend/login_view');
             }

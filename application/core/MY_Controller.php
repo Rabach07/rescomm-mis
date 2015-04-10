@@ -1,6 +1,8 @@
 <?php  defined('BASEPATH') OR exit('No direct script access allowed');
 
 class MY_Controller extends CI_Controller {
+	//private $datah;
+
 	function __construct() {
 		parent::__construct();
 		if(!$this->user_model->is_logged_in()) {
@@ -11,7 +13,7 @@ class MY_Controller extends CI_Controller {
             );
             $this->session->set_userdata($newdata);
 			redirect('login');
-		} 
+		}
 
 		// generate menu list
 		// $datah['menu'] = $this->user_model->get_menu($this->user_model->get_roleid());

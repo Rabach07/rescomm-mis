@@ -16,17 +16,22 @@
     <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
 
     <style type="text/css">
-        .error-wrap {
+        .login-base {
             padding: 4px;
             text-align: center;
             color: #f0f0f0;
-            background-color: #E36A5D;
             -o-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
             -ms-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
             -moz-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
             -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
             box-shadow: inset 0 0 3px rgba(0,0,0,.1);
             margin: 0 0 10px 0;
+        }
+        .error {
+            background-color: #E36A5D;
+        }
+        .sukses {
+            background-color: #6DC274;
         }
     </style>
 
@@ -45,7 +50,8 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <?php if(isset($error)){ ?><div class="error-wrap"><h4><?= $error; ?></h4></div><?php } ?>
+            <?php if(isset($error)){ ?><div class="login-base error"><h4><?= $error; ?></h4></div><?php } ?>
+            <?php if(isset($sukses)){ ?><div class="login-base sukses"><h4><?= $sukses; ?></h4></div><?php } ?>
             <p class="login-box-msg">Silakan login untuk masuk ke Dashboard</p>
             <?php
                 $attributes = array(

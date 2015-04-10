@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>P3M PENS | Dashboard</title>
+    <title>P3M PENS | <?=$title;?></title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- favicon -->
     <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
@@ -77,9 +77,12 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            var parent = "#parent-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-            var child = "#child-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-            //alert(value);
+            //var parent = "#parent-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+            //var child = "#child-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+            var parent = "<?=$aktif['parent'];?>";
+            var child = "<?=$aktif['child'];?>";
+            //alert(parent);
+            //alert(child);
             $(parent).addClass("active");
             $(child).addClass("active");
         });
@@ -92,7 +95,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="skin-black layout-boxed">
+  <body class="skin-black fixed">
     <div class="wrapper">
 
       <header class="main-header">
@@ -146,7 +149,7 @@
                       </li>
                     </ul>
                   </li>
-                  <li class="footer"><a href="#">View all</a></li>
+                  <li class="footer"><a href="#">Lihat Semua</a></li>
                 </ul>
               </li>
               <!-- Tasks: style can be found in dropdown.less -->
@@ -249,10 +252,10 @@
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                      <a href="#" class="btn btn-default btn-flat">Profil</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="<?=site_url('dashboard/logout');?>" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i>&nbsp; Keluar</a>
                     </div>
                   </li>
                 </ul>

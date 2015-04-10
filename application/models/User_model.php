@@ -469,12 +469,17 @@ class User_model extends CI_Model {
     public function logout() {
         // update user status
         $this->db->set('user_status', 1);
-        $this->db->where('user_id', $this->user_id);
+        $this->db->where('user_id', $this->user_id());
         $this->db->update('tb_user');
-        //Unset rember me cookie
+        // unset remember cookie
         $this->unset_remember_me_cookie($this->user_id());
-        //Distroy session
-        $this->session->sess_destroy(); //unset_userdata($sess_data);
+        // hapus session
+        $sess_data = array(
+            "is_logged_in","is_admin","user_role","role_id","via_password","user_id",
+            "user_login","user_email"
+        );
+        // $this->session->sess_destroy(); 
+        $this->session->unset_userdata($sess_data);
     }
 
     /**
