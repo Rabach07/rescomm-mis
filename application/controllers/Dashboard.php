@@ -2,16 +2,27 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends MY_Controller {
-	public $datah = array();
+	private $datah = array();
+	private $data = array();
 
 	public function __construct() {
         parent::__construct();
-        // generate menu list
+        // load model yang digunakan secara umum
+        $this->load->model('web_model');
+        $this->load->model('log_model');
+
+        // data header
 		$this->datah['menu'] = $this->user_model->get_menu($this->user_model->get_roleid());
 		$this->datah['title'] = ucfirst( $this->router->method == 'index' ? $this->router->class : $this->router->method );
 		$this->datah['aktif'] = array(
 			'parent' => '#parent-' . ( $this->router->method == 'index' ? $this->router->class : $this->router->method ),
 			'child' => '');
+		$this->datah['menudesk'] = $this->hak_model->select(array('akses_nama' => strtolower($this->datah['title']) ), 1);
+		$this->datah['daftarlog'] = $this->log_model->select(array(), 6);
+		$this->datah['boxlognotif'] = $this->log_model->get_total(array('log_status' => 0));
+
+		// data content
+		$this->data['web'] = $this->web_model->select();
     }
 
 	public function index() {

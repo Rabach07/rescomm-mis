@@ -1484,7 +1484,7 @@ class User_model extends CI_Model {
     }
 
     function select($data, $no) {
-        $this->db->select('49_tc_user.*, 49_tc_role.role_name AS Role');
+        $this->db->select('tc_user.*, tc_role.role_name AS Role');
         $this->db->from('49_tc_user');
         $this->db->join('49_tc_role', '49_tc_user.user_role = 49_tc_role.role_id');
         $this->db->where($data);
