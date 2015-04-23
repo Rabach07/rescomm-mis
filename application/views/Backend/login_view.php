@@ -16,6 +16,9 @@
     <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
 
     <style type="text/css">
+        .login-page, .register-page {
+            background: #d2d6de url('<?=base_url();?>public/dist/img/school.png');
+        }
         .login-base {
             padding: 4px;
             text-align: center;

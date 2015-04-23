@@ -10,6 +10,7 @@ class Dashboard extends MY_Controller {
         // load model yang digunakan secara umum
         $this->load->model('web_model');
         $this->load->model('log_model');
+        $this->load->model('hak_model');
 
         // data header
 		$this->datah['menu'] = $this->user_model->get_menu($this->user_model->get_roleid());
@@ -27,7 +28,7 @@ class Dashboard extends MY_Controller {
 
 	public function index() {
 		$this->load->view('Backend/header_view', $this->datah);
-		$this->load->view('Backend/dashboard_view');
+		$this->load->view('Backend/Dashboard/dashboard_view');
 	}
 
 	public function log() {
