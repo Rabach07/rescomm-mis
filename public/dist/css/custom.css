@@ -1,0 +1,61 @@
+/* CUSTOM AdminLTE */
+.login-page, .register-page {
+    background: #d2d6de url('../img/school.png');
+}
+.login-box, .register-box {
+  width: 360px;
+  margin: 2% auto;
+}
+.info-box-number {
+    display: block;
+    font-weight: bold;
+    font-size: 30px;
+}
+.modal {
+    background: rgba(0, 0, 0, 0.5)
+}
+.modal-primary .modal-header, .modal-primary .modal-footer {
+    border-color: none
+}
+.modal-warning .modal-header, .modal-warning .modal-footer {
+    border-color: none
+}
+.modal-info .modal-header, .modal-info .modal-footer {
+    border-color: none
+}
+.modal-success .modal-header, .modal-success .modal-footer {
+    border-color: none
+}
+.modal-danger .modal-header, .modal-danger .modal-footer {
+    border-color: none
+}
+.modal-primary .modal-body, .modal-primary .modal-footer, .modal-warning .modal-body, .modal-warning .modal-footer, .modal-info .modal-body, .modal-info .modal-footer, .modal-success .modal-body, .modal-success .modal-footer, .modal-danger .modal-body, .modal-danger .modal-footer {
+    color: #000 !important
+}
+.modal-body, .modal-footer {
+    background-color: #fff !important
+}
+
+/* CUSTOM AdminLTE */
+.pesan-base {
+    padding: 4px;
+    text-align: center;
+    color: #f0f0f0;
+    -o-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
+    -ms-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
+    -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
+    box-shadow: inset 0 0 3px rgba(0,0,0,.1);
+    margin: 0 0 10px 0;
+}
+
+.pesan-base h4 {
+    font-size: 14px;
+}
+
+.error {
+    background-color: #E36A5D;
+}
+.sukses {
+    background-color: #6DC274;
+}
