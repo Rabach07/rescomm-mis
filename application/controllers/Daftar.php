@@ -8,7 +8,17 @@ class Daftar extends CI_Controller {
 	}
 	
 	public function index() {
-        $this->load->view('Backend/daftar_view');
+        if($this->session->userdata('p3m_pesan_error')) {
+            $data['error'] = $this->session->userdata('p3m_pesan_error');
+            $this->session->unset_userdata('p3m_pesan_error');
+            $this->load->view('Backend/daftar_view',$data);
+        } else if($this->session->userdata('p3m_pesan_sukses')) {
+            $data['sukses'] = $this->session->userdata('p3m_pesan_sukses');
+            $this->session->unset_userdata('p3m_pesan_sukses');
+            $this->load->view('Backend/daftar_view',$data);
+        } else {
+            $this->load->view('Backend/daftar_view');
+        }
 	}
 
 	// fungsi untuk daftar
@@ -29,11 +39,13 @@ class Daftar extends CI_Controller {
             
             $userid = $this->user_model->create_account($email, $username, $password, 71);
 
-            echo "<script>alert('Berhasil " . $userid . "');</script>";
-            //redirect('daftar');
+            //echo "<script>alert('Berhasil " . $userid . "');</script>";
+            $this->session->set_userdata('p3m_pesan_sukses', validation_errors());
+            redirect('daftar');
 
         } else {
-        	$this->load->view('Backend/daftar_view');
+        	$this->session->set_userdata('p3m_pesan_error', validation_errors());
+            redirect('daftar');
         }
     }
 

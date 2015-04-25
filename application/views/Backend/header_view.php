@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>P3M PENS | <?=$title;?></title>
+    <title><?=$title;?> | P3M PENS</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- favicon -->
     <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />

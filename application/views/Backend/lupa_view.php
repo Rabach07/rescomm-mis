@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>P3M PENS | Lupa Password</title>
+    <title>Lupa Password | P3M PENS</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="<?=base_url();?>public/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -12,26 +12,8 @@
     <link href="<?=base_url();?>public/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
     <!-- favicon -->
     <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
-
-    <style type="text/css">
-        .lupa-base {
-            padding: 4px;
-            text-align: center;
-            color: #f0f0f0;
-            -o-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            -ms-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            -moz-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            box-shadow: inset 0 0 3px rgba(0,0,0,.1);
-            margin: 0 0 10px 0;
-        }
-        .error {
-            background-color: #E36A5D;
-        }
-        .sukses {
-            background-color: #6DC274;
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link href="<?=base_url();?>public/dist/css/custom.css" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,8 +30,8 @@
         </div>
         <!-- /.login-logo -->
         <div class="login-box-body">
-            <?php if(isset($error)){ ?><div class="lupa-base error"><h4><?= $error; ?></h4></div><?php } ?>
-            <?php if(isset($sukses)){ ?><div class="lupa-base sukses"><h4><?= $sukses; ?></h4></div><?php } ?>
+            <?php if(isset($error)){ ?><div class="pesan-base error"><h4><?= $error; ?></h4></div><?php } ?>
+            <?php if(isset($sukses)){ ?><div class="pesan-base sukses"><h4><?= $sukses; ?></h4></div><?php } ?>
             <p class="login-box-msg">Silakan masukkan email Anda </p>
             <?php
                 $attributes = array(
@@ -75,7 +57,7 @@
         </div>
         <!-- /.login-box-body -->
         <div style="margin: 5px auto; opacity: 0.5; text-align: center;">
-            Copyright &copy; 2015 - P3M PENS<br><b>Best in Chrome Browser. <i>{elapsed_time} detik</i></b>
+            Copyright &copy; <?=date('Y');?> - P3M PENS<br><b>Best in Chrome Browser. <i>{elapsed_time} detik</i></b>
         </div>
         <!-- /.login-box-footer -->
     </div>

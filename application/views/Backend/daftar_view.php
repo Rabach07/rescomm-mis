@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>P3M PENS | Buat Akun</title>
+    <title>Buat Akun | P3M PENS</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.2 -->
     <link href="<?=base_url();?>public/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -14,6 +14,8 @@
     <link href="<?=base_url();?>public/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
     <!-- favicon -->
     <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
+    <!-- Custom CSS -->
+    <link href="<?=base_url();?>public/dist/css/custom.css" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -30,7 +32,8 @@
         </div>
         <!-- /.register-logo -->
         <div class="register-box-body">
-            <p class="register-box-msg"><?php echo validation_errors(); ?></p>
+            <?php if(isset($error)){ ?><div class="pesan-base error"><h4><?= $error; ?></h4></div><?php } ?>
+            <?php if(isset($sukses)){ ?><div class="pesan-base sukses"><h4><?= $sukses; ?></h4></div><?php } ?>
             <p class="register-box-msg">Silakan isi from untuk buat akun baru</p>
             <?php
                 $attributes = array(
@@ -76,7 +79,7 @@
         </div>
         <!-- /.login-box-body -->
         <div style="margin: 5px auto; opacity: 0.5; text-align: center;">
-            Copyright &copy; 2015 - P3M PENS<br><b>Best in Chrome Browser</b>
+            Copyright &copy; <?=date('Y');?> - P3M PENS<br><b>Best in Chrome Browser. <i>{elapsed_time} detik</i></b>
         </div>
         <!-- /.login-box-footer -->
     </div>
