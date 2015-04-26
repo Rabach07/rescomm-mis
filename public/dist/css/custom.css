@@ -9,28 +9,15 @@
 .info-box-number {
     display: block;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 20px;
 }
 .modal {
     background: rgba(0, 0, 0, 0.5)
 }
-.modal-primary .modal-header, .modal-primary .modal-footer {
-    border-color: none
-}
-.modal-warning .modal-header, .modal-warning .modal-footer {
-    border-color: none
-}
-.modal-info .modal-header, .modal-info .modal-footer {
-    border-color: none
-}
-.modal-success .modal-header, .modal-success .modal-footer {
-    border-color: none
-}
-.modal-danger .modal-header, .modal-danger .modal-footer {
-    border-color: none
-}
 .modal-primary .modal-body, .modal-primary .modal-footer, .modal-warning .modal-body, .modal-warning .modal-footer, .modal-info .modal-body, .modal-info .modal-footer, .modal-success .modal-body, .modal-success .modal-footer, .modal-danger .modal-body, .modal-danger .modal-footer {
-    color: #000 !important
+    color: #000 !important;
+    background-color: #fff !important;
+    border-color: #e5e5e5;
 }
 .modal-body, .modal-footer {
     background-color: #fff !important
