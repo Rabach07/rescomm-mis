@@ -430,6 +430,10 @@ class User_model extends CI_Model {
         return $this->session->userdata('role_id');
     }
 
+    public function get_user_role() {
+        return $this->session->userdata('user_role');
+    }
+
     /**
      * Returns the username of the logged in user
      * @return False if user is not logged in | (int) ID otherwise

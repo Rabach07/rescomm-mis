@@ -27,13 +27,14 @@ class Dashboard extends MY_Controller {
     }
 
 	public function index() {
+		$view = 'Backend/Dashboard/' . $this->user_model->get_user_role() . '_view';
 		$this->load->view('Backend/header_view', $this->datah);
-		$this->load->view('Backend/Dashboard/dashboard_view');
+		$this->load->view($view);
 	}
 
 	public function log() {
 		$this->load->view('Backend/header_view', $this->datah);
-		$this->load->view('Backend/dashboard_view');
+		$this->load->view('Backend/Log/log_view', $this->data);
 	}
 
 	public function notifikasi() {

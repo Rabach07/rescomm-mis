@@ -26,6 +26,8 @@
     <link href="<?=base_url('public/plugins/timepicker/bootstrap-timepicker.min.css');?>" rel="stylesheet"/>
     <!-- DATA TABLES -->
     <link href="<?=base_url('public/plugins/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/plugins/datatables/dataTables.responsive.css');?>" rel="stylesheet" type="text/css" />
+
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="<?=base_url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css');?>" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
@@ -33,6 +35,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
     <link href="<?=base_url('public/dist/css/skins/_all-skins.min.css')?>" rel="stylesheet" type="text/css" />
+    <!-- Custom CSS -->
+    <link href="<?=base_url('public/dist/css/custom.css');?>" rel="stylesheet" type="text/css" />
 
     <!-- Javascript -->
     <!-- jQuery -->
@@ -43,8 +47,9 @@
     <script src="<?=base_url('public/plugins/fastclick/fastclick.min.js');?>" type="text/javascript"></script>
     <!-- Datatables -->
     <script src="<?=base_url('public/plugins/datatables/jquery.dataTables.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/datatables/dataTables.tableTools.js');?>" type="text/javascript"></script>
     <script src="<?=base_url('public/plugins/datatables/dataTables.bootstrap.js');?>" type="text/javascript"></script>
-    <script src="<?=base_url('public/plugins/datatables/dataTables.reload.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/datatables/dataTables.responsive.min.js');?>" type="text/javascript"></script>
     <!-- InputMask -->
     <script src="<?=base_url('public/plugins/input-mask/jquery.inputmask.js');?>" type="text/javascript"></script>
     <script src="<?=base_url('public/plugins/input-mask/jquery.inputmask.date.extensions.js');?>" type="text/javascript"></script>
@@ -73,7 +78,9 @@
     <!-- Sparkline -->
     <script src="<?=base_url('public/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
     <!-- jQuery Knob Chart -->
-    <script src="<?=base_url('public/plugins/jqueryKnob/jquery.knob.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/knob/jquery.knob.js');?>" type="text/javascript"></script>
+    <!-- Angular JS -->
+    <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -81,6 +88,8 @@
             //var child = "#child-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
             var parent = "<?=$aktif['parent'];?>";
             var child = "<?=$aktif['child'];?>";
+            var site_url = "<?=site_url()?>";
+            
             //alert(parent);
             //alert(child);
             $(parent).addClass("active");
