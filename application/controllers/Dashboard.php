@@ -1,29 +1,9 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Dashboard extends MY_Controller {
-	private $datah = array();
-	private $data = array();
-
 	public function __construct() {
         parent::__construct();
-        // load model yang digunakan secara umum
-        $this->load->model('web_model');
-        $this->load->model('log_model');
-        $this->load->model('hak_model');
-
-        // data header
-		$this->datah['menu'] = $this->user_model->get_menu($this->user_model->get_roleid());
-		$this->datah['title'] = ucfirst( $this->router->method == 'index' ? $this->router->class : $this->router->method );
-		$this->datah['aktif'] = array(
-			'parent' => '#parent-' . ( $this->router->method == 'index' ? $this->router->class : $this->router->method ),
-			'child' => '');
-		$this->datah['menudesk'] = $this->hak_model->select(array('akses_nama' => strtolower($this->datah['title']) ), 1);
-		$this->datah['daftarlog'] = $this->log_model->select(array(), 6);
-		$this->datah['boxlognotif'] = $this->log_model->get_total(array('log_status' => 0));
-
-		// data content
-		$this->data['web'] = $this->web_model->select();
+        
     }
 
 	public function index() {
@@ -33,6 +13,8 @@ class Dashboard extends MY_Controller {
 	}
 
 	public function log() {
+		$this->data['adalog'] = $this->log_model->get_total() > 0 ? TRUE : FALSE;
+		$this->data['adaunread'] = $this->log_model->get_total(array('log_status' => 0)) > 0 ? TRUE : FALSE;
 		$this->load->view('Backend/header_view', $this->datah);
 		$this->load->view('Backend/Log/log_view', $this->data);
 	}
@@ -82,7 +64,7 @@ class Dashboard extends MY_Controller {
 
 	public function logout() {
 		$this->user_model->logout();
-		$this->session->set_userdata('p3m_pesan_sukses', "Session Anda berhasil diakhiri");
+		$this->session->set_flashdata('p3m_pesan_sukses', "Session Anda berhasil diakhiri");
 		redirect('login');
 	}
 

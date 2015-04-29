@@ -319,7 +319,8 @@ class User_model extends CI_Model {
             "via_password" => (bool) $via_password,
             "user_id" => (int) $user->user_id,
             "user_login" => (string) $user->user_login,
-            "user_email" => (string) $user->user_email
+            "user_email" => (string) $user->user_email,
+            "user_avatar" => (string) $user->user_avatar
         );
 
         $this->session->set_userdata($sess_data);
@@ -434,6 +435,10 @@ class User_model extends CI_Model {
         return $this->session->userdata('user_role');
     }
 
+    public function get_avatar() {
+        return $this->session->userdata('user_avatar');
+    }
+
     /**
      * Returns the username of the logged in user
      * @return False if user is not logged in | (int) ID otherwise
@@ -482,7 +487,7 @@ class User_model extends CI_Model {
             "is_logged_in","is_admin","user_role","role_id","via_password","user_id",
             "user_login","user_email"
         );
-        // $this->session->sess_destroy(); 
+        //$this->session->sess_destroy(); 
         $this->session->unset_userdata($sess_data);
     }
 
@@ -1385,7 +1390,7 @@ class User_model extends CI_Model {
         return $token;
     }
 
-    function get_menu($role) {
+    public function get_menu($role) {
             //$select = 'tb_menu.*, , privileges.description AS privilege_description, '
             //        . 'privileges.privilege_id AS privilege_id';
             $this->db->select('tb_menu.*');
@@ -1448,6 +1453,19 @@ class User_model extends CI_Model {
     		}
 
     		return $menu;
+    }
+
+    public function get_akses($akses){
+        $role = $this->get_roleid();
+        $this->db->select('COUNT(*) AS Hasil')
+            ->from('tb_roleakses ra')
+            ->join('tb_hakakses h','ra.akses_id = h.akses_id')
+            ->where('h.akses_nama',$akses)
+            ->where('ra.role_id',$role);
+
+        $hasil = $this->db->get();
+
+        return ( $hasil->row()->Hasil > 0 ? TRUE : FALSE );
     }
 
     function get_total($parameter) {

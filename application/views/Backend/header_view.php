@@ -79,9 +79,9 @@
     <script src="<?=base_url('public/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
     <!-- jQuery Knob Chart -->
     <script src="<?=base_url('public/plugins/knob/jquery.knob.js');?>" type="text/javascript"></script>
-    <!-- Angular JS -->
-    <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script>
-
+    <!-- Misc -->
+    <script src="<?=base_url('public/dist/js/misc.js');?>" type="text/javascript"></script>
+    
     <script type="text/javascript">
         $(document).ready(function() {
             //var parent = "#parent-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
@@ -89,7 +89,7 @@
             var parent = "<?=$aktif['parent'];?>";
             var child = "<?=$aktif['child'];?>";
             var site_url = "<?=site_url()?>";
-            
+
             //alert(parent);
             //alert(child);
             $(parent).addClass("active");
@@ -234,34 +234,22 @@
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="<?=base_url();?>/public/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                  <img src="<?=base_url();?>/public/avatar/<?=$this->user_model->get_avatar();?>" class="user-image" alt="User Image"/>
                   <span class="hidden-xs"><?=$this->user_model->get_username();?> <i class="caret"></i></span>
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
-                    <img src="<?=base_url();?>/public/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="<?=base_url();?>/public/avatar/<?=$this->user_model->get_avatar();?>" class="img-circle" alt="User Image" />
                     <p>
-                      Alexander Pierce - Web Developer
-                      <small>Member since Nov. 2012</small>
+                      <?=ucfirst($this->user_model->get_username());?> - <?=ucfirst($this->user_model->get_user_role());?>
+                      <small><?=$this->user_model->get_email();?></small>
                     </p>
-                  </li>
-                  <!-- Menu Body -->
-                  <li class="user-body">
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Followers</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-xs-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
                   </li>
                   <!-- Menu Footer-->
                   <li class="user-footer">
                     <div class="pull-left">
-                      <a href="#" class="btn btn-default btn-flat">Profil</a>
+                      <a href="#" class="btn btn-default btn-flat"><i class="fa fa-user"></i>&nbsp; Profil</a>
                     </div>
                     <div class="pull-right">
                       <a href="<?=site_url('dashboard/logout');?>" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i>&nbsp; Keluar</a>
@@ -280,7 +268,7 @@
           <!-- Sidebar user panel -->
           <div class="user-panel">
             <div class="pull-left image">
-              <img src="<?=base_url();?>/public/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+              <img src="<?=base_url();?>/public/avatar/<?=$this->user_model->get_avatar();?>" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
               <p><?=$this->user_model->get_username();?></p>

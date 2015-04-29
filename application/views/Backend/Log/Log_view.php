@@ -41,16 +41,20 @@
                 <div class="box-header with-border">
                   <h3 class="box-title">Daftar Log</h3>
                   <div class="box-tools pull-right">
+                    <?php if($adalog) { ?> 
                     <button class="btn btn-sm btn-info" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
-                    <button class="btn btn-sm btn-success" id="btn-baca-semua"><i class="fa fa-plus"></i> Tandai Sudah Dibaca</button>
-                    <button class="btn btn-sm btn-danger" id="btn-hapus-semua"><i class="fa fa-plus"></i> Hapus Semua</button>
+                    <?php } else { ?>
+                    <button class="btn btn-sm btn-info" onclick="window.location.reload(false)"><i class="fa fa-refresh"></i> Refresh</button>
+                    <?php } ?>
+                    <?php if($adaunread) { ?><button class="btn btn-sm btn-success" id="btn-baca-semua"><i class="fa fa-plus"></i> Tandai Sudah Dibaca</button><?php } ?>
+                    <?php if($adalog) { ?><button class="btn btn-sm btn-danger" id="btn-hapus-semua"><i class="fa fa-plus"></i> Hapus Semua</button><?php } ?>
                   </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <div ng-controller="WithAjaxCtrl as showCase">
-                      <table datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%"></table>
+                      <table datatable="" dt-options="showCase.dtOptions" dt-columns="showCase.dtColumns" class="row-border hover"></table>
                   </div>
-                  <!-- <table id="tbllog" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+                  <table id="tbllog" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th>ID</th>
@@ -72,7 +76,7 @@
                         <th>Opsi</th>
                       </tr>
                     </tfoot>
-                  </table> -->
+                  </table>
                 </div><!-- /.box-body -->
               </div><!-- /.box -->
             </div><!-- /.col -->
@@ -211,7 +215,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
-            <button id="btn-hapus-log" type="button" class="btn btn-primary"><i class="fa fa-check"></i> Iya, Hapus Semua</button>
+            <button id="btn-hapusemua-log" type="button" class="btn btn-primary"><i class="fa fa-check"></i> Iya, Hapus Semua</button>
           </div>
         </div>
       </div>
@@ -220,25 +224,8 @@
 
     <!-- Perpus App -->
     <script src="<?=base_url('public/dist/js/app.min.js');?>" type="text/javascript"></script>
-    <script src="<?=base_url('public/plugins/angular-datatables/angular-datatables.js');?>" type="text/javascript"></script>
     <!-- page script -->
     <script type="text/javascript">
-      'use strict';
-      angular.module('showcase.withAjax', ['datatables']).controller('WithAjaxCtrl', WithAjaxCtrl);
-      function WithAjaxCtrl(DTOptionsBuilder, DTColumnBuilder) {
-          var vm = this;
-          vm.dtOptions = DTOptionsBuilder.fromSource("<?=site_url('log/getlog');?>")
-              .withPaginationType('full_numbers');
-          vm.dtColumns = [
-              DTColumnBuilder.newColumn('log_id').withTitle('ID'),
-              DTColumnBuilder.newColumn('menu_nama').withTitle('Menu'),
-              DTColumnBuilder.newColumn('log_isi').withTitle('Isi'),
-              DTColumnBuilder.newColumn('log_dibuat').withTitle('Tangga;'),
-              DTColumnBuilder.newColumn('Bstatus').withTitle('Status'),
-              DTColumnBuilder.newColumn('Bopsi').withTitle('Opsi'),
-          ];
-      }
-      
       function refresh_jumlah(){
         $.getJSON("<?=site_url('log/get_databox')?>", function(obj) {
             $("#boxlog").html(obj.boxlog);
@@ -246,8 +233,6 @@
             $("#boxbelum").html(obj.boxbelum);
         });
       }
-
-      
 
       $(document).ready(function() {
         refresh_jumlah();
@@ -258,7 +243,7 @@
         });
 
         $('#btn-hapus-semua').click(function(){
-            $('#modal-hapusemua-jenis').modal('show');
+            $('#modal-hapusemua-log').modal('show');
         });
 
         $('#modal-hapus-log').on('show.bs.modal', function (e) {
@@ -308,39 +293,39 @@
         });
 
 
-        // $.fn.dataTable.TableTools.defaults.aButtons = [ 
-        //   "xls", 
-        //   {
-        //       "sExtends": "pdf",
-        //       "sPdfOrientation": "landscape",
-        //       "sPdfMessage": "data di-generate pada <?=date('d-m-Y H:i:s',now());?>"
-        //   }, 
-        //   "print" 
-        // ];
+        $.fn.dataTable.TableTools.defaults.aButtons = [ 
+          "xls", 
+          {
+              "sExtends": "pdf",
+              "sPdfOrientation": "landscape",
+              "sPdfMessage": "data di-generate pada <?=date('d-m-Y H:i:s',now());?>"
+          }, 
+          "print" 
+        ];
 
-        // var tbllog = $("#tbllog").DataTable({
-        //     "processing": true,
-        //     "ajax": {
-        //       "url" : "<?=site_url('log/getlog');?>",
-        //       "type" : "POST",
-        //       "data": function ( d ) { d.csrf_test_name = csrf_token; }
-        //     },
-        //     "deferRender": true,
-        //     "autoWidth": false,
-        //     "order": [[ 0, "desc" ]],
-        //     "columns": [
-        //       { "data": "log_id" },
-        //       { "data": "menu_nama" },
-        //       { "data": "log_isi" },
-        //       { "data": "log_dibuat" },
-        //       { "data": "Bstatus" },
-        //       { "data": "Bopsi", "searchable": false, "sortable": false, "width": "8%" },
-        //     ],
+        var tbllog = $("#tbllog").DataTable({
+            "processing": true,
+            "ajax": {
+              "url" : "<?=site_url('log/getlog');?>",
+              "type" : "POST",
+              "data": function ( d ) { d.csrf_test_name = csrf_token; }
+            },
+            "deferRender": true,
+            "autoWidth": false,
+            "order": [[ 0, "desc" ]],
+            "columns": [
+              { "data": "log_id" },
+              { "data": "menu_nama" },
+              { "data": "log_isi" },
+              { "data": "log_dibuat" },
+              { "data": "Bstatus" },
+              { "data": "Bopsi", "searchable": false, "sortable": false, "width": "8%" },
+            ],
 
-        // });
+        });
 
-        // var tt = new $.fn.dataTable.TableTools( tbllog );
-        // $( tt.fnContainer() ).insertBefore('div.dataTables_wrapper');
+        var tt = new $.fn.dataTable.TableTools( tbllog );
+        $( tt.fnContainer() ).insertBefore('div.dataTables_wrapper');
 
         // baca log
         $('#btn-baca-log').click(function(){

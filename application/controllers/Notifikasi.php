@@ -1,20 +1,13 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Log extends MY_Controller {
+class Notifikasi extends MY_Controller {
 
 	public function __construct() {
         parent::__construct();
+        $this->load->model('log_model');
     }
 
-    public function index() {
-        parent::cek_akses($this->router->class);
-        $this->data['adalog'] = $this->log_model->get_total() > 0 ? TRUE : FALSE;
-        $this->data['adaunread'] = $this->log_model->get_total(array('log_status' => 0)) > 0 ? TRUE : FALSE;
-        $this->load->view('Backend/header_view', $this->datah);
-        $this->load->view('Backend/Log/log_view', $this->data);
-    }
-
-	public function getlog() {
+	public function getnotifikasi() {
         $this->load->library('Datatables');
 
         $select = "l.log_id,m.menu_nama,l.log_isi,l.log_dibuat, REPLACE(REPLACE(`l`.`log_status`,'0','Belum Dibaca'),'1','Sudah Dibaca') AS Bstatus";
