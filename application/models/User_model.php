@@ -1393,13 +1393,13 @@ class User_model extends CI_Model {
     public function get_menu($role) {
             //$select = 'tb_menu.*, , privileges.description AS privilege_description, '
             //        . 'privileges.privilege_id AS privilege_id';
-            $this->db->select('tb_menu.*');
-            $this->db->join('tb_hakakses', 'tb_hakakses.akses_id = tb_roleakses.akses_id');
-            $this->db->join('tb_menu', 'tb_menu.menu_akses = tb_hakakses.akses_nama');
-            $this->db->where('tb_roleakses.role_id', $role);
-            $this->db->where('tb_menu.menu_tipe', 0);
-            $this->db->where('tb_menu.menu_aktif', 1);
-            $this->db->order_by('tb_menu.menu_urutan');
+            $this->db->select('tb_menu.*')
+                ->join('tb_hakakses', 'tb_hakakses.akses_id = tb_roleakses.akses_id')
+                ->join('tb_menu', 'tb_menu.menu_akses = tb_hakakses.akses_nama')
+                ->where('tb_roleakses.role_id', $role)
+                ->where('tb_menu.menu_tipe', 0)
+                ->where('tb_menu.menu_aktif', 1)
+                ->order_by('tb_menu.menu_urutan');
             $result = $this->db->get('tb_roleakses');
 
     		/*$sql = 'SELECT 49_tc_usermenu.* FROM 49_tc_userakses INNER JOIN 49_tc_usermenu
@@ -1414,6 +1414,7 @@ class User_model extends CI_Model {
     		if($result->num_rows()>0){
     			foreach ($result->result() as $parent){
     				$li_parent = '';
+                    $a_parent = '';
                     $menu_child = '';
 
     				/*$sql = 'SELECT 49_tc_usermenu.* FROM 49_tc_userakses INNER JOIN 49_tc_usermenu
@@ -1423,31 +1424,34 @@ class User_model extends CI_Model {
 
                     $result_child=$this->db->query($sql);*/
 
-                    $this->db->select('tb_menu.*');
-                    $this->db->join('tb_hakakses', 'tb_hakakses.akses_id = tb_roleakses.akses_id');
-                    $this->db->join('tb_menu', 'tb_menu.menu_akses = tb_hakakses.akses_nama');
-                    $this->db->where('tb_roleakses.role_id', $role);
-                    $this->db->where('tb_menu.menu_tipe', 1);
-                    $this->db->where('tb_menu.menu_aktif', 1);
-                    $this->db->where('tb_menu.menu_parent', $parent->menu_akses);
-                    $this->db->order_by('tb_menu.menu_urutan');
+                    $this->db->select('tb_menu.*')
+                        ->join('tb_hakakses', 'tb_hakakses.akses_id = tb_roleakses.akses_id')
+                        ->join('tb_menu', 'tb_menu.menu_akses = tb_hakakses.akses_nama')
+                        ->where('tb_roleakses.role_id', $role)
+                        ->where('tb_menu.menu_tipe', 1)
+                        ->where('tb_menu.menu_aktif', 1)
+                        ->where('tb_menu.menu_parent', $parent->menu_akses)
+                        ->order_by('tb_menu.menu_urutan');
                     $result_child = $this->db->get('tb_roleakses');
 
     				if($result_child->num_rows()>0){
     				    $li_parent = 'class="treeview"';
-    					$menu_child = '<i class="fa fa-angle-left pull-right"></i><ul class="treeview-menu">';
+                        $a_parent = '<i class="fa fa-angle-left pull-right"></i>';
+    					$menu_child = '<ul class="treeview-menu">';
     					foreach ($result_child->result() as $child){
-    						$menu_child = $menu_child.'<li id="child-'.$child->menu_akses.'"><a href="'.site_url()."dashboard".$child->menu_url.'"><i class="'.$child->menu_icon.'"></i> '.$child->menu_nama.'</a></li>';
+                            $urlchild = "dashboard".$child->menu_url;
+    						$menu_child = $menu_child.'<li id="child-'.$child->menu_akses.'"><a href="'.site_url($urlchild).'"><i class="'.$child->menu_icon.'"></i> '.$child->menu_nama.'</a></li>';
     					}
     					$menu_child = $menu_child.'</ul>';
     				}
 
+                    $urlparent = $result_child->num_rows() > 0 ? "dashboard" : "dashboard".$parent->menu_url;
     				$menu = $menu.'
                                 <li '.$li_parent.' id="parent-'.$parent->menu_akses.'">
-                                    <a href="'.site_url()."dashboard".$parent->menu_url.'">
-                                        <i class="'.$parent->menu_icon.'"></i> <span>'.$parent->menu_nama.'</span>
-                                        '.$menu_child.'
+                                    <a href="'.site_url($urlparent).'">
+                                        <i class="'.$parent->menu_icon.'"></i> <span>'.$parent->menu_nama.'</span> '.$a_parent.'
                                     </a>
+                                    '.$menu_child.'
                                 </li>';
     			}
     		}

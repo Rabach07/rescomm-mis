@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
   <head>
     <meta charset="UTF-8">
     <title><?=$title;?> | P3M PENS</title>
@@ -40,7 +40,7 @@
 
     <!-- Javascript -->
     <!-- jQuery -->
-    <script src="<?=base_url('public/plugins/jQuery/jQuery-2.1.3.min.js');?>"></script>
+    <script src="<?=base_url('public/plugins/jQuery/jQuery-2.1.4.min.js');?>"></script>
     <!-- Bootstrap -->
     <script src="<?=base_url('public/bootstrap/js/bootstrap.min.js');?>" type="text/javascript"></script>
     <!-- FastClick -->
@@ -79,6 +79,8 @@
     <script src="<?=base_url('public/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
     <!-- jQuery Knob Chart -->
     <script src="<?=base_url('public/plugins/knob/jquery.knob.js');?>" type="text/javascript"></script>
+    <!-- AngularJS -->
+    <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script>
     <!-- Misc -->
     <script src="<?=base_url('public/dist/js/misc.js');?>" type="text/javascript"></script>
     
@@ -104,12 +106,27 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body class="skin-black fixed">
+  <?php
+    $roleid = $this->user_model->get_roleid();
+    $skin = '';
+    if($roleid == 70) {
+      $skin = "black";
+    } else if($roleid == 72) {
+      $skin = "black-light";
+    }
+
+  ?> 
+  <body class="sidebar-mini skin-<?=$skin?> <?=$web->web_layout;?>">
     <div class="wrapper">
 
       <header class="main-header">
         <!-- Logo -->
-        <a href="" class="logo"><b>P3M</b>PENS</a>
+        <a href="" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><b>P</b>3M</span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><b>P3M</b>PENS</span>
+        </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -257,6 +274,11 @@
                   </li>
                 </ul>
               </li>
+              <!-- Control Sidebar Toggle Button 
+              <li>
+                <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+              </li>
+              -->
             </ul>
           </div>
         </nav>

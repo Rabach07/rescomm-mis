@@ -27,6 +27,7 @@ class MY_Controller extends CI_Controller {
 		$this->datah['menudesk'] = $this->hak_model->select(array('akses_nama' => strtolower($this->datah['title']) ), 1);
 		$this->datah['daftarlog'] = $this->log_model->select(array(), 6);
 		$this->datah['boxlognotif'] = $this->log_model->get_total(array('log_status' => 0));
+		$this->datah['web'] = $this->web_model->select();
 
 		// data content
 		$this->data['web'] = $this->web_model->select();
