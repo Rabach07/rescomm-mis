@@ -22,6 +22,9 @@
 .modal-body, .modal-footer {
     background-color: #fff !important
 }
+.main-header .logo {
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
 
 /* CUSTOM AdminLTE */
 .pesan-base {
