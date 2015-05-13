@@ -265,6 +265,7 @@ class User_model extends CI_Model {
 
         // update user status
         $this->db->set('user_status', 3);
+        $this->db->set('user_lastlogin', $now->format('Y-m-d H:i:s'));
         $this->db->where('user_id', $row->user_id);
         $this->db->update('tb_user');
 
@@ -1390,6 +1391,18 @@ class User_model extends CI_Model {
         return $token;
     }
 
+    function list_menu($role) {
+        $this->db->select('tb_menu.menu_akses, tb_menu.menu_id');
+        $this->db->join('tb_hakakses', 'tb_hakakses.akses_id = tb_roleakses.akses_id');
+        $this->db->join('tb_menu', 'tb_menu.menu_akses = tb_hakakses.akses_nama');
+        $this->db->where('tb_roleakses.role_id', $role);
+        $this->db->where('tb_menu.menu_aktif', 1);
+        $this->db->order_by('tb_menu.menu_urutan');
+        $result = $this->db->get('tb_roleakses');
+
+        return ( $result->num_rows() > 0 ? $result : NULL );
+    }
+
     public function get_menu($role) {
             //$select = 'tb_menu.*, , privileges.description AS privilege_description, '
             //        . 'privileges.privilege_id AS privilege_id';
@@ -1446,10 +1459,11 @@ class User_model extends CI_Model {
     				}
 
                     $urlparent = $result_child->num_rows() > 0 ? "dashboard" : "dashboard".$parent->menu_url;
+                    $special = $parent->menu_nama === 'Laporan' ? '<span class="label label-primary pull-right" id="notiflaporan">3</span>' : '';
     				$menu = $menu.'
                                 <li '.$li_parent.' id="parent-'.$parent->menu_akses.'">
                                     <a href="'.site_url($urlparent).'">
-                                        <i class="'.$parent->menu_icon.'"></i> <span>'.$parent->menu_nama.'</span> '.$a_parent.'
+                                        <i class="'.$parent->menu_icon.'"></i> <span>'.$parent->menu_nama.'</span> '. $special . $a_parent .'
                                     </a>
                                     '.$menu_child.'
                                 </li>';
@@ -1501,7 +1515,7 @@ class User_model extends CI_Model {
         $this->db->from('49_tc_user');
         $this->db->where($data);
         $query = $this->db->get();
-        return (count($query->row_array()) > 0 ? $query : NULL);;
+        return ($query->num_rows() > 0 ? $query : NULL);
     }
 
     function update($id, $data) {
@@ -1509,14 +1523,27 @@ class User_model extends CI_Model {
         $this->db->update('49_tc_user', $data);
     }
 
-    function select($data, $no) {
-        $this->db->select('tc_user.*, tc_role.role_name AS Role');
-        $this->db->from('49_tc_user');
-        $this->db->join('49_tc_role', '49_tc_user.user_role = 49_tc_role.role_id');
-        $this->db->where($data);
-        $this->db->limit($no);
+    function select($data, $no = 0) {
+        $this->db->select('*')
+            ->from('tb_user u')
+            ->join('tb_role r', 'u.role_id = r.role_id')
+            ->join('tb_dosen d', 'u.dosen_id = d.dosen_id', 'left')
+            ->where($data)
+            ->limit($no);
+
         $query = $this->db->get();
-        return (count($query->row_array()) > 0 ? $query : NULL);
+        return ($query->num_rows() > 0 ? $query : NULL);
+    }
+
+    function selectBasic($data, $no = 0) {
+        $this->db->select('*')
+            ->from('tb_user u')
+            ->join('tb_role r', 'u.role_id = r.role_id')
+            ->where($data)
+            ->limit($no);
+
+        $query = $this->db->get();
+        return ($query->num_rows() > 0 ? $query : NULL);
     }
     
     function get_user($parameter) {
@@ -1525,7 +1552,7 @@ class User_model extends CI_Model {
         $this->db->join('49_tc_role', '49_tc_user.user_role = 49_tc_role.role_id');
         $this->db->where($parameter);
         $query = $this->db->get();
-        return (count($query->num_rows()) > 0 ? $query : NULL);
+        return ($query->num_rows() > 0 ? $query : NULL);
     }
 
     function get_userakses($parameter) {
@@ -1534,7 +1561,7 @@ class User_model extends CI_Model {
         $this->db->join('role', '49_tc_userakses.role_id = 49_tc_role.role_id');
         $this->db->where($parameter);
         $query = $this->db->get();
-        return (count($query->num_rows()) > 0 ? $query : NULL);
+        return ($query->num_rows() > 0 ? $query : NULL);
     }
 
     function get_daftaruser($start, $rows, $search) {
