@@ -4,6 +4,7 @@ class Penelitian extends MY_Controller {
 
 	public function __construct() {
         parent::__construct();
+        $this->load->model('penelitian_model');
     }
 
     public function index() {
@@ -99,6 +100,39 @@ class Penelitian extends MY_Controller {
         $status['pesan'] = 'Semua Log berhasil dihapus';
 
         echo json_encode($status);
+    }
+
+    public function pencomp() {
+        $this->load->view('Backend/Penelitian/auto_view');
+    }
+
+    public function getlist(){
+        //$this->load->model('birds_model');
+        // if (isset($_POST['term'])){
+        //     $term = $this->input->post('term', TRUE);
+        //     //$q = strtolower($_GET['term']);
+        //     $this->penelitian_model->getlist($term);
+        // }
+        $keyword = $this->input->post('term');
+        //if (isset($_GET['term'])){
+            //$keyword = strtolower($_GET['term']);
+            //$data['response'] = 'false'; //Set default response
+
+            $query = $this->penelitian_model->getlist($keyword); //Model DB search
+
+            if($query->num_rows() > 0){
+                //$data['response'] = 'true'; //Set response
+                //$data[] = array(); //Create array
+                foreach($query->result() as $row){
+                    $new_row['label']=htmlentities(stripslashes($row->pen_judul));
+                    $new_row['value']=htmlentities(stripslashes($row->pen_id));
+                    $data[] = $new_row; //build an array
+                    //$data['message'][] = array('label'=> $row->pen_judul, 'value'=> $row->pen_id); //Add a row to array
+                }
+                echo json_encode($data);
+            }
+        //}
+        
     }
 
 }
