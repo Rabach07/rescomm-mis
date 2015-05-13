@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app>
+<html>
   <head>
     <meta charset="UTF-8">
     <title><?=$title;?> | P3M PENS</title>
@@ -27,7 +27,6 @@
     <!-- DATA TABLES -->
     <link href="<?=base_url('public/plugins/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
     <link href="<?=base_url('public/plugins/datatables/dataTables.responsive.css');?>" rel="stylesheet" type="text/css" />
-
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="<?=base_url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css');?>" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
@@ -35,12 +34,18 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
          folder instead of downloading all of them to reduce the load. -->
     <link href="<?=base_url('public/dist/css/skins/_all-skins.min.css')?>" rel="stylesheet" type="text/css" />
+    <!-- jQueryUI -->
+    <link href="<?=base_url('public/plugins/jQueryUI/jquery-ui.min.css');?>" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/plugins/jQueryUI/jquery-ui.structure.min.css');?>" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/plugins/jQueryUI/jquery-ui.theme.min.css');?>" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
     <link href="<?=base_url('public/dist/css/custom.css');?>" rel="stylesheet" type="text/css" />
 
     <!-- Javascript -->
     <!-- jQuery -->
     <script src="<?=base_url('public/plugins/jQuery/jQuery-2.1.4.min.js');?>"></script>
+    <!-- jQueryUI -->
+    <script src="<?=base_url('public/plugins/jQueryUI/jquery-ui.min.js');?>" type="text/javascript"></script>
     <!-- Bootstrap -->
     <script src="<?=base_url('public/bootstrap/js/bootstrap.min.js');?>" type="text/javascript"></script>
     <!-- FastClick -->
@@ -80,7 +85,7 @@
     <!-- jQuery Knob Chart -->
     <script src="<?=base_url('public/plugins/knob/jquery.knob.js');?>" type="text/javascript"></script>
     <!-- AngularJS -->
-    <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script>
+    <!-- <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script> -->
     <!-- Misc -->
     <script src="<?=base_url('public/dist/js/misc.js');?>" type="text/javascript"></script>
     
@@ -108,11 +113,13 @@
   </head>
   <?php
     $roleid = $this->user_model->get_roleid();
-    $skin = '';
+    $skin = 'blue';
     if($roleid == 70) {
       $skin = "black";
     } else if($roleid == 72) {
       $skin = "black-light";
+    } else {
+      $skin = $jurusan;
     }
 
   ?> 
@@ -140,42 +147,34 @@
               <li class="dropdown notifications-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-bell-o"></i>
-                  <span class="label label-warning">10</span>
+                  <?php if($boxnotif > 0) { ?><span class="label label-warning" id="boxlognotif"><?php echo $boxnotif; ?></span><?php } ?>
                 </a>
                 <ul class="dropdown-menu">
-                  <li class="header">You have 10 notifications</li>
+                  <li class="header">
+                  <?php 
+                  if($boxnotif > 0) {
+                    echo "Anda punya " . $boxnotif . " notifikasi yang belum dibaca"; 
+                  } else {
+                    echo "Tidak ada Notifikasi baru";
+                  }
+
+                  ?> 
+                  </li>
+                  <?php if($boxnotif > 0) { ?>
                   <li>
                     <!-- inner menu: contains the actual data -->
                     <ul class="menu">
+                      <?php if(!empty($daftarnotif)) { foreach ($daftarnotif->result() as $key) { ?>
                       <li>
                         <a href="#">
-                          <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                          <span class="label label-<?=$key->tipenotif_nama?>"><?=$key->tipenotif_teks?></span> <?php echo substr($key->notif_isi, 0, 30) . "..."; ?>
                         </a>
                       </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the page and may cause design problems
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-users text-red"></i> 5 new members joined
-                        </a>
-                      </li>
-
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#">
-                          <i class="fa fa-user text-red"></i> You changed your username
-                        </a>
-                      </li>
+                      <?php } } ?>
                     </ul>
                   </li>
-                  <li class="footer"><a href="#">Lihat Semua</a></li>
+                  <?php } ?>
+                  <li class="footer"><a href="<?=site_url('dashboard/notifikasi')?>">Lihat Semua</a></li>
                 </ul>
               </li>
               <!-- Tasks: style can be found in dropdown.less -->

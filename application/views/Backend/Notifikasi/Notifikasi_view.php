@@ -4,41 +4,74 @@
           <div class="row">
             <div class="col-md-8 col-sm-6 col-xs-12">
 
-              <div id="box-table" class="box box-danger">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Daftar Notifikasi</h3>
-                  <div class="box-tools pull-right">
-                    <?php if($adanotif) { ?> 
-                    <button class="btn btn-sm btn-info" id="btn-refresh"><i class="fa fa-refresh"></i> Refresh</button>
-                    <?php } else { ?>
-                    <button class="btn btn-sm btn-info" onclick="window.location.reload(false)"><i class="fa fa-refresh"></i> Refresh</button>
-                    <?php } ?>
-                    <?php if($adaunread) { ?><button class="btn btn-sm btn-success" id="btn-baca-semua"><i class="fa fa-plus"></i> Tandai Sudah Dibaca</button><?php } ?>
-                    <?php if($adanotif) { ?><button class="btn btn-sm btn-danger" id="btn-hapus-semua"><i class="fa fa-plus"></i> Hapus Semua</button><?php } ?>
-                  </div>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  <table id="tblnotifikasi" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
-                    <thead>
-                      <tr>
-                        <th>Notifikasi</th>
-                        <th>Tanggal</th>
-                        <th>Status</th>
-                        <th>Opsi</th>
-                      </tr>
-                    </thead>
-                    <tbody></tbody>
-                    <tfoot>
-                      <tr>
-                        <th>Menu</th>
-                        <th>Tanggal</th>
-                        <th>Status</th>
-                        <th>Opsi</th>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div><!-- /.box-body -->
-              </div><!-- /.box -->
+              <div class="nav-tabs-custom danger">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a href="#tab_1" data-toggle="tab"><b>Baru</b></a></li>
+                  <li><a href="#tab_2" data-toggle="tab"><b>Lama</b></a></li>
+                  <li class="dropdown pull-right">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gear"></i>
+                      Opsi <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                      <?php if($adanotif) { ?> 
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="btn-refresh" class="text-blue"><i class="fa fa-refresh"></i>Refresh</a></li>
+                      <?php } else { ?>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="" id="btn-refresh" class="text-blue"><i class="fa fa-refresh"></i>Refresh</a></li>
+                      <?php } ?>    
+                      <?php if($adaunread) { ?><li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="btn-baca-semua" class="text-green"><i class="fa fa-check-circle"></i>Tandai Sudah Dibaca</a></li><?php } ?>
+                      <?php if($adanotif) { ?><li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="btn-hapus-semua" class="text-red"><i class="fa fa-close"></i>Hapus Semua</a></li><?php } ?>
+                      <li role="presentation" class="divider"></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Arsipkan</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane active" id="tab_1">
+
+                    <table id="tblnotifikasi" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>Notifikasi</th>
+                          <th>Tanggal</th>
+                          <th>Opsi</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Menu</th>
+                          <th>Tanggal</th>
+                          <th>Opsi</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+
+                  </div><!-- /.tab-pane -->
+                  <div class="tab-pane" id="tab_2">
+                    
+                    <table id="tblnotifikasilama" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          <th>Notifikasi</th>
+                          <th>Tanggal</th>
+                          <th>Status</th>
+                          <th>Opsi</th>
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                      <tfoot>
+                        <tr>
+                          <th>Menu</th>
+                          <th>Tanggal</th>
+                          <th>Status</th>
+                          <th>Opsi</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+
+                  </div><!-- /.tab-pane -->
+                </div><!-- /.tab-content -->
+              </div>
 
             </div><!-- /.col -->
 
@@ -98,13 +131,13 @@
 
     </div><!-- ./wrapper -->
 
-    <!-- Modal Baca Notif -->
+    <!-- Modal Baca Notifikasi -->
     <div class="modal modal-primary fade" id="modal-baca-notifikasi" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><i class="fa fa-warning"></i> Baca Notifikasi </h4>
+            <h4 class="modal-title"><i class="fa fa-bell-o"></i> Baca Notifikasi </h4>
           </div>
           <div class="modal-body">
             <div class="container-fluid">
@@ -113,18 +146,20 @@
                 <div class="row">
                   <div class="col-xs-12">
                     <input type="hidden" id="baca-id" name="baca-id" readonly="" />
-                    <p>Apakah Anda yakin ingin menandai pesan notifikasi ini telah dibaca ?</p>
+                    <p><b>Isi notifikasi</b></p>
                     <div class="callout callout-primary">
                       <p>Isi : <span class="baca-isi"> </span></p>
                       <p>Tanggal : <span class="baca-tanggal"> </span></p>
+                      <p>Tipe : <span class="baca-tipe"> </span></p>
                     </div>
+                    <p>Apakah Anda ingin menandai pesan notifikasi ini telah dibaca ?</p>
                   </div>
                 </div>
               <?php echo form_close(); ?>
             </div><!-- /.box-body -->
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Tutup</button>
             <button id="btn-baca-notifikasi" type="button" class="btn btn-primary"><i class="fa fa-check"></i> Ya, Tandai</button>
           </div>
         </div>
@@ -138,7 +173,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><i class="fa fa-warning"></i> Baca Semua Notifikasi </h4>
+            <h4 class="modal-title"><i class="fa fa-bell-o"></i> Baca Semua Notifikasi </h4>
           </div>
           <div class="modal-body">
             <div class="container-fluid">
@@ -180,6 +215,8 @@
                   <div class="callout callout-danger">
                     <p>Isi : <span class="hapus-isi"> </span></p>
                     <p>Tanggal : <span class="hapus-tanggal"> </span></p>
+                    <p>Tipe : <span class="hapus-tipe"> </span></p>
+                    <p>Status : <span class="hapus-status"> </span></p>
                   </div>
                 </div>
               </div>
@@ -222,7 +259,7 @@
         </div>
       </div>
     </div>
-    <!-- Modal Hapus Semua Log -->
+    <!-- Modal Hapus Semua Notifikasi -->
 
     <!-- Perpus App -->
     <script src="<?=base_url('public/dist/js/app.min.js');?>" type="text/javascript"></script>
@@ -256,14 +293,16 @@
             $.ajax({
                 type: "POST",
                 url: "<?=site_url('notifikasi/getnotifwith');?>",
-                data: { csrf_test_name: csrf_token, notif_id: id },
+                data: { csrf_test_name: csrf_token, id: id },
                 cache: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     //console.log(data);
                     modal.find('.hapus-isi').html(obj.notif_isi);
                     modal.find('.hapus-tanggal').html(obj.notif_tanggal);
-                    modal.find('#hapus-id').val(obj.log_id);
+                    modal.find('.hapus-tipe').html(obj.tipenotif_teks);
+                    modal.find('.hapus-status').html(obj.Nstatus);
+                    modal.find('#hapus-id').val(obj.ID);
                 },
                 error: function(err) {
                     console.log(err);
@@ -279,14 +318,15 @@
             $.ajax({
                 type: "POST",
                 url: "<?=site_url('notifikasi/getnotifwith');?>",
-                data: { csrf_test_name: csrf_token, notif_id: id },
+                data: { csrf_test_name: csrf_token, id: id },
                 cache: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     //console.log(data);
                     modal.find('.baca-isi').html(obj.notif_isi);
                     modal.find('.baca-tanggal').html(obj.notif_tanggal);
-                    modal.find('#baca-id').val(obj.notif_id);
+                    modal.find('.baca-tipe').html(obj.tipenotif_teks);
+                    modal.find('#baca-id').val(obj.ID);
                 },
                 error: function(err) {
                     console.log(err);
@@ -305,7 +345,25 @@
             "autoWidth": false,
             "order": [[ 0, "desc" ]],
             "columns": [
-              { "data": "notif_isi" },
+              { "data": "Nisi" },
+              { "data": "notif_tanggal" },
+              { "data": "Nopsi", "searchable": false, "sortable": false, "width": "8%" },
+            ],
+
+        });
+
+        var tblnotifikasilama = $("#tblnotifikasilama").DataTable({
+            "processing": true,
+            "ajax": {
+              "url" : "<?=site_url('notifikasi/getnotifikasilama');?>",
+              "type" : "POST",
+              "data": function ( d ) { d.csrf_test_name = csrf_token; }
+            },
+            "deferRender": true,
+            "autoWidth": false,
+            "order": [[ 0, "desc" ]],
+            "columns": [
+              { "data": "Nisi" },
               { "data": "notif_tanggal" },
               { "data": "Nstatus" },
               { "data": "Nopsi", "searchable": false, "sortable": false, "width": "8%" },
@@ -349,7 +407,7 @@
                         $('#form-pesan-baca-notifikasi').html(pesan_succ(obj.pesan));
                         setTimeout(function(){$('#form-pesan-baca-notifikasi').html('')}, 5000);
                         setTimeout(function(){$('#modal-baca-notifikasi').modal('hide')}, 2500);
-                        setTimeout(function(){ refresh_jumlah(); tblnotifikasi.ajax.reload( null, false ); }, 2500);
+                        setTimeout(function(){ refresh_jumlah(); tblnotifikasi.ajax.reload( null, false ); tblnotifikasilama.ajax.reload( null, false ); }, 2500);
                     }else{
                         $('#form-pesan-baca-notifikasi').html(pesan_err(obj.pesan));
                         setTimeout(function(){$('#form-pesan-baca-notifikasi').html('')}, 7000);
@@ -373,7 +431,7 @@
                         $('#form-pesan-bacasemua-notifikasi').html(pesan_succ(obj.pesan));
                         setTimeout(function(){$('#form-pesan-bacasemua-notifikasi').html('')}, 5000);
                         setTimeout(function(){$('#modal-bacasemua-notifikasi').modal('hide')}, 2500);
-                        setTimeout(function(){ refresh_jumlah(); tblnotifikasi.ajax.reload( null, false ); }, 2500);
+                        setTimeout(function(){ location.reload(); }, 2500);
                     }else{
                         $('#form-pesan-bacasemua-notifikasi').html(pesan_err(obj.pesan));
                         setTimeout(function(){$('#form-pesan-bacasemua-notifikasi').html('')}, 7000);
@@ -397,7 +455,7 @@
                         $('#form-pesan-hapus-notifikasi').html(pesan_succ(obj.pesan));
                         setTimeout(function(){$('#form-pesan-hapus-notifikasi').html('')}, 5000);
                         setTimeout(function(){$('#modal-hapus-notifikasi').modal('hide')}, 2500);
-                        setTimeout(function(){ refresh_jumlah(); tblnotifikasi.ajax.reload( null, false ); }, 2500);
+                        setTimeout(function(){ refresh_jumlah(); tblnotifikasi.ajax.reload( null, false ); tblnotifikasilama.ajax.reload( null, false ); }, 2500);
                     }else{
                         $('#form-pesan-hapus-notifikasi').html(pesan_err(obj.pesan));
                         setTimeout(function(){$('#form-pesan-hapus-notifikasi').html('')}, 7000);
@@ -421,7 +479,7 @@
                         $('#form-pesan-hapusemua-notifikasi').html(pesan_succ(obj.pesan));
                         setTimeout(function(){$('#form-pesan-hapusemua-notifikasi').html('')}, 5000);
                         setTimeout(function(){$('#modal-hapusemua-notifikasi').modal('hide')}, 2500);
-                        setTimeout(function(){ refresh_jumlah(); tblnotifikasi.ajax.reload( null, false ); }, 2500);
+                        setTimeout(function(){ location.reload(); }, 2500);
                     }else{
                         $('#form-pesan-hapusemua-notifikasi').html(pesan_err(obj.pesan));
                         setTimeout(function(){$('#form-pesan-hapusemua-notifikasi').html('')}, 7000);
@@ -435,7 +493,8 @@
 
         $('#btn-refresh').click(function(){
             refresh_jumlah();
-            tbllog.ajax.reload();
+            tblnotifikasi.ajax.reload();
+            tblnotifikasilama.ajax.reload();
         });
 
       });
