@@ -17,6 +17,10 @@ class MY_Controller extends CI_Controller {
         $this->load->model('web_model');
         $this->load->model('log_model');
         $this->load->model('hak_model');
+        $this->load->model('notif_model');
+
+        // library
+        $this->load->library('jurusan');
 
         // data header
 		$this->datah['menu'] = $this->user_model->get_menu($this->user_model->get_roleid());
@@ -25,9 +29,14 @@ class MY_Controller extends CI_Controller {
 			'parent' => '#parent-' . $this->router->class,
 			'child' => '');
 		$this->datah['menudesk'] = $this->hak_model->select(array('akses_nama' => strtolower($this->datah['title']) ), 1);
-		$this->datah['daftarlog'] = $this->log_model->select(array(), 6);
-		$this->datah['boxlognotif'] = $this->log_model->get_total(array('log_status' => 0));
+		$belum = "notif_status='0' AND notif_ke='" . $this->user_model->user_id() . "'";
+		$this->datah['daftarnotif'] = $this->notif_model->select($belum, 6);
+		$this->datah['boxnotif'] = $this->notif_model->get_total($belum);
 		$this->datah['web'] = $this->web_model->select();
+
+		if( $this->user_model->get_roleid() === 71 ) {
+			$this->datah['jurusan'] = $this->jurusan->select();
+		}
 
 		// data content
 		$this->data['web'] = $this->web_model->select();
