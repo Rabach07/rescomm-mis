@@ -41,7 +41,7 @@ class Logpush {
 			'menu_id' => $menuid, 
 			'user_id' => $userid, 
 			'log_isi' => htmlentities("User " . $user . " " . $isi)
-			));
+		));
 	}
 }
 
