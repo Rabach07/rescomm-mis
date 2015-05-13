@@ -1,0 +1,6 @@
+INSERT INTO `tb_dosen`(`dosen_nidn`, `jurusan_id`, `jabatan_id`, `dosen_nama`, `dosen_jeniskel`, `dosen_pendidikan`, `dosen_email`, `dosen_telp`, `dosen_alamat`, `dosen_gelardpn`, `dosen_gelarblk`, `dosen_hp`) 
+SELECT `NIP`,`JURUSAN`,`FUNGSIONAL`,`NAMA`,`SEX`,`PENDIDIKAN`,`EMAIL`,`NOTELP`,`ALAMAT`,`GELAR_DPN`,`GELAR_BLK`,`HP` FROM `pegawai` WHERE `STAFF` = 4
+
+3=Lektor Kepala
+2=Lektor
+1=Asisten Ahli
