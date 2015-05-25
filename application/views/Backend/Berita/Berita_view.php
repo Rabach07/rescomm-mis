@@ -5,18 +5,18 @@
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-aqua"><i class="fa fa-archive"></i></span>
+                <span class="info-box-icon bg-aqua"><i class="fa fa-rss"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Logbook</span>
+                  <span class="info-box-text">Total</span>
                   <span class="info-box-number" id="boxlogbook">0</span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-red"><i class="fa fa-tasks"></i></span>
+                <span class="info-box-icon bg-red"><i class="fa fa-check-square"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Kemajuan</span>
+                  <span class="info-box-text">Rilis</span>
                   <span class="info-box-number" id="boxkemajuan">0</span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
@@ -27,18 +27,18 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-green"><i class="fa fa-usd"></i></span>
+                <span class="info-box-icon bg-green"><i class="icon ion-android-drafts"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Anggaran</span>
+                  <span class="info-box-text">Draft</span>
                   <span class="info-box-number" id="boxanggaran">0</span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
             </div><!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
               <div class="info-box">
-                <span class="info-box-icon bg-orange"><i class="fa fa-book"></i></span>
+                <span class="info-box-icon bg-orange"><i class="fa fa-tags"></i></span>
                 <div class="info-box-content">
-                  <span class="info-box-text">Akhir</span>
+                  <span class="info-box-text">Tipe</span>
                   <span class="info-box-number" id="boxakhir">0</span>
                 </div><!-- /.info-box-content -->
               </div><!-- /.info-box -->
@@ -46,96 +46,23 @@
           </div><!-- /.row -->
 
           <div class="row">
-            <div class="col-lg-12 col-md-12">
+            <div class="col-md-8 col-sm-8 col-xs-8">
+
               <div class="box box-solid">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Rekap Per Bulan</h3>
+                  <h3 class="box-title">Berita</h3>
                   <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                    <button class="btn btn-box-tool daterange pull-right" data-toggle="tooltip" title="" data-original-title="Tahun"><i class="fa fa-calendar"></i></button>
+                    <button class="btn btn-box-tool" data-toggle="tooltip" data-original-title="Tambah"><i class="fa fa-plus"></i> Tambah Berita</button>
                   </div>
                 </div><!-- /.box-header -->
                 <div class="box-body">
-                  <div class="row">
-                    <div class="col-md-10">
-                      <p class="text-center">
-                        <strong>Grafik Rekapitulasi</strong>
-                      </p>
-                      <div class="chart">
-                        <!-- Sales Chart Canvas -->
-                        <canvas id="salesChart" height="210" width="702" style="width: 702px; height: 210px;"></canvas>
-                      </div><!-- /.chart-responsive -->
-                    </div><!-- /.col -->
-                    <div class="col-md-2">
-                      <p class="text-center">
-                        <strong>Keterangan</strong>
-                      </p>
-                      <div class="progress-group">
-                        <span class="progress-text">Laporan Logbook</span>
-                        <div class="progress sm">
-                          <div class="progress-bar progress-bar-aqua" style="width: 100%"></div>
-                        </div>
-                      </div><!-- /.progress-group -->
-                      <div class="progress-group">
-                        <span class="progress-text">Laporan Kemajuan</span>
-                        <div class="progress sm">
-                          <div class="progress-bar progress-bar-red" style="width: 100%"></div>
-                        </div>
-                      </div><!-- /.progress-group -->
-                      <div class="progress-group">
-                        <span class="progress-text">Laporan Anggaran</span>
-                        <div class="progress sm">
-                          <div class="progress-bar progress-bar-green" style="width: 100%"></div>
-                        </div>
-                      </div><!-- /.progress-group -->
-                      <div class="progress-group">
-                        <span class="progress-text">Laporan Akhir</span>
-                        <div class="progress sm">
-                          <div class="progress-bar progress-bar-yellow" style="width: 100%"></div>
-                        </div>
-                      </div><!-- /.progress-group -->
-                    </div><!-- /.col -->
-                  </div><!-- /.row -->
-                </div><!-- ./box-body -->
-              </div><!-- /.box -->
-            </div><!-- /.col -->
-          </div>
-
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-
-              <div class="nav-tabs-custom danger">
-                <ul class="nav nav-tabs">
-                  <li class="active"><a href="#tab_1" data-toggle="tab"><b>Kemajuan</b></a></li>
-                  <li><a href="#tab_2" data-toggle="tab"><b>Anggaran</b></a></li>
-                  <li><a href="#tab_3" data-toggle="tab"><b>Akhir</b></a></li>
-                  <li><a href="#tab_4" data-toggle="tab"><b>Logbook</b></a></li>
-                  <li class="dropdown pull-right tglHere">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-gear"></i>
-                      Opsi <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <?php if($adalaporan) { ?> 
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="btn-refresh" class="text-blue"><i class="fa fa-refresh"></i>Refresh</a></li>
-                      <?php } else { ?>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="" id="btn-refresh" class="text-blue"><i class="fa fa-refresh"></i>Refresh</a></li>
-                      <?php } ?>    
-                      <?php if($adalaporan) { ?><li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="btn-hapus-semua" class="text-red"><i class="fa fa-close"></i>Hapus Semua</a></li><?php } ?>
-                      <li role="presentation" class="divider"></li>
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#" id="btn-tambah" class="text-green"><i class="fa fa-plus"></i>Tambah Data</a></li>
-                    </ul>
-                  </li>
-                </ul>
-                <div class="tab-content">
-                  <div class="tab-pane active" id="tab_1">
-
-                    <table id="tblaporanK" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
+                  <table id="tberita" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
+                          <th>Judul</th>
+                          <th>Penulis</th>
+                          <th>Tanggal</th>
+                          <th>Dilihat</th>
                           <th>Status</th>
                           <th>Opsi</th>
                         </tr>
@@ -143,102 +70,35 @@
                       <tbody></tbody>
                       <tfoot>
                         <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
+                          <th>Judul</th>
+                          <th>Penulis</th>
+                          <th>Tanggal</th>
+                          <th>Dilihat</th>
                           <th>Status</th>
                           <th>Opsi</th>
                         </tr>
                       </tfoot>
                     </table>
-
-                  </div><!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_2">
-                    
-                    <table id="tblaporanAn" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
-                      <thead>
-                        <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
-                          <th>Status</th>
-                          <th>Opsi</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                      <tfoot>
-                        <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
-                          <th>Status</th>
-                          <th>Opsi</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-
-                  </div><!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_3">
-                    
-                    <table id="tblaporanAk" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
-                      <thead>
-                        <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
-                          <th>Status</th>
-                          <th>Opsi</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                      <tfoot>
-                        <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
-                          <th>Status</th>
-                          <th>Opsi</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-
-                  </div><!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_4">
-                    
-                    <table id="tblaporanLg" class="table table-bordered table-striped table-hover dt-responsive" cellspacing="0" width="100%">
-                      <thead>
-                        <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
-                          <th>Status</th>
-                          <th>Opsi</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                      <tfoot>
-                        <tr>
-                          <th>Ketua</th>
-                          <th>Pesan</th>
-                          <th>Penelitian</th>
-                          <th>Waktu</th>
-                          <th>Status</th>
-                          <th>Opsi</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-
-                  </div><!-- /.tab-pane -->
-                </div><!-- /.tab-content -->
+                </div>
               </div>
 
             </div><!-- /.col -->
+
+            <div class="col-md-4 col-sm-4 col-xs-4">
+
+              <div class="box box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Tipe Berita</h3>
+                  <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-toggle="tooltip" data-original-title="Tambah"><i class="fa fa-plus"></i> Tambah Tipe</button>
+                  </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+
+                </div>
+              </div>
+
+            </div>
 
           </div><!-- /.row -->
 
@@ -470,9 +330,6 @@
       </div>
     </div>
     <button class="btn btn-default pull-right btn-tanggal-k" style="margin:0 10px;" data-toggle="tooltip" data-original-title="Tahun"><i class="fa fa-calendar"></i> <span class="btn-tanggal-text-k">Tahun</span></button>
-    <button class="btn btn-default pull-right btn-tanggal-an" style="margin:0 10px;" data-toggle="tooltip" data-original-title="Tahun"><i class="fa fa-calendar"></i> <span class="btn-tanggal-text-an">Tahun</span></button>
-    <button class="btn btn-default pull-right btn-tanggal-ak" style="margin:0 10px;" data-toggle="tooltip" data-original-title="Tahun"><i class="fa fa-calendar"></i> <span class="btn-tanggal-text-ak">Tahun</span></button>
-    <button class="btn btn-default pull-right btn-tanggal-lg" style="margin:0 10px;" data-toggle="tooltip" data-original-title="Tahun"><i class="fa fa-calendar"></i> <span class="btn-tanggal-text-lg">Tahun</span></button>
     <!-- Modal Hapus Semua Laporan -->
     
     <!-- date-picker -->
@@ -481,81 +338,6 @@
     <!-- Perpus App -->
     <script src="<?=base_url('public/dist/js/app.min.js');?>" type="text/javascript"></script>
     <!-- page script -->
-    <script type="text/javascript">
-      'use strict';
-      $(function () {
-
-        /* ChartJS
-         * -------
-         * Here we will create a few charts using ChartJS
-         */
-
-        //-----------------------
-        //- MONTHLY SALES CHART -
-        //-----------------------
-
-        // Get context with jQuery - using jQuery's .get() method.
-        var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
-        // This will get the first returned node in the jQuery collection.
-        var salesChart = new Chart(salesChartCanvas);
-
-        var salesChartOptions = {
-          //Boolean - If we should show the scale at all
-          showScale: true,
-          //Boolean - Whether grid lines are shown across the chart
-          scaleShowGridLines: true,
-          //String - Colour of the grid lines
-          scaleGridLineColor: "rgba(0,0,0,.05)",
-          //Number - Width of the grid lines
-          scaleGridLineWidth: 1,
-          //Boolean - Whether to show horizontal lines (except X axis)
-          scaleShowHorizontalLines: true,
-          //Boolean - Whether to show vertical lines (except Y axis)
-          scaleShowVerticalLines: true,
-          //Boolean - Whether the line is curved between points
-          bezierCurve: true,
-          //Number - Tension of the bezier curve between points
-          bezierCurveTension: 0.4,
-          //Boolean - Whether to show a dot for each point
-          pointDot: false,
-          //Number - Radius of each point dot in pixels
-          pointDotRadius: 4,
-          //Number - Pixel width of point dot stroke
-          pointDotStrokeWidth: 1,
-          //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-          pointHitDetectionRadius: 20,
-          //Boolean - Whether to show a stroke for datasets
-          datasetStroke: true,
-          //Number - Pixel width of dataset stroke
-          datasetStrokeWidth: 2,
-          //Boolean - Whether to fill the dataset with a color
-          datasetFill: true,
-          //String - A legend template
-          legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%=datasets[i].label%></li><%}%></ul>",
-          //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-          maintainAspectRatio: false,
-          //Boolean - whether to make the chart responsive to window resizing
-          responsive: true
-        };
-
-        $.ajax("<?=site_url('laporan/get_chart')?>", {
-          data: {tahun: '2015'},
-          dataType: 'json',
-          success: function(response) {
-            salesChart.Line(response, salesChartOptions);
-          }
-        });
-        //Create the line chart
-        //salesChart.Line(salesChartData, salesChartOptions);
-
-        //---------------------------
-        //- END MONTHLY SALES CHART -
-        //---------------------------
-
-        
-
-      });
-    </script>
     <script type="text/javascript">
       function refresh_jumlah(){
         $.getJSON("<?=site_url('laporan/get_databox')?>", function(obj) {
@@ -566,50 +348,10 @@
         });
       }
 
-      // $(function(){
-
-      //   $("#tambah-pen").autocomplete({
-      //     source: "<?=site_url('penelitian/getlist')?>" // path to the get_birds method
-      //   });
-      // });
 
       $(document).ready(function() {
         refresh_jumlah();
         var csrf_token = '<?=$this->security->get_csrf_hash();?>';
-
-        /*$("#tambah-pen").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "<?=site_url('penelitian/getlist')?>",
-                    data: { term: $("#tambah-pen").val(), csrf_test_name: csrf_token },
-                    dataType: "json",
-                    type: "POST",
-                    success: function(data){
-                      //if(data.response === 'true'){
-                        // var resp = $.map(data,function(obj){
-                        //   return obj.tag;
-                        // });
-
-                        response(data);
-                      //}
-                    }
-                });
-            },
-            select: function (event, ui) {
-              // Set autocomplete element to display the label
-              this.value = ui.item.label;
-
-              // Store value in hidden field
-              $('#tambah-pen-id').val(ui.item.value);
-
-              // Prevent default behaviour
-              return false;
-            },
-            //source: "<?=site_url('penelitian/getlist')?>",
-            minLength: 2,
-            autofocus: true
-        });
-        $( "#tambah-pen" ).autocomplete( "option", "appendTo", ".eventInsForm" );*/
 
         $.fn.select2.defaults.set( "theme", "bootstrap" );
 
@@ -732,12 +474,12 @@
           "print" 
         ];
 
-        var tblaporanK = $("#tblaporanK").DataTable({
+        var tberita = $("#tberita").DataTable({
             "processing": true,
             "ajax": {
-              "url" : "<?=site_url('laporan/getlaporan');?>",
+              "url" : "<?=site_url('berita/getberita');?>",
               "type" : "POST",
-              "data": { csrf_test_name : csrf_token, tipe : '<?=base64_encode(1)?>' }
+              "data": { csrf_test_name : csrf_token }
             },
             "deferRender": true,
             "autoWidth": false,
@@ -753,49 +495,7 @@
 
         });
 
-        var tblaporanAn = $("#tblaporanAn").DataTable({
-            "processing": true,
-            "ajax": {
-              "url" : "<?=site_url('laporan/getlaporan');?>",
-              "type" : "POST",
-              "data": { csrf_test_name : csrf_token, tipe : '<?=base64_encode(3)?>' }
-            },
-            "deferRender": true,
-            "autoWidth": false,
-            "order": [[ 3, "desc" ]],
-            "columns": [
-              { "data": "dosen_nama", "width": "15%" },
-              { "data": "isi" },
-              { "data": "pen_judul" },
-              { "data": "berkas_waktu", "width": "10%" },
-              { "data": "Lstatus" },
-              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%" },
-            ],
-
-        });
-
-        var tblaporanAk = $("#tblaporanAk").DataTable({
-            "processing": true,
-            "ajax": {
-              "url" : "<?=site_url('laporan/getlaporan');?>",
-              "type" : "POST",
-              "data": { csrf_test_name : csrf_token, tipe : '<?=base64_encode(2)?>' }
-            },
-            "deferRender": true,
-            "autoWidth": false,
-            "order": [[ 3, "desc" ]],
-            "columns": [
-              { "data": "dosen_nama", "width": "15%" },
-              { "data": "isi" },
-              { "data": "pen_judul" },
-              { "data": "berkas_waktu", "width": "10%" },
-              { "data": "Lstatus" },
-              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%" },
-            ],
-
-        });
-
-        var tblaporanLg = $("#tblaporanLg").DataTable({
+        var tbtipe = $("#tbtipe").DataTable({
             "processing": true,
             "ajax": {
               "url" : "<?=site_url('laporan/getlaporan');?>",
@@ -817,19 +517,10 @@
         });
 
         var k = new $.fn.dataTable.TableTools( tblaporanK );
-        var an = new $.fn.dataTable.TableTools( tblaporanAn );
-        var ak = new $.fn.dataTable.TableTools( tblaporanAk );
-        var lg = new $.fn.dataTable.TableTools( tblaporanLg );
 
         $( k.fnContainer() ).insertBefore('#tblaporanK_wrapper');
-        $( an.fnContainer() ).insertBefore('#tblaporanAn_wrapper');
-        $( ak.fnContainer() ).insertBefore('#tblaporanAk_wrapper');
-        $( lg.fnContainer() ).insertBefore('#tblaporanLg_wrapper');
 
         $( '.btn-tanggal-k' ).insertBefore('#tblaporanK_wrapper');
-        $( '.btn-tanggal-an' ).insertBefore('#tblaporanAn_wrapper');
-        $( '.btn-tanggal-ak' ).insertBefore('#tblaporanAk_wrapper');
-        $( '.btn-tanggal-lg' ).insertBefore('#tblaporanLg_wrapper');
         //$( '#btn-tanggal-text' ).insertBefore('#tblaporanK_wrapper');
 
         $(".btn-tanggal-k").datepicker({
@@ -847,45 +538,6 @@
             
             //tblaporanK.fnFilterAll( ev.format() );
             //alert( "Anda memilih tahun " + ev.format() );
-        });
-
-        $(".btn-tanggal-an").datepicker({
-            format: "yyyy",
-            autoclose: true,
-            todayHighlight: true,
-            startView:1,
-            minViewMode:2,
-        }).on('changeDate', function(ev){
-            $(".btn-tanggal-text-an").html("Tahun " + ev.format());
-            tblaporanAn
-              .columns(3).search( ev.format() )
-              .draw();
-        });
-
-        $(".btn-tanggal-ak").datepicker({
-            format: "yyyy",
-            autoclose: true,
-            todayHighlight: true,
-            startView:1,
-            minViewMode:2,
-        }).on('changeDate', function(ev){
-            $(".btn-tanggal-text-ak").html("Tahun " + ev.format());
-            tblaporanAk
-              .columns(3).search( ev.format() )
-              .draw();
-        });
-
-        $(".btn-tanggal-lg").datepicker({
-            format: "yyyy",
-            autoclose: true,
-            todayHighlight: true,
-            startView:1,
-            minViewMode:2,
-        }).on('changeDate', function(ev){
-            $(".btn-tanggal-text-lg").html("Tahun " + ev.format());
-            tblaporanLg
-              .columns(3).search( ev.format() )
-              .draw();
         });
 
         // simpan laporan

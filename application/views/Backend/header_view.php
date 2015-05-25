@@ -20,10 +20,6 @@
     <link href="<?=base_url('public/plugins/daterangepicker/daterangepicker-bs3.css')?>" rel="stylesheet" type="text/css" />
     <!-- iCheck for checkboxes and radio inputs -->
     <link href="<?=base_url('public/plugins/iCheck/all.css');?>" rel="stylesheet" type="text/css" />
-    <!-- Bootstrap Color Picker -->
-    <link href="<?=base_url('public/plugins/colorpicker/bootstrap-colorpicker.min.css');?>" rel="stylesheet"/>
-    <!-- Bootstrap time Picker -->
-    <link href="<?=base_url('public/plugins/timepicker/bootstrap-timepicker.min.css');?>" rel="stylesheet"/>
     <!-- DATA TABLES -->
     <link href="<?=base_url('public/plugins/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
     <link href="<?=base_url('public/plugins/datatables/dataTables.responsive.css');?>" rel="stylesheet" type="text/css" />
@@ -38,7 +34,10 @@
     <link href="<?=base_url('public/plugins/jQueryUI/jquery-ui.min.css');?>" rel="stylesheet" type="text/css" />
     <link href="<?=base_url('public/plugins/jQueryUI/jquery-ui.structure.min.css');?>" rel="stylesheet" type="text/css" />
     <link href="<?=base_url('public/plugins/jQueryUI/jquery-ui.theme.min.css');?>" rel="stylesheet" type="text/css" />
+    <!-- Select2 -->
+    <link href="<?=base_url('public/plugins/select2/dist/css/select2.min.css');?>" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
+    <link href="<?=base_url('public/dist/css/select2v4-bootstrap.css');?>" rel="stylesheet" type="text/css" />
     <link href="<?=base_url('public/dist/css/custom.css');?>" rel="stylesheet" type="text/css" />
 
     <!-- Javascript -->
@@ -61,15 +60,8 @@
     <script src="<?=base_url('public/plugins/input-mask/jquery.inputmask.extensions.js');?>" type="text/javascript"></script>
     <!-- Sparkline -->
     <script src="<?=base_url('public/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
-    <!-- jvectormap -->
-    <script src="<?=base_url('public/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js');?>" type="text/javascript"></script>
-    <script src="<?=base_url('public/plugins/jvectormap/jquery-jvectormap-world-mill-en.js');?>" type="text/javascript"></script>
     <!-- daterangepicker -->
     <script src="<?=base_url('public/plugins/daterangepicker/daterangepicker.js');?>" type="text/javascript"></script>
-    <!-- datepicker -->
-    <script src="<?=base_url('public/plugins/datepicker/bootstrap-datepicker.js');?>" type="text/javascript"></script>
-    <!-- bootstrap time picker -->
-    <script src="<?=base_url('public/plugins/timepicker/bootstrap-timepicker.min.js');?>" type="text/javascript"></script>
     <!-- iCheck -->
     <script src="<?=base_url('public/plugins/iCheck/icheck.min.js');?>" type="text/javascript"></script>
     <!-- SlimScroll 1.3.0 -->
@@ -78,12 +70,11 @@
     <script src="<?=base_url('public/plugins/chartjs/Chart.min.js');?>" type="text/javascript"></script>
     <!-- CK Editor -->
     <script src="<?=base_url('public/plugins/ckeditor/ckeditor.js');?>"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="<?=base_url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js');?>" type="text/javascript"></script>
     <!-- Sparkline -->
     <script src="<?=base_url('public/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="<?=base_url('public/plugins/knob/jquery.knob.js');?>" type="text/javascript"></script>
+    <!-- select2 -->
+    <script src="<?=base_url('public/plugins/select2/dist/js/select2.full.min.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/select2/dist/js/i18n/id.js');?>" type="text/javascript"></script>
     <!-- AngularJS -->
     <!-- <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script> -->
     <!-- Misc -->

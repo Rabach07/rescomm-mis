@@ -279,10 +279,12 @@
 
         $('#btn-baca-semua').click(function(){
             $('#modal-bacasemua-notifikasi').modal('show');
+            return false;
         });
 
         $('#btn-hapus-semua').click(function(){
             $('#modal-hapusemua-notifikasi').modal('show');
+            return false;
         });
 
         $('#modal-hapus-notifikasi').on('show.bs.modal', function (e) {
