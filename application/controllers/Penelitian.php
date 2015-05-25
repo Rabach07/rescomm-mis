@@ -135,4 +135,35 @@ class Penelitian extends MY_Controller {
         
     }
 
+    public function get_penlist(){
+        
+        if(isset($_GET['q'])) {
+            $q = strtolower($_GET['q']);
+            $query = $this->penelitian_model->getlist($q); //Model DB search
+
+            $data['total_count'] = $query->num_rows();
+            $data['incomplete_results'] = false;
+            $data['items'] = array();
+
+            if($query->num_rows() > 0) {
+                foreach($query->result() as $row){
+                    $new_row['text']=htmlentities(stripslashes($row->pen_judul));
+                    $new_row['id']=htmlentities(stripslashes($row->pen_id));
+                    $data['items'][] = $new_row; //build an array
+                    //$data['message'][] = array('label'=> $row->pen_judul, 'value'=> $row->pen_id); //Add a row to array
+                }
+            } 
+            echo json_encode($data);
+        } else {
+            $data['message'] = "Kesalahan validasi";
+            $data['errors'][] = array(
+                            'resource' => 'Search',
+                            'field' => 'q',
+                            'code' => 'missing');
+
+            echo json_encode($data);    
+        }
+
+    }
+
 }

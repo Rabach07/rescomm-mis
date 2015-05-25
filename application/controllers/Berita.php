@@ -1,25 +1,22 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Laporan extends MY_Controller {
+class Berita extends MY_Controller {
 
 	public function __construct() {
         parent::__construct();
-        $this->load->model('berkas_model');
-        $this->load->model('penelitian_model');
+        $this->load->model('berita_model');
     }
 
     public function index() {
         parent::cek_akses($this->router->class);
         // data content
-        $this->data['adalaporan'] = $this->berkas_model->get_total("tipelaporan_id IS NOT NULL") > 0 ? TRUE : FALSE;
-        $this->data['daftartipe'] = $this->berkas_model->selectTipe();
+        $this->data['adaberita'] = $this->berita_model->get_total() > 0 ? TRUE : FALSE;
 
-        $view = 'Backend/Laporan/Laporan_' . $this->user_model->get_user_role() . '_view';
         $this->load->view('Backend/header_view', $this->datah);
-        $this->load->view($view, $this->data);
+        $this->load->view('Backend/Berita/Berita_view', $this->data);
     }
 
-	public function getlaporan() {
+	public function getberita() {
         $this->load->library('Datatables');
         $tipe = base64_decode( $this->input->post('tipe') );
         //$tipe = '1';
@@ -59,24 +56,7 @@ class Laporan extends MY_Controller {
         
     }
 
-    public function getnotifikasilama() {
-        $this->load->library('Datatables');
-
-        $select = "n.notif_id, n.notif_status, DATE_FORMAT(n.notif_tanggal,'%d %b %Y %H:%i:%s') AS notif_tanggal, CONCAT( LEFT(n.notif_isi,'35'), IF( LENGTH(n.notif_isi) > 40,'...','') ) AS isi, REPLACE(REPLACE(n.notif_status,'0','Belum Dibaca'),'1','Sudah Dibaca') AS Nstatus, t.tipenotif_nama, t.tipenotif_teks";
-        $opsi = '<button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-hapus-notifikasi" data-id="'.utf8_encode("$1").'" data-title="Notifikasi" title="Hapus Data"><i class="fa fa-close"></i></button>';
-        $notif = '<span class="label label-$1">$2</span> $3';
-        $this->datatables->select($select)
-            ->add_column('Nopsi', $opsi, 'notif_id')
-            ->add_column('Nisi', $notif, 'tipenotif_nama,tipenotif_teks,isi')
-            ->from('tb_notifikasi n')
-            ->join('tb_tipenotif t', 'n.tipenotif_id = t.tipenotif_id')
-            ->where("notif_status='1' AND (notif_ke='0' OR notif_user='" . $this->user_model->user_id() . "')")
-            ->unset_column('Nopsi');
- 
-        echo $this->datatables->generate();
-    }
-
-    public function getlaporanwith() {
+    public function getberitawith() {
         $id = $this->input->post('id');
         $data = $this->berkas_model->selectLaporan( array('SHA2(berkas_id,224)' => $id) );
         $result = array();
@@ -84,18 +64,6 @@ class Laporan extends MY_Controller {
             $result = $value;
         }
         echo json_encode($result);
-    }
-
-    public function download($id) {
-        $this->load->helper('download');
-        $data = $this->berkas_model->select( array('SHA2(berkas_id,224)' => $id) )->row();
-        $path = $_SERVER['DOCUMENT_ROOT'].'/upload/laporan/' . $data->berkas_nama;
-        $this->increment_download($id, $data->berkas_download);
-        force_download($path, NULL);
-    }
-
-    public function increment_download($id, $count = 0) {
-        $this->berkas_model->update($id, array('berkas_download' => $count + 1));
     }
 
     public function get_databox() {
@@ -213,26 +181,6 @@ class Laporan extends MY_Controller {
         }
 
         echo json_encode($status);
-    }
-
-    public function cekarray() {
-        $tipelaporan = $this->berkas_model->selectTipe( array('tipelaporan_id' => 1) )->row();
-        $opt = $this->user_model->select( array('u.role_id' => 72) );
-
-        if(!empty($opt)) {
-            foreach ($opt->result() as $key) {
-                $each = array(
-                            'notif_ke' => $key->user_id,
-                            'notif_isi' => 'User mengirimkan Laporan ' . $tipelaporan->tipelaporan_teks . ' untuk Penelitian ' . $this->input->post('tambah-pen', TRUE) . '',
-                            'tipenotif_id' => 1    
-                        );
-                $notif[] = $each;    
-            }
-
-            echo var_dump($notif);
-        }
-
-        echo NULL;
     }
 
     public function baca() {

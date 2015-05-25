@@ -18,4 +18,8 @@ class User extends MY_Controller {
 		echo base_url('public/avatar') . '/' . $this->user_model->get_avatar();
 	}
 
+	public function coba() {
+		$this->load->view('Backend/coba_view');
+	}
+
 }
