@@ -1459,7 +1459,8 @@ class User_model extends CI_Model {
     				}
 
                     $urlparent = $result_child->num_rows() > 0 ? "dashboard" : "dashboard".$parent->menu_url;
-                    $special = $parent->menu_nama === 'Laporan' ? '<span class="label label-primary pull-right" id="notiflaporan">3</span>' : '';
+                    //$special = $parent->menu_nama === 'Notifikasi' ? '<span class="label label-primary pull-right" id="notifkiri">3</span>' : '';
+                    $special = '';
     				$menu = $menu.'
                                 <li '.$li_parent.' id="parent-'.$parent->menu_akses.'">
                                     <a href="'.site_url($urlparent).'">

@@ -24,17 +24,44 @@ class Berkas_model extends CI_Model {
         return ($query->num_rows() > 0 ? $query->row()->Jumlah : 0);
     }
 
+    function buatchartlaporan($tipe) {
+        $from = "(SELECT 1 AS month UNION 
+                SELECT 2 AS month UNION 
+                SELECT 3 AS month UNION 
+                SELECT 4 AS month UNION 
+                SELECT 5 AS month UNION
+                SELECT 6 AS month UNION 
+                SELECT 7 AS month UNION 
+                SELECT 8 AS month UNION 
+                SELECT 9 AS month UNION 
+                SELECT 10 AS month UNION 
+                SELECT 11 AS month UNION 
+                SELECT 12 AS month) AS t";
+        $this->db->select("COALESCE(COUNT(b.berkas_id),'0') AS Jumlah ")
+            ->from($from)
+            ->join("tb_berkas b", "t.month = DATE_FORMAT(b.berkas_waktu, '%m') AND b.tipelaporan_id = '" . $tipe . "'","left")
+            ->group_by('t.month');
+
+        $query = $this->db->get();
+        $output = array();
+        foreach ($query->result() as $key) {
+            $output[] = $key->Jumlah;
+        }
+
+        return $output;
+    }
+
     function insert($data) {
         $this->db->insert('tb_berkas', $data);
     }
 
     function delete($id) {
-        $this->db->where('berkas_id', $id)
+        $this->db->where('SHA2(berkas_id,224)', $id)
             ->delete('tb_berkas');
     }
 
     function update($id, $data) {
-        $this->db->where('berkas_id', $id)
+        $this->db->where('SHA2(berkas_id,224)', $id)
             ->update('tb_berkas', $data);
     }
 

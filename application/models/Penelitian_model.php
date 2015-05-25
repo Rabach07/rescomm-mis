@@ -45,19 +45,15 @@ class Penelitian_model extends CI_Model {
     }
 
     function select($data, $no = 0) {
-        $select = "SHA2(n.pen_id,'224') AS ID, n.notif_isi, DATE_FORMAT(n.notif_tanggal,'%d %b %Y %H:%i:%s') AS notif_tanggal, "
-                . "t.tipenotif_nama, t.tipenotif_teks, REPLACE(REPLACE(n.notif_status,'0','Belum Dibaca'),'1','Sudah Dibaca') AS Nstatus";
-        $this->db->select($select)
-            ->from('tb_penelitian n')
-            ->join('tb_tipenotif t','n.tipepen_id = t.tipepen_id')
+        $this->db->select('*')
+            ->from('tb_penelitian')
             ->where($data)
-            ->order_by('pen_id', 'DESC')
             ->limit($no);
         $query = $this->db->get();
         return ($query->num_rows() > 0 ? $query : NULL);
     }
 
-    function getlist($q){
+    function getlist($q = ""){
         $this->db->select("*")
             ->from('tb_penelitian')
             ->where('pen_status', 1)
