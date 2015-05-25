@@ -28,6 +28,23 @@
 .skin-black-light .sidebar-menu>li.active>a {
   border-left-color: #1e282c;
 }
+.form-control {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.right-side {
+  background-color: #ffffff;
+}
+.custom .content-wrapper {
+  background-color: #ffffff !important;
+  border: none !important;
+}
+.nav-tabs-custom>.nav-tabs>li:not(.active)>a:hover, 
+.nav-tabs-custom>.nav-tabs>li:not(.active)>a:focus, 
+.nav-tabs-custom>.nav-tabs>li:not(.active)>a:active, 
+.nav-tabs-custom>.nav-tabs>li:not(.active)>a:visited {
+    border-color: #fff;
+}
 
 .ui-menu .ui-menu-item a {
   font-size: 12px;
@@ -79,6 +96,34 @@
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     background-image: none;
+}
+.select2-container .select2-choice {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background-image: none;
+    background: #fff
+}
+.select2-container .select2-choice div {
+    border-left: 0;
+    background: none
+}
+.select2-container.select2-drop-above .select2-choice {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    background-image: none
+}
+.select2-container .select2-search-choice-close {
+    top: 3px
+}
+.select2-container .select2-choices {
+    background-image: none
+}
+.select2-results, .select2-search, .select2-with-searchbox {
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important
 }
 
 /* CUSTOM AdminLTE */

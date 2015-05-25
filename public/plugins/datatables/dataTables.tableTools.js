@@ -2451,6 +2451,10 @@ TableTools.prototype = {
 
 		/* Print class can be used for styling */
 		$(document.body).addClass( this.classes.print.body );
+		$(document.body).removeClass( 'sidebar-mini' );
+		$(document.body).removeClass( 'layout-boxed' );
+		var wr = document.getElementsByClassName("content-wrapper");
+		$(wr).css('background-color',"#ffffff");
 
 		/* Show information message to let the user know what is happening */
 		if ( oConfig.sInfo !== "" )
@@ -2520,6 +2524,10 @@ TableTools.prototype = {
 		//$(document.body).removeClass( 'DTTT_Print' );
 		//$(document.body).removeClass( 'sidebar-collapse' );
 		$(document.body).removeClass( this.classes.print.body );
+		$(document.body).addClass( 'sidebar-mini' );
+		$(document.body).addClass( 'layout-boxed' );
+		var wr = document.getElementsByClassName("content-wrapper");
+		$(wr).css('background-color',"#ecf0f5");
 
 		// TAMBAHAN
 		var listP = document.getElementsByClassName("dataTables_processing");
