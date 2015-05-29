@@ -56,3 +56,4 @@ $route['translate_uri_dashes'] = FALSE;
 /** CUSTOM ROUTE **/
 $route['dashboard/logout'] = 'dashboard/logout';
 $route['dashboard/(:any)'] = '$1';
+$route['dashboard/(:any)/(:any)'] = '$1/$2';

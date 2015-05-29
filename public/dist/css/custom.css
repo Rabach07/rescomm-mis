@@ -126,6 +126,26 @@
     border-radius: 0 !important
 }
 
+.datepicker {z-index: 1151 !important;}
+
+table.dataTable tbody tr.selected, table.dataTable tbody tr.active {
+  background-color: #f5f5f5;
+  color: cadetblue;
+  cursor: pointer;
+}
+
+.table-striped.dataTable tbody tr.active:nth-child(odd) td, 
+.table-striped.dataTable tbody tr.active:nth-child(odd) th {
+  background-color: #f5f5f5;
+  color: cadetblue;
+  cursor: pointer;
+}
+.table.dataTable tbody tr.active td, .table.dataTable tbody tr.active th {
+  background-color: #f5f5f5;
+  color: cadetblue;
+  cursor: pointer;
+}
+
 /* CUSTOM AdminLTE */
 .pesan-base {
     padding: 4px;

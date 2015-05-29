@@ -44,13 +44,6 @@ class Dashboard extends MY_Controller {
 		$this->load->view('Backend/dashboard_view');
 	}
 
-	public function penelitian($param) {
-		$this->datah['aktif']['child'] = '#child-' . $param;
-		//echo "<script>alert('" . $param . "')</script>";
-		$this->load->view('Backend/header_view', $this->datah);
-		$this->load->view('Backend/dashboard_view');
-	}
-
 	public function manajemen($param) {
 		$this->datah['aktif']['child'] = '#child-' . $param;
 		$this->load->view('Backend/header_view', $this->datah);

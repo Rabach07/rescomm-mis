@@ -748,7 +748,7 @@
               { "data": "pen_judul" },
               { "data": "berkas_waktu", "width": "10%" },
               { "data": "Lstatus" },
-              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%" },
+              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%", "class": "no-print" },
             ],
 
         });
@@ -769,7 +769,7 @@
               { "data": "pen_judul" },
               { "data": "berkas_waktu", "width": "10%" },
               { "data": "Lstatus" },
-              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%" },
+              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%", "class": "no-print" },
             ],
 
         });
@@ -790,7 +790,7 @@
               { "data": "pen_judul" },
               { "data": "berkas_waktu", "width": "10%" },
               { "data": "Lstatus" },
-              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%" },
+              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%", "class": "no-print" },
             ],
 
         });
@@ -811,7 +811,7 @@
               { "data": "pen_judul" },
               { "data": "berkas_waktu", "width": "10%" },
               { "data": "Lstatus" },
-              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%" },
+              { "data": "Lopsi", "searchable": false, "sortable": false, "width": "10%", "class": "no-print" },
             ],
 
         });

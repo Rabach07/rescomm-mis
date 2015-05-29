@@ -5,60 +5,55 @@ class Berita extends MY_Controller {
 	public function __construct() {
         parent::__construct();
         $this->load->model('berita_model');
+        $this->load->library('Datatables');
     }
 
     public function index() {
         parent::cek_akses($this->router->class);
         // data content
         $this->data['adaberita'] = $this->berita_model->get_total() > 0 ? TRUE : FALSE;
+        $this->data['daftartipe'] = $this->berita_model->get_list_tipe();
 
         $this->load->view('Backend/header_view', $this->datah);
         $this->load->view('Backend/Berita/Berita_view', $this->data);
     }
 
 	public function getberita() {
-        $this->load->library('Datatables');
-        $tipe = base64_decode( $this->input->post('tipe') );
-        //$tipe = '1';
+        $select = "b.berita_judul AS judul, b.berita_url AS url, SHA2(b.berita_id,'224') AS ID, DATE_FORMAT(b.berita_tanggal,'%d %b %Y %H:%i') AS tanggal, "
+                    . "t.tipeberita_nama AS tipe, u.user_login AS penulis, COALESCE(SUM(l.lihat_jumlah),'0') AS dilihat, REPLACE(REPLACE(b.berita_status,'0','Draft'),'1','Rilis') AS status";
+        $opsi = '<a class="btn btn-xs btn-primary" href="'. base_url() . '$2" target="_blank" data-toggle="tooltip" title="Lihat $3"><i class="fa fa-eye"></i></a>'
+                . ' <span data-toggle="modal" data-target="#modal-editberita" data-id="$1"><button class="btn btn-xs btn-success" data-toggle="tooltip" title="Edit $3"><i class="fa fa-edit"></i></button></span>'
+                . ' <span data-toggle="modal" data-target="#modal-hapusberita" data-id="$1"><button class="btn btn-xs btn-danger" data-toggle="tooltip" title="Hapus $3"><i class="fa fa-close"></i></button></span>';
+        $this->datatables->select($select)
+            ->add_column('opsi', $opsi, 'ID,url,judul')
+            ->from('tb_berita b')
+            ->join('tb_tipeberita t', 'b.tipeberita_id = t.tipeberita_id')
+            ->join('tb_user u', 'b.user_id = u.user_id')
+            ->join('tb_beritalihat l','b.berita_id = l.berita_id','left')
+            ->where('b.user_id', $this->user_model->user_id() )
+            ->where('b.berita_status !=', 3 )
+            ->group_by('b.berita_judul')
+            ->unset_column('opsi');
 
-        if( $this->user_model->get_roleid() === 70 || $this->user_model->get_roleid() === 72 ) {
-            $select = "b.berkas_id, SHA2(b.berkas_id,'224') AS ID, b.berkas_nama, DATE_FORMAT(b.berkas_waktu,'%d %b %Y') AS berkas_waktu, "
-                        . "CONCAT( LEFT(b.berkas_pesan,'50'), IF( LENGTH(b.berkas_pesan) > 40,'...','') ) AS isi, REPLACE(REPLACE(b.berkas_status,'0','Tidak Aktif'),'1','Aktif') AS Lstatus, "
-                        . "t.tipelaporan_nama, t.tipelaporan_teks, d.dosen_nama, p.pen_judul";
-            $opsi = '<button class="btn btn-xs btn-success" data-toggle="modal" data-target="#modal-download" data-id="$1"><i class="fa fa-download"></i></button>'
-                    . ' <button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modal-baca" data-id="$1"><i class="fa fa-eye"></i></button>'
-                    . ' <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-hapus" data-id="$1"><i class="fa fa-close"></i></button>';
-            $this->datatables->select($select)
-                ->add_column('Lopsi', $opsi, 'ID')
-                ->from('tb_berkas b')
-                ->join('tb_tipelaporan t', 'b.tipelaporan_id = t.tipelaporan_id')
-                ->join('tb_penelitian p', 'b.pen_id = p.pen_id')
-                ->join('tb_dosen d', 'p.dosen_id = d.dosen_id')
-                ->where("b.berkas_status='1' AND b.tipelaporan_id='" . $tipe . "'")
-                ->unset_column('Nopsi');
-
-            echo $this->datatables->generate();
-
-        } else if ($this->user_model->get_roleid() === 71) {
-            $select = "n.notif_id, n.notif_status, DATE_FORMAT(n.notif_tanggal,'%d %b %Y %H:%i:%s') AS notif_tanggal, CONCAT( LEFT(n.notif_isi,'50'), IF( LENGTH(n.notif_isi) > 40,'...','') ) AS isi, REPLACE(REPLACE(n.notif_status,'0','Belum Dibaca'),'1','Sudah Dibaca') AS Nstatus, t.tipenotif_nama, t.tipenotif_teks";
-            $opsi = '<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modal-baca-notifikasi" data-id="'.utf8_encode("$1").'" ><i class="fa fa-eye"></i></button>'
-                    . ' <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-hapus-notifikasi" data-id="'.utf8_encode("$1").'" data-title="Notifikasi" title="Hapus Data"><i class="fa fa-close"></i></button>';
-            $notif = '<span class="label label-$1">$2</span> $3';
-            $this->datatables->select($select)
-                ->add_column('Nopsi', $opsi, 'notif_id')
-                ->add_column('Nisi', $notif, 'tipenotif_nama,tipenotif_teks,isi')
-                ->from('tb_notifikasi n')
-                ->join('tb_tipenotif t', 'n.tipenotif_id = t.tipenotif_id')
-                ->where("notif_status='0' AND (notif_ke='0' OR notif_user='" . $this->user_model->user_id() . "')")
-                ->unset_column('Nopsi');
-        }
- 
+        echo $this->datatables->generate();
         
     }
 
-    public function getberitawith() {
+    public function getipe() {
+        $opsi = '<button class="btn btn-xs btn-success" data-toggle="modal" data-target="#modal-editipe" data-id="$1"><i class="fa fa-edit"></i></button>'
+                . ' <button class="btn btn-xs btn-danger" data-toggle="modal" data-target="#modal-hapustipe" data-id="$1"><i class="fa fa-close"></i></button>';
+        $this->datatables->select("SHA2(tipeberita_id,'224') AS ID, tipeberita_nama AS tipe")
+            ->add_column('opsi', $opsi, 'ID')
+            ->from('tb_tipeberita')
+            ->unset_column('opsi');
+
+        echo $this->datatables->generate();
+        
+    }
+
+    public function getwith() {
         $id = $this->input->post('id');
-        $data = $this->berkas_model->selectLaporan( array('SHA2(berkas_id,224)' => $id) );
+        $data = $this->berita_model->selectWith( array('SHA2(berita_id,224)' => $id) );
         $result = array();
         foreach ($data->result() as $key => $value) {
             $result = $value;
@@ -66,108 +61,77 @@ class Berita extends MY_Controller {
         echo json_encode($result);
     }
 
+    public function getipewith() {
+        $id = $this->input->post('id');
+        $data = $this->berita_model->selectTipe( array('SHA2(tipeberita_id,224)' => $id) );
+        $result = array();
+        foreach ($data->result() as $key => $value) {
+            $result = $value;
+        }
+        echo json_encode($result);
+    }
+
+    public function getSelected() {
+        $id = $this->input->post('id');
+        //$id = explode(',', $this->input->post('id') );
+        $data = $this->berita_model->selectIn( "SHA2(berita_id,'224')",$id );
+        //$result = array();
+        foreach ($data->result() as $key => $value) {
+            $result[]  = $value;
+        }
+        echo json_encode($result);
+    }
+
     public function get_databox() {
+        $id = $this->user_model->user_id();
         // data buat box
-        $data['boxkemajuan'] = $this->berkas_model->get_total(array('tipelaporan_id' => 1));
-        $data['boxanggaran'] = $this->berkas_model->get_total(array('tipelaporan_id' => 3));
-        $data['boxakhir'] = $this->berkas_model->get_total(array('tipelaporan_id' => 2));
-        $data['boxlogbook'] = $this->berkas_model->get_total(array('tipelaporan_id' => 4));
+        $data['boxrilis'] = $this->berita_model->get_total(array('berita_status' => 1, 'user_id' => $id));
+        $data['boxdraft'] = $this->berita_model->get_total(array('berita_status' => 0, 'user_id' => $id));
+        $data['boxberita'] = $data['boxrilis'] + $data['boxdraft'];
+        $data['boxtipe'] = $this->berita_model->get_totaltipe();
 
         echo json_encode($data);
     }
 
-    public function get_chart() {
-        //$tahun = $_REQUEST('tahun');
-
-        $chartData = array();
-        $chartData['labels'] = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", 
-                                    "Juli", "Agustus", "September", "Oktober", "November", "Desember");
-        //$chartData['datasets'] = array();
-        $chartData['datasets'][] = array('label' => "Logbook",
-              'fillColor' => "rgba(0,192,239,0.1)",
-              'strokeColor' => "rgba(0,192,239,0.2)",
-              'pointColor' => "rgb(0,192,239)",
-              'pointStrokeColor' => "#fff",
-              'pointHighlightFill' => "#fff",
-              'pointHighlightStroke' => "rgb(0,192,239)",
-              'data' => $this->berkas_model->buatchartlaporan(4) );
-        $chartData['datasets'][] = array('label' => "Kemajuan",
-              'fillColor' => "rgba(221,75,57,0.1)",
-              'strokeColor' => "rgba(221,75,57,0.2)",
-              'pointColor' => "rgb(221,75,57)",
-              'pointStrokeColor' => "#fff",
-              'pointHighlightFill' => "#fff",
-              'pointHighlightStroke' => "rgba(221,75,57,1)",
-              'data' => $this->berkas_model->buatchartlaporan(1) );
-        $chartData['datasets'][] = array('label' => "Anggaran",
-              'fillColor' => "rgba(0,166,90,0.1)",
-              'strokeColor' => "rgba(0,166,90,0.2)",
-              'pointColor' => "rgb(0,166,90)",
-              'pointStrokeColor' => "#fff",
-              'pointHighlightFill' => "#fff",
-              'pointHighlightStroke' => "rgba(0,166,90,1)",
-              'data' => $this->berkas_model->buatchartlaporan(3) );
-        $chartData['datasets'][] = array('label' => "Akhir",
-              'fillColor' => "rgba(243,156,18,0.1)",
-              'strokeColor' => "rgba(243,156,18,0.2)",
-              'pointColor' => "rgb(243,156,18)",
-              'pointStrokeColor' => "#fff",
-              'pointHighlightFill' => "#fff",
-              'pointHighlightStroke' => "rgba(243,156,18,1)",
-              'data' => $this->berkas_model->buatchartlaporan(2) );
-
-        echo json_encode($chartData);
-    }
-
     public function tambah() {
         $status['status'] = 1;
-        $status['pesan'] = 'Laporan baru berhasil ditambahkan';
+        $status['pesan'] = 'Berita baru berhasil dibuat';
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('tambah-pesan', 'Pesan','trim|required|strip_tags|min_length[10]');
-        $this->form_validation->set_rules('tambah-pen', 'Judul Penelitian','trim|required|strip_tags');
-        $this->form_validation->set_rules('tambah-tipe', 'Tipe Laporan','trim|required|strip_tags');
+        $this->form_validation->set_rules('berita-judul', 'Judul','trim|required|strip_tags|min_length[10]|max_length[80]');
+        $this->form_validation->set_rules('berita-tanggal', 'Tanggal Berita','trim|required|strip_tags');
+        $this->form_validation->set_rules('berita-isi', 'Isi Berita','trim|required');
+        $this->form_validation->set_rules('berita-status', 'Status Berita','trim|required|strip_tags');
+        $this->form_validation->set_rules('berita-tipe', 'Tipe Berita','trim|required|strip_tags');
 
-        if($this->form_validation->run() == TRUE){
-            $tipelaporan = $this->berkas_model->selectTipe( array('tipelaporan_id' => $this->input->post('tambah-tipe', TRUE)) )->row();
-            $penelitian = $this->penelitian_model->select( array('pen_id' => $this->input->post('tambah-pen', TRUE)) )->row();
+        if($this->form_validation->run() === TRUE){
+            $count = (int) $this->berita_model->get_total();
+            $url = "blog/" . str_replace(' ', '-', strtolower(addslashes( $this->input->post('berita-judul', TRUE) ))) . "--" . ( $count + 1 );
+            $data = array(
+                'berita_id' => ( $count + 1),
+                'user_id' => $this->user_model->user_id(),
+                'tipeberita_id' => (int) $this->input->post('berita-tipe', TRUE),
+                'berita_judul' => (string) $this->input->post('berita-judul', TRUE),
+                'berita_url' => (string) $url,
+                'berita_isi' => (string) $this->input->post('berita-isi', TRUE),
+                'berita_tanggal' => $this->input->post('berita-tanggal', TRUE),
+                'berita_status' => (int) $this->input->post('berita-status', TRUE)
+            );
 
-            $config['upload_path']          = './upload/laporan/';
-            $config['allowed_types']        = 'pdf|doc|docx';
-            $config['max_size']             = 50000;
-            $config['file_ext_tolower']     = TRUE;
-            $config['file_name']            = "laporan-" . strtolower($tipelaporan->tipelaporan_teks) . "-" . $this->input->post('tambah-pen', TRUE) . "-" . date("dmYhis");
-
-            $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('tambah-file')) {
-                $status['status'] = 0;
-                $status['pesan'] = $this->upload->display_errors();
-            } else {
-                $data = array(
-                    'user_id' => $this->user_model->user_id(),
-                    'pen_id' => (int) $this->input->post('tambah-pen', TRUE),
-                    'tipelaporan_id' => (int) $this->input->post('tambah-tipe', TRUE),
-                    'berkas_pesan' => (string) $this->input->post('tambah-pesan', TRUE),
-                    'berkas_nama' => $this->upload->data('file_name')
-                );
-
-                $this->berkas_model->insert($data);
-            }
-            @unlink($_FILES['tambah-file']);
+            $this->berita_model->insert($data);
         }else{
             $status['status'] = 0;
             $status['pesan'] = validation_errors();
         }
 
-        if($status['status'] == 1) {
-            $opt = $this->user_model->select( array('u.role_id' => 72) );
+        if($status['status'] === 1) {
+            $opt = $this->user_model->select( array('u.role_id' => 71) );
 
             if(!empty($opt)) {
                 foreach ($opt->result() as $key) {
                     $each = array(
                                 'notif_ke' => $key->user_id,
-                                'notif_isi' => 'User ' . $this->user_model->get_username() . ' mengirimkan Laporan ' . $tipelaporan->tipelaporan_teks . ' untuk Penelitian ' . $penelitian->pen_judul . '',
+                                'notif_isi' => 'Berita baru tentang "' . $this->input->post('berita-judul', TRUE) . '" buka <a href="' . site_url($url) . '" target="_blank">di sini</a>',
                                 'tipenotif_id' => 1    
                             );
                     $notif[] = $each;    
@@ -176,23 +140,162 @@ class Berita extends MY_Controller {
                 //echo var_dump($notif);
             }
 
-            $this->logpush->insert($this->router->class, "menambahkan laporan baru '" . $penelitian->pen_judul . "'");
+            $this->logpush->insert($this->router->class, "menambahkan berita baru '" . $this->input->post('berita-judul', TRUE) . "'");
             $this->notif_model->insertBatch($notif);
         }
 
         echo json_encode($status);
     }
 
-    public function baca() {
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('baca-id', 'ID Laporan','trim|required|strip_tags|is_natural_no_zero');
+    public function tambahtipe() {
+        $status['status'] = 1;
+        $status['pesan'] = 'Tipe baru berhasil dibuat';
 
-        if($this->form_validation->run() == TRUE){
-            $id = addslashes($this->input->post('baca-id', TRUE));
-            $this->berkas_model->update($id, array('notif_status' => 1));
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('tipe-nama', 'Nama Tipe','trim|required|strip_tags|min_length[3]|max_length[30]');
+        $this->form_validation->set_rules('tipe-icon', 'Icon Tipe','trim|required|strip_tags');
+
+        if($this->form_validation->run() === TRUE){
+            $count = (int) $this->berita_model->get_totaltipe();
+            $data = array(
+                'tipeberita_id' => ( $count + 1),
+                'tipeberita_nama' => (string) $this->input->post('tipe-nama', TRUE),
+                'tipeberita_icon' => (string) $this->input->post('tipe-icon', TRUE)
+            );
+
+            $this->berita_model->insertTipe($data);
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+
+        $this->logpush->insert($this->router->class, "menambahkan tipe berita baru '" . $this->input->post('tipe-nama', TRUE) . "'");
+
+        echo json_encode($status);
+    }
+
+    public function edit() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('berita-judul', 'Judul','trim|required|strip_tags|min_length[10]|max_length[80]');
+        $this->form_validation->set_rules('berita-tanggal', 'Tanggal Berita','trim|required|strip_tags');
+        $this->form_validation->set_rules('berita-isi', 'Isi Berita','trim|required');
+        $this->form_validation->set_rules('berita-status', 'Status Berita','trim|required|strip_tags');
+        $this->form_validation->set_rules('berita-tipe', 'Tipe Berita','trim|required|strip_tags');
+        $this->form_validation->set_rules('berita-id', 'ID Berita','required|strip_tags');
+
+        if($this->form_validation->run() === TRUE){
+            $id = $this->input->post('berita-id', TRUE);
+            $count = (int) $this->berita_model->get_total();
+            $url = "blog/" . str_replace(' ', '-', strtolower(addslashes( $this->input->post('berita-judul', TRUE) ))) . "--" . $id;
+            $data = array(
+                'tipeberita_id' => (int) $this->input->post('berita-tipe', TRUE),
+                'berita_judul' => (string) $this->input->post('berita-judul', TRUE),
+                'berita_url' => (string) $url,
+                'berita_isi' => (string) $this->input->post('berita-isi', TRUE),
+                'berita_tanggal' => $this->input->post('berita-tanggal', TRUE),
+                'berita_status' => (int) $this->input->post('berita-status', TRUE)
+            );
+
+            $this->berita_model->update($id,$data);
 
             $status['status'] = 1;
-            $status['pesan'] = 'Laporan berhasil ditandai telah dibaca';
+            $status['pesan'] = 'Berita "'. $data['berita_judul'] . '" berhasil diperbarui';
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+
+        if($status['status'] === 1) {
+            $opt = $this->user_model->select( array('u.role_id' => 71) );
+
+            if(!empty($opt)) {
+                foreach ($opt->result() as $key) {
+                    $each = array(
+                                'notif_ke' => $key->user_id,
+                                'notif_isi' => 'Berita baru tentang "' . $this->input->post('berita-judul', TRUE) . '" buka <a href="' . site_url($url) . '" target="_blank">di sini</a>',
+                                'tipenotif_id' => 1    
+                            );
+                    $notif[] = $each;    
+                }
+
+                //echo var_dump($notif);
+            }
+
+            $this->logpush->insert($this->router->class, "menambahkan berita baru '" . $this->input->post('berita-judul', TRUE) . "'");
+            $this->notif_model->insertBatch($notif);
+        }
+
+        echo json_encode($status);
+    }
+
+    public function editipe() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('tipe-nama', 'Nama Tipe','trim|required|strip_tags|min_length[3]|max_length[30]');
+        $this->form_validation->set_rules('tipe-icon', 'Icon Tipe','trim|required|strip_tags');
+        $this->form_validation->set_rules('tipe-id', 'ID Tipe','trim|required');
+
+        $status['status'] = 1;
+        $status['pesan'] = 'Tipe berhasil diubah';
+
+        if($this->form_validation->run() === TRUE){
+            $id = $this->input->post('tipe-id', TRUE);
+            if($this->input->post('tipe-nama', TRUE) === $this->input->post('tipe-lama', TRUE)) {
+                $data = array(
+                    'tipeberita_icon' => (string) $this->input->post('tipe-icon', TRUE)
+                );
+
+                $this->berita_model->updateTipe($id,$data);
+            } else {
+                $this->form_validation->set_rules('tipe-nama', 'Nama Tipe','callback_cek_tipe');
+
+                if($this->form_validation->run() === TRUE){
+                    $data = array(
+                        'tipeberita_nama' => (string) $this->input->post('tipe-nama', TRUE),
+                        'tipeberita_icon' => (string) $this->input->post('tipe-icon', TRUE)
+                    );
+
+                    $this->berita_model->updateTipe($id,$data);
+                } else {
+                    $status['status'] = 0;
+                    $status['pesan'] = validation_errors();
+                }
+                
+            }
+            
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+
+        $this->logpush->insert($this->router->class, "memodifikasi data tipe '". $this->input->post('tipe-lama', TRUE) ."'");
+
+        echo json_encode($status);
+    }
+
+    public function cek_tipe($str) {
+        $data = $this->berita_model->get_totaltipe(array('lower(tipeberita_nama)' => strtolower($str) ));
+        if ($data > 0) {
+            $this->form_validation->set_message('cek_tipe', 'Nama Tipe "'. $str .'" sudah dipakai');
+            return FALSE;
+        }
+        else {
+            return TRUE;
+        }
+    }
+
+    public function rilis() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('berita-id', 'ID Berita','trim|required');
+
+        if($this->form_validation->run() == TRUE){
+            $id = explode(',', $this->input->post('berita-id') );
+            foreach ($id as $value) {
+                $arr[] = array("SHA2(berita_id,'224')" => $value, 'berita_status' => 1);
+            }
+            $this->berita_model->updateBatch('tb_berita', $arr, "SHA2(berita_id,'224')");
+
+            $status['status'] = 1;
+            $status['pesan'] = 'Status berita berhasil diubah menjadi Rilis';
         }else{
             $status['status'] = 0;
             $status['pesan'] = validation_errors();
@@ -201,30 +304,85 @@ class Berita extends MY_Controller {
         echo json_encode($status);
     }
 
-    public function bacasemua() {
-        $this->berkas_model->updateAll(array('notif_status' => 1));
-        //$this->logpush->insert($this->router->class, "menandai semua Notifikasi telah dibaca");
+    public function draft() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('berita-id', 'ID Berita','trim|required');
 
-        $status['status'] = 1;
-        $status['pesan'] = 'Semua Notifikasi berhasil ditandai telah dibaca';
+        if($this->form_validation->run() == TRUE){
+            $id = explode(',', $this->input->post('berita-id') );
+            foreach ($id as $value) {
+                $arr[] = array("SHA2(berita_id,'224')" => $value, 'berita_status' => 0);
+            }
+            $this->berita_model->updateBatch('tb_berita', $arr, "SHA2(berita_id,'224')");
+
+            $status['status'] = 1;
+            $status['pesan'] = 'Status berita berhasil diubah menjadi Draft';
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+
+        echo json_encode($status);
+    }
+
+    public function hapuspilih() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('berita-id', 'ID Berita','trim|required');
+
+        if($this->form_validation->run() == TRUE){
+            $id = explode(',', $this->input->post('berita-id') );
+            foreach ($id as $value) {
+                $arr[] = array("SHA2(berita_id,'224')" => $value, 'berita_status' => 3);
+            }
+            $this->berita_model->updateBatch('tb_berita', $arr, "SHA2(berita_id,'224')");
+
+            $status['status'] = 1;
+            $status['pesan'] = 'Berita berhasil dihapus';
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
 
         echo json_encode($status);
     }
 
     public function hapus() {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('hapus-id', 'ID Notifikasi','trim|required|strip_tags|is_natural_no_zero');
+        $this->form_validation->set_rules('berita-id', 'ID Berita','trim|required');
 
         if($this->form_validation->run() == TRUE){
-            $id = addslashes($this->input->post('hapus-id', TRUE));
+            $id = $this->input->post('berita-id', TRUE);
         
-            $this->notif_model->delete($id);
+            //$this->berita_model->delete($id);
+            $this->berita_model->update($id, array('berita_status' => 3));
             $status['status'] = 1;
-            $status['pesan'] = 'Notifikasi berhasil dihapus';
+            $status['pesan'] = 'Berita berhasil dihapus';
         }else{
             $status['status'] = 0;
             $status['pesan'] = validation_errors();
         }
+
+        $this->logpush->insert($this->router->class, "menghapus berita '". $this->input->post('berita-judul', TRUE) ."'");
+
+        echo json_encode($status);
+    }
+
+    public function hapustipe() {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('tipe-id', 'ID Tipe','trim|required');
+
+        if($this->form_validation->run() == TRUE){
+            $id = $this->input->post('tipe-id', TRUE);
+        
+            $this->berita_model->deleteTipe($id);
+            $status['status'] = 1;
+            $status['pesan'] = 'Tipe berhasil dihapus';
+        }else{
+            $status['status'] = 0;
+            $status['pesan'] = validation_errors();
+        }
+
+        $this->logpush->insert($this->router->class, "menghapus tipe '". $this->input->post('tipe-nama', TRUE) ."'");
 
         echo json_encode($status);
     }
@@ -236,6 +394,32 @@ class Berita extends MY_Controller {
         $status['pesan'] = 'Semua Notifikasi berhasil dihapus';
 
         echo json_encode($status);
+    }
+
+    public function get_pgchart() {
+        //$tahun = $_REQUEST('tahun');
+        $query = $this->berita_model->buatchartpg(7);
+        $data = array();
+        $label = array();
+
+        foreach ($query->result() as $key) {
+            $data[] = $key->jumlah;
+            $label[] = $key->tanggal;
+        }
+
+        $chartData = array();
+        $chartData['labels'] = $label;
+        //$chartData['datasets'] = array();
+        $chartData['datasets'][] = array('label' => "Pageview",
+              'fillColor' => "rgba(0,192,239,0.7)",
+              'strokeColor' => "rgba(0,192,239,1)",
+              'pointColor' => "rgb(0,192,239)",
+              'pointStrokeColor' => "#fff",
+              'pointHighlightFill' => "#fff",
+              'pointHighlightStroke' => "rgb(0,192,239)",
+              'data' => $data );
+
+        echo json_encode($chartData);
     }
 
 }

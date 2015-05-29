@@ -15,7 +15,7 @@
     <!-- Morris chart -->
     <link href="<?=base_url('public/plugins/morris/morris.css')?>" rel="stylesheet" type="text/css" />
     <!-- jvectormap -->
-    <link href="<?=base_url('public/plugins/jvectormap/jquery-jvectormap-1.2.2.css')?>" rel="stylesheet" type="text/css" />
+    <!-- <link href="<?=base_url('public/plugins/jvectormap/jquery-jvectormap-1.2.2.css')?>" rel="stylesheet" type="text/css" /> -->
     <!-- Daterange picker -->
     <link href="<?=base_url('public/plugins/daterangepicker/daterangepicker-bs3.css')?>" rel="stylesheet" type="text/css" />
     <!-- iCheck for checkboxes and radio inputs -->
@@ -23,8 +23,6 @@
     <!-- DATA TABLES -->
     <link href="<?=base_url('public/plugins/datatables/dataTables.bootstrap.css');?>" rel="stylesheet" type="text/css" />
     <link href="<?=base_url('public/plugins/datatables/dataTables.responsive.css');?>" rel="stylesheet" type="text/css" />
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link href="<?=base_url('public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css');?>" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
     <link href="<?=base_url('public/dist/css/AdminLTE.min.css')?>" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins 
@@ -45,6 +43,8 @@
     <script src="<?=base_url('public/plugins/jQuery/jQuery-2.1.4.min.js');?>"></script>
     <!-- jQueryUI -->
     <script src="<?=base_url('public/plugins/jQueryUI/jquery-ui.min.js');?>" type="text/javascript"></script>
+    <!-- Moment -->
+    <script src="<?=base_url('public/plugins/moment/min/moment.min.js');?>" type="text/javascript" ></script>
     <!-- Bootstrap -->
     <script src="<?=base_url('public/bootstrap/js/bootstrap.min.js');?>" type="text/javascript"></script>
     <!-- FastClick -->

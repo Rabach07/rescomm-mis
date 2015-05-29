@@ -9,7 +9,13 @@ class Penelitian extends MY_Controller {
 
     public function index() {
         parent::cek_akses($this->router->class);
-        $view = 'Backend/Penelitian/' . $this->user_model->get_user_role() . '_view';
+        redirect('dashboard/penelitian/daftar');
+    }
+
+    public function daftar() {
+        parent::cek_akses($this->router->class);
+        $this->datah['aktif']['child'] = '#child-' . $this->router->method;
+        $view = 'Backend/Penelitian/Daftar_' . $this->user_model->get_user_role() . '_view';
         $this->load->view('Backend/header_view', $this->datah);
         $this->load->view($view, $this->data);
     }
@@ -39,10 +45,21 @@ class Penelitian extends MY_Controller {
     }
 
     public function get_databox() {
-        // data buat box
-        $data['boxbelum'] = $this->log_model->get_total(array('log_status' => 0));
-        $data['boxbaca'] = $this->log_model->get_total(array('log_status' => 1));
-        $data['boxlog'] = $this->log_model->get_total();
+        if($this->user_model->get_roleid() === 71) {
+            // dosen
+            // data buat box
+            $data['boxrilis'] = $this->berita_model->get_total(array('berita_status' => 1, 'user_id' => $id));
+            $data['boxdraft'] = $this->berita_model->get_total(array('berita_status' => 0, 'user_id' => $id));
+            $data['boxberita'] = $data['boxrilis'] + $data['boxdraft'];
+            $data['boxtipe'] = $this->berita_model->get_totaltipe();
+        } else if($this->user_model->get_roleid() === 70 || $this->user_model->get_roleid() === 72) {
+            // admin dan operator
+            // data buat box
+            $data['boxrilis'] = $this->berita_model->get_total(array('berita_status' => 1, 'user_id' => $id));
+            $data['boxdraft'] = $this->berita_model->get_total(array('berita_status' => 0, 'user_id' => $id));
+            $data['boxberita'] = $data['boxrilis'] + $data['boxdraft'];
+            $data['boxtipe'] = $this->berita_model->get_totaltipe();
+        }
 
         echo json_encode($data);
     }

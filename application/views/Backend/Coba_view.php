@@ -140,6 +140,8 @@
       </div>
     </div>
     <!-- Modal Tambah Laporan -->
+
+    
     <script type="text/javascript">
         $(document).ready(function() {
             var csrf_token = '<?=$this->security->get_csrf_hash();?>';
