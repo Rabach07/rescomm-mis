@@ -1,5 +1,5 @@
-<!-- View { baca juga yang bagian bawah } -->
 <!DOCTYPE html>
+<!-- View { baca juga yang bagian bawah } -->
 <html>
   <head>
     <meta charset="UTF-8">
@@ -52,7 +52,7 @@
     <![endif]-->
   </head>
   <body>
-    <button class="btn btn-sm btn-info" id="btn-user" data-id="70" data-toggle="modal" data-target="#modal-user"><i class="fa fa-user"></i> Pilih User</button>
+    <button class="btn btn-sm btn-info" id="btn-user" data-id="71" data-toggle="modal" data-target="#modal-user"><i class="fa fa-user"></i> Pilih User</button>
     
 
     <!-- Modal User -->

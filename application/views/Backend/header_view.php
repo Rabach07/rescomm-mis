@@ -1,11 +1,20 @@
 <!DOCTYPE html>
+<!-- <yudev> Sistem Informasi Manajemen Kegiatan Penelitian
+  ██████╗ ██████╗ ███╗   ███╗    ██████╗ ███████╗███╗   ██╗███████╗
+  ██╔══██╗╚════██╗████╗ ████║    ██╔══██╗██╔════╝████╗  ██║██╔════╝
+  ██████╔╝ █████╔╝██╔████╔██║    ██████╔╝█████╗  ██╔██╗ ██║███████╗
+  ██╔═══╝  ╚═══██╗██║╚██╔╝██║    ██╔═══╝ ██╔══╝  ██║╚██╗██║╚════██║
+  ██║     ██████╔╝██║ ╚═╝ ██║    ██║     ███████╗██║ ╚████║███████║
+  ╚═╝     ╚═════╝ ╚═╝     ╚═╝    ╚═╝     ╚══════╝╚═╝  ╚═══╝╚══════╝
+  @ yufieko
+</yudev> -->
 <html>
   <head>
     <meta charset="UTF-8">
     <title><?=$title;?> | P3M PENS</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- favicon -->
-    <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
+    <link rel="shortcut icon" href="<?=base_url('public/dist/img/favicon.ico');?>" />
     <!-- Bootstrap 3.3.2 -->
     <link href="<?=base_url('public/bootstrap/css/bootstrap.min.css')?>" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
@@ -14,8 +23,6 @@
     <link href="<?=base_url('public/plugins/ionicons-2.0.1/css/ionicons.min.css')?>" rel="stylesheet" type="text/css" />
     <!-- Morris chart -->
     <link href="<?=base_url('public/plugins/morris/morris.css')?>" rel="stylesheet" type="text/css" />
-    <!-- jvectormap -->
-    <!-- <link href="<?=base_url('public/plugins/jvectormap/jquery-jvectormap-1.2.2.css')?>" rel="stylesheet" type="text/css" /> -->
     <!-- Daterange picker -->
     <link href="<?=base_url('public/plugins/daterangepicker/daterangepicker-bs3.css')?>" rel="stylesheet" type="text/css" />
     <!-- iCheck for checkboxes and radio inputs -->
@@ -54,10 +61,6 @@
     <script src="<?=base_url('public/plugins/datatables/dataTables.tableTools.js');?>" type="text/javascript"></script>
     <script src="<?=base_url('public/plugins/datatables/dataTables.bootstrap.js');?>" type="text/javascript"></script>
     <script src="<?=base_url('public/plugins/datatables/dataTables.responsive.min.js');?>" type="text/javascript"></script>
-    <!-- InputMask -->
-    <script src="<?=base_url('public/plugins/input-mask/jquery.inputmask.js');?>" type="text/javascript"></script>
-    <script src="<?=base_url('public/plugins/input-mask/jquery.inputmask.date.extensions.js');?>" type="text/javascript"></script>
-    <script src="<?=base_url('public/plugins/input-mask/jquery.inputmask.extensions.js');?>" type="text/javascript"></script>
     <!-- Sparkline -->
     <script src="<?=base_url('public/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
     <!-- daterangepicker -->
@@ -72,24 +75,24 @@
     <script src="<?=base_url('public/plugins/ckeditor/ckeditor.js');?>"></script>
     <!-- Sparkline -->
     <script src="<?=base_url('public/plugins/sparkline/jquery.sparkline.min.js');?>" type="text/javascript"></script>
+    <!-- Pace -->
+    <script src="<?=base_url('public/plugins/pace-1.0.2/pace.min.js');?>" type="text/javascript"></script>
     <!-- select2 -->
     <script src="<?=base_url('public/plugins/select2/dist/js/select2.full.min.js');?>" type="text/javascript"></script>
     <script src="<?=base_url('public/plugins/select2/dist/js/i18n/id.js');?>" type="text/javascript"></script>
-    <!-- AngularJS -->
-    <!-- <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script> -->
+    <!-- AngularJS 
+    <script src="<?=base_url('public/plugins/angular/angular.min.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/angular/angular-animate.min.js');?>" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/angular/angular-resource.min.js');?>" type="text/javascript"></script> -->
     <!-- Misc -->
     <script src="<?=base_url('public/dist/js/misc.js');?>" type="text/javascript"></script>
     
     <script type="text/javascript">
         $(document).ready(function() {
-            //var parent = "#parent-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-            //var child = "#child-" + window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
             var parent = "<?=$aktif['parent'];?>";
             var child = "<?=$aktif['child'];?>";
             var site_url = "<?=site_url()?>";
 
-            //alert(parent);
-            //alert(child);
             $(parent).addClass("active");
             $(child).addClass("active");
         });

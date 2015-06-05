@@ -1487,6 +1487,17 @@ class User_model extends CI_Model {
         return ( $hasil->row()->Hasil > 0 ? TRUE : FALSE );
     }
 
+    public function cek_akses($role, $akses){
+        $this->db->select('*')
+            ->from('tb_roleakses ra')
+            ->join('tb_hakakses h','ra.akses_id = h.akses_id')
+            ->where('lower(h.akses_nama)',strtolower($akses) )
+            ->where('ra.role_id',$role);
+
+        $query = $this->db->get();
+        return ($query->num_rows() === 1 ? $query->row() : 0);
+    }
+
     function get_total($parameter) {
         if(!empty($parameter)){
             $this->db->select('count(*) AS Total');
@@ -1556,57 +1567,6 @@ class User_model extends CI_Model {
         return ($query->num_rows() > 0 ? $query : NULL);
     }
 
-    function get_userakses($parameter) {
-        $this->db->select('49_tc_userakses.*, 49_tc_role.role_name AS Role');
-        $this->db->from('49_tc_user_akses');
-        $this->db->join('role', '49_tc_userakses.role_id = 49_tc_role.role_id');
-        $this->db->where($parameter);
-        $query = $this->db->get();
-        return ($query->num_rows() > 0 ? $query : NULL);
-    }
-
-    function get_daftaruser($start, $rows, $search) {
-
-        $sql = "SELECT
-            `user`.`user_id` AS ID,
-            `user`.`user_name` AS Username,
-            `ukm`.`ukm_name` AS UKM,
-            `user`.`user_created` AS Dibuat,
-            `user`.`user_mail` AS Mail,
-            `role`.`role_name` AS Role,
-            REPLACE(REPLACE(`user`.`user_status`,'0','Nonaktif'),'1','Aktif') AS Status
-        FROM `user`
-        INNER JOIN `role` ON (`user`.`user_role` = `role`.`role_id`)
-        INNER JOIN `ukm` ON (`user`.`ukm_id` = `ukm`.`ukm_id`)
-        WHERE `user`.`user_id` LIKE '%".$search."%'
-                OR `user`.`user_name` LIKE '%".$search."%'
-                OR `ukm`.`ukm_name` LIKE '%".$search."%'
-                OR REPLACE(REPLACE(`user`.`user_status`,'0','Nonaktif'),'1','Aktif') LIKE '%".$search."%'
-                OR `user`.`user_created` LIKE '%".$search."%'
-                OR `user`.`user_mail` LIKE '%".$search."%'
-                OR `role`.`role_name` LIKE '%".$search."%'
-        ORDER BY `user`.`user_created` DESC LIMIT ".$start.",".$rows."";
-
-        return $this->db->query($sql);
-    }
-
-    function get_count_daftaruser($search) {
-
-        $sql = "SELECT
-            COUNT(*) AS Total
-        FROM `user`
-        INNER JOIN `role` ON (`user`.`user_role` = `role`.`role_id`)
-        INNER JOIN `ukm` ON (`user`.`ukm_id` = `ukm`.`ukm_id`)
-        WHERE `user`.`user_id` LIKE '%".$search."%'
-                OR `user`.`user_name` LIKE '%".$search."%'
-                OR `ukm`.`ukm_name` LIKE '%".$search."%'
-                OR REPLACE(REPLACE(`user`.`user_status`,'0','Nonaktif'),'1','Aktif') LIKE '%".$search."%'
-                OR `user`.`user_created` LIKE '%".$search."%'
-                OR `user`.`user_mail` LIKE '%".$search."%'
-                OR `role`.`role_name` LIKE '%".$search."%'";
-
-        return $this->db->query($sql);
-    }
 
 }
 

@@ -324,7 +324,7 @@
                         <input type="hidden" id="tambah-pen-id" name="tambah-pen-id" readonly="" required >
                         <!-- <input type="text" class="form-control" id="tambah-pen" name="tambah-pen" placeholder="Judul Penelitian" /> -->
                         <select class="form-control" id="tambah-pen" name="tambah-pen">
-                          <option value="">Pilih Judul Penelitian</option>
+                          <option value="" selected="">Pilih Judul Penelitian</option>
                         </select>
                       </div><!-- /.input group -->
                     </div>
@@ -490,51 +490,49 @@
          * Here we will create a few charts using ChartJS
          */
 
-        //-----------------------
-        //- MONTHLY SALES CHART -
-        //-----------------------
-
-        // Get context with jQuery - using jQuery's .get() method.
+        /*Get context with jQuery - using jQuery's .get() method.*/
         var salesChartCanvas = $("#salesChart").get(0).getContext("2d");
-        // This will get the first returned node in the jQuery collection.
+        /*This will get the first returned node in the jQuery collection.*/
         var salesChart = new Chart(salesChartCanvas);
 
         var salesChartOptions = {
-          //Boolean - If we should show the scale at all
+          /*Boolean - If we should show the scale at all*/
           showScale: true,
-          //Boolean - Whether grid lines are shown across the chart
+          /*Boolean - Whether grid lines are shown across the chart*/
           scaleShowGridLines: true,
-          //String - Colour of the grid lines
+          /*String - Colour of the grid lines*/
           scaleGridLineColor: "rgba(0,0,0,.05)",
-          //Number - Width of the grid lines
+          /*Number - Width of the grid lines*/
           scaleGridLineWidth: 1,
-          //Boolean - Whether to show horizontal lines (except X axis)
+          /*Boolean - Whether to show horizontal lines (except X axis)*/
           scaleShowHorizontalLines: true,
-          //Boolean - Whether to show vertical lines (except Y axis)
+          /*Boolean - Whether to show vertical lines (except Y axis)*/
           scaleShowVerticalLines: true,
-          //Boolean - Whether the line is curved between points
+          /*Boolean - Whether the line is curved between points*/
           bezierCurve: true,
-          //Number - Tension of the bezier curve between points
+          /*Number - Tension of the bezier curve between points*/
           bezierCurveTension: 0.4,
-          //Boolean - Whether to show a dot for each point
+          /*Boolean - Whether to show a dot for each point*/
           pointDot: false,
-          //Number - Radius of each point dot in pixels
+          /*Number - Radius of each point dot in pixels*/
           pointDotRadius: 4,
-          //Number - Pixel width of point dot stroke
+          /*Number - Pixel width of point dot stroke*/
           pointDotStrokeWidth: 1,
-          //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+          /*Number - amount extra to add to the radius to cater for hit detection outside the drawn point*/
           pointHitDetectionRadius: 20,
-          //Boolean - Whether to show a stroke for datasets
+          /*Boolean - Whether to show a stroke for datasets*/
           datasetStroke: true,
-          //Number - Pixel width of dataset stroke
+          /*Label*/
+          multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>",
+          /*Number - Pixel width of dataset stroke*/
           datasetStrokeWidth: 2,
-          //Boolean - Whether to fill the dataset with a color
+          /*Boolean - Whether to fill the dataset with a color*/
           datasetFill: true,
-          //String - A legend template
+          /*String - A legend template*/
           legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%=datasets[i].label%></li><%}%></ul>",
-          //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+          /*Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container*/
           maintainAspectRatio: false,
-          //Boolean - whether to make the chart responsive to window resizing
+          /*Boolean - whether to make the chart responsive to window resizing*/
           responsive: true
         };
 
@@ -545,15 +543,6 @@
             salesChart.Line(response, salesChartOptions);
           }
         });
-        //Create the line chart
-        //salesChart.Line(salesChartData, salesChartOptions);
-
-        //---------------------------
-        //- END MONTHLY SALES CHART -
-        //---------------------------
-
-        
-
       });
     </script>
     <script type="text/javascript">
@@ -565,13 +554,6 @@
             $("#boxakhir").html(obj.boxakhir);
         });
       }
-
-      // $(function(){
-
-      //   $("#tambah-pen").autocomplete({
-      //     source: "<?=site_url('penelitian/getlist')?>" // path to the get_birds method
-      //   });
-      // });
 
       $(document).ready(function() {
         refresh_jumlah();
@@ -624,7 +606,7 @@
                 type: 'GET',
                 data: function (params) {
                     return {
-                        q: params.term, // search term
+                        q: params.term, /*// search term*/
                         page: params.page
                     };
                 },
@@ -658,7 +640,6 @@
             var id = button.data('id');
             var modal = $(this);
 
-            //e.preventDefault();  //stop the browser from following
             setTimeout(function(){ 
               window.location.href = "<?=site_url('laporan/download/" + id + "')?>";
             }, 2500);
@@ -677,7 +658,7 @@
                 cache: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
-                    //console.log(data);
+                    
                     modal.find('.hapus-isi').html(obj.berkas_pesan);
                     modal.find('.hapus-tanggal').html(obj.berkas_waktu);
                     modal.find('.hapus-judul').html(obj.pen_judul);
@@ -701,7 +682,7 @@
                 cache: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
-                    //console.log(data);
+                    
                     modal.find('.baca-isi').html(obj.berkas_pesan);
                     modal.find('.baca-tanggal').html(obj.berkas_waktu);
                     modal.find('.baca-tipenama').html(obj.tipelaporan_nama);
@@ -830,7 +811,6 @@
         $( '.btn-tanggal-an' ).insertBefore('#tblaporanAn_wrapper');
         $( '.btn-tanggal-ak' ).insertBefore('#tblaporanAk_wrapper');
         $( '.btn-tanggal-lg' ).insertBefore('#tblaporanLg_wrapper');
-        //$( '#btn-tanggal-text' ).insertBefore('#tblaporanK_wrapper');
 
         $(".btn-tanggal-k").datepicker({
             format: "yyyy",
@@ -843,10 +823,6 @@
             tblaporanK
               .columns(3).search( ev.format() )
               .draw();
-
-            
-            //tblaporanK.fnFilterAll( ev.format() );
-            //alert( "Anda memilih tahun " + ev.format() );
         });
 
         $(".btn-tanggal-an").datepicker({
@@ -888,46 +864,45 @@
               .draw();
         });
 
-        // simpan laporan
+        /*simpan laporan*/
         $('#btn-simpan').click(function(){
             $('#form-tambah').submit();
             $('#btn-simpan').addClass('disabled');
         });
 
-        // baca semua laporan
+        /* baca semua laporan */
         $('#btn-bacasemua').click(function(){
             $('#form-bacasemua').submit();
             $('#btn-bacasemua').addClass('disabled');
         });
 
-        // hapus laporan
+        /*hapus laporan*/
         $('#btn-hapus').click(function(){
             $('#form-hapus').submit();
             $('#btn-hapus').addClass('disabled');
         });
 
-        // hapus semua laporan
+        /*hapus semua laporan*/
         $('#btn-hapusemua').click(function(){
             $('#form-hapusemua').submit();
             $('#btn-hapusemua').addClass('disabled');
         });
 
         $('#form-tambah').submit(function(){
-            // create a FormData Object using your form dom element
+            /*create a FormData Object using your form dom element*/
             var form = new FormData(document.getElementById('form-tambah'));
-            //append files
+            /*append files*/
             var file = document.getElementById('tambah-file').files[0];
             if (file) {   
               form.append('tambah-file', file);
             }
-            //alert(form);
             $.ajax({
                 url:"<?=site_url('laporan/tambah')?>",
                 type:"POST",
                 data:form,
                 cache: false,
-                contentType: false, //must, tell jQuery not to process the data
-                processData: false, //must, tell jQuery not to set contentType
+                contentType: false, /*//must, tell jQuery not to process the data*/
+                processData: false, /*//must, tell jQuery not to set contentType*/
                 success:function(respon){
                     var obj = $.parseJSON(respon);
                     if(obj.status==1){

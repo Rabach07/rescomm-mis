@@ -299,7 +299,7 @@
                 cache: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
-                    //console.log(data);
+                    
                     modal.find('.hapus-isi').html(obj.notif_isi);
                     modal.find('.hapus-tanggal').html(obj.notif_tanggal);
                     modal.find('.hapus-tipe').html(obj.tipenotif_teks);
@@ -324,7 +324,7 @@
                 cache: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
-                    //console.log(data);
+                    
                     modal.find('.baca-isi').html(obj.notif_isi);
                     modal.find('.baca-tanggal').html(obj.notif_tanggal);
                     modal.find('.baca-tipe').html(obj.tipenotif_teks);
@@ -373,25 +373,25 @@
 
         });
 
-        // baca notifikasi
+        /*baca notifikasi*/
         $('#btn-baca-notifikasi').click(function(){
             $('#form-baca-notifikasi').submit();
             $('#btn-baca-notifikasi').addClass('disabled');
         });
 
-        // baca semua notifikasi
+        /*baca semua notifikasi*/
         $('#btn-bacasemua-notifikasi').click(function(){
             $('#form-bacasemua-notifikasi').submit();
             $('#btn-bacasemua-notifikasi').addClass('disabled');
         });
 
-        // hapus notifikasi
+        /*hapus notifikasi*/
         $('#btn-hapus-notifikasi').click(function(){
             $('#form-hapus-notifikasi').submit();
             $('#btn-hapus-notifikasi').addClass('disabled');
         });
 
-        // hapus semua notifikasi
+        /*hapus semua notifikasi*/
         $('#btn-hapusemua-notifikasi').click(function(){
             $('#form-hapusemua-notifikasi').submit();
             $('#btn-hapusemua-notifikasi').addClass('disabled');

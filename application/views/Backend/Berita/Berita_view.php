@@ -642,47 +642,49 @@
          * -------
          * Here we will create a few charts using ChartJS
          */
-        // Get context with jQuery - using jQuery's .get() method.
+        /*Get context with jQuery - using jQuery's .get() method. */
         var pageviewChartCanvas = $("#pageviewChart").get(0).getContext("2d");
-        // This will get the first returned node in the jQuery collection.
+        /*This will get the first returned node in the jQuery collection.*/
         var pageviewChart = new Chart(pageviewChartCanvas);
 
         var pageviewChartOptions = {
-          //Boolean - If we should show the scale at all
+          /*Boolean - If we should show the scale at all*/
           showScale: true,
-          //Boolean - Whether grid lines are shown across the chart
+          /*Boolean - Whether grid lines are shown across the chart*/
           scaleShowGridLines: true,
-          //String - Colour of the grid lines
+          /*String - Colour of the grid lines*/
           scaleGridLineColor: "rgba(0,0,0,.05)",
-          //Number - Width of the grid lines
+          /*Number - Width of the grid lines*/
           scaleGridLineWidth: 1,
-          //Boolean - Whether to show horizontal lines (except X axis)
+          /*Boolean - Whether to show horizontal lines (except X axis)*/
           scaleShowHorizontalLines: true,
-          //Boolean - Whether to show vertical lines (except Y axis)
+          /*Boolean - Whether to show vertical lines (except Y axis)*/
           scaleShowVerticalLines: true,
-          //Boolean - Whether the line is curved between points
+          /*Boolean - Whether the line is curved between points*/
           bezierCurve: true,
-          //Number - Tension of the bezier curve between points
+          /*Number - Tension of the bezier curve between points*/
           bezierCurveTension: 0.4,
-          //Boolean - Whether to show a dot for each point
+          /*Boolean - Whether to show a dot for each point*/
           pointDot: false,
-          //Number - Radius of each point dot in pixels
+          /*Number - Radius of each point dot in pixels*/
           pointDotRadius: 4,
-          //Number - Pixel width of point dot stroke
+          /*Number - Pixel width of point dot stroke*/
           pointDotStrokeWidth: 1,
-          //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+          /*Number - amount extra to add to the radius to cater for hit detection outside the drawn point*/
           pointHitDetectionRadius: 20,
-          //Boolean - Whether to show a stroke for datasets
+          /*Boolean - Whether to show a stroke for datasets*/
           datasetStroke: true,
-          //Number - Pixel width of dataset stroke
+          /*Number - Pixel width of dataset stroke*/
           datasetStrokeWidth: 2,
-          //Boolean - Whether to fill the dataset with a color
+          /*Label*/
+          multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>",
+          /*Boolean - Whether to fill the dataset with a color*/
           datasetFill: true,
-          //String - A legend template
+          /*String - A legend template*/
           legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%=datasets[i].label%></li><%}%></ul>",
-          //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+          /*Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container*/
           maintainAspectRatio: false,
-          //Boolean - whether to make the chart responsive to window resizing
+          /*Boolean - whether to make the chart responsive to window resizing*/
           responsive: true
         };
 
@@ -692,14 +694,6 @@
             pageviewChart.Line(response, pageviewChartOptions);
           }
         });
-        //Create the line chart
-        //salesChart.Line(salesChartData, salesChartOptions);
-
-        //---------------------------
-        //- END MONTHLY SALES CHART -
-        //---------------------------
-
-        
 
       });
     </script>
@@ -717,6 +711,9 @@
       $(document).ready(function() {
         refresh_jumlah();
         var csrf_token = '<?=$this->security->get_csrf_hash();?>';
+
+        /*$('body').css('display', 'none');
+        $('body').fadeIn(3000);*/
 
         $(".tanggal").daterangepicker({
             singleDatePicker: true,
@@ -760,7 +757,6 @@
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.btn-hapuseleksi').trigger('click');
-                    //console.log(data);
                     modal.find('.berita-judul').html(obj.judul);
                     modal.find('.berita-tanggal').html(obj.tanggal);
                     modal.find('.berita-tipe').html(obj.tipe);
@@ -787,7 +783,6 @@
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.btn-hapuseleksi').trigger('click');
-                    //console.log(data);
                     modal.find('.tipe-nama').html(obj.tipeberita_nama);
                     modal.find('.tipe-icon').html(obj.tipeberita_icon);
                     modal.find('#tipe-id').val(obj.ID);
@@ -812,7 +807,6 @@
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.btn-hapuseleksi').trigger('click');
-                    //console.log(data);
                     modal.find('#berita-isi').data("wysihtml5").editor.setValue(obj.isi);
                     modal.find('#berita-tanggal').val(obj.tanggal);
                     modal.find('#berita-url').val(obj.url);
@@ -844,7 +838,6 @@
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.btn-hapuseleksi').trigger('click');
-                    //console.log(data);
                     modal.find('#tipe-id').val(obj.tipeberita_id);
                     modal.find('#tipe-nama').val(obj.tipeberita_nama);
                     modal.find('#tipe-lama').val(obj.tipeberita_nama);
@@ -912,7 +905,6 @@
               arr.push(d.ID);
             });
 
-            //alert( arr );
             modal.find('#berita-id').val(arr);
             $.ajax({
                 type: "POST",
@@ -922,20 +914,15 @@
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.btn-hapuseleksi').trigger('click');
-                    //console.log(data);
-                    //alert(obj);
+
                     var el = modal.find('#here');
                     el.empty();
                     for(var i=0;i<obj.length;i++){
-                        // ini membuat div tiap iterasi
+                        /*ini membuat div tiap iterasi*/
                         modal.find('#here').append("<div class='col-xs-12 boox i-" + i + "'></div>");
                         var arr = obj[i];
                         modal.find(".i-" + i + "").append(document.createTextNode(arr['berita_judul']));
                     }
-                    // modal.find('#tipe-id').val(obj.tipeberita_id);
-                    // modal.find('#tipe-nama').val(obj.tipeberita_nama);
-                    // modal.find('#tipe-lama').val(obj.tipeberita_nama);
-                    // modal.find('#tipe-icon').val(obj.tipeberita_icon);
                 },
                 error: function(err) {
                     console.log(err);
@@ -954,7 +941,6 @@
               arr.push(d.ID);
             });
 
-            //alert( arr );
             modal.find('#berita-id').val(arr);
             $.ajax({
                 type: "POST",
@@ -964,21 +950,16 @@
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.btn-hapuseleksi').trigger('click');
-                    //console.log(data);
-                    //alert(obj);
+
                     var el = modal.find('#here');
-                    //while ( el.firstChild ) el.removeChild( el.firstChild );
+                    /*while ( el.firstChild ) el.removeChild( el.firstChild );*/
                     el.empty();
                     for(var i=0;i<obj.length;i++){
-                        // ini membuat div tiap iterasi
+                        /*ini membuat div tiap iterasi*/
                         modal.find('#here').append("<div class='col-xs-12 boox i-" + i + "'></div>");
                         var arr = obj[i];
                         modal.find(".i-" + i + "").append(document.createTextNode(arr['berita_judul']));
                     }
-                    // modal.find('#tipe-id').val(obj.tipeberita_id);
-                    // modal.find('#tipe-nama').val(obj.tipeberita_nama);
-                    // modal.find('#tipe-lama').val(obj.tipeberita_nama);
-                    // modal.find('#tipe-icon').val(obj.tipeberita_icon);
                 },
                 error: function(err) {
                     console.log(err);
@@ -1017,10 +998,7 @@
         var b = new $.fn.dataTable.TableTools( tberita );
 
         $( b.fnContainer() ).insertBefore('#tberita_wrapper');
-
         $( '.btn-tanggal-k' ).insertBefore('#tberita_wrapper');
-        //$( '#btn-tanggal-text' ).insertBefore('#tblaporanK_wrapper');
-
         $(".btn-tanggal-k").datepicker({
             format: "yyyy",
             autoclose: true,
@@ -1033,71 +1011,62 @@
               .columns(2).search( ev.format() )
               .draw();
 
-            
-            //tblaporanK.fnFilterAll( ev.format() );
-            //alert( "Anda memilih tahun " + ev.format() );
         });
 
-        // tambah tipe
+        /*tambah berita*/
         $('#btn-simpanberita').click(function(){
             $('#btn-simpanberita').html('<i class="fa fa-refresh fa-spin"></i> Menyimpan ...');
             $('#btn-simpanberita').addClass('disabled');
             $('#form-tambahberita').submit();
         });
 
-        // tambah tipe
+        /*tambah tipe*/
         $('#btn-simpantipe').click(function(){
             $('#btn-simpantipe').html('<i class="fa fa-refresh fa-spin"></i> Menyimpan ...');
             $('#btn-simpantipe').addClass('disabled');
             $('#form-tambahtipe').submit();
         });
 
-        // edit berita
+        /*edit berita*/
         $('#btn-editberita').click(function(){
             $('#btn-editberita').html('<i class="fa fa-refresh fa-spin"></i> Menyimpan ...');
             $('#btn-editberita').addClass('disabled');
             $('#form-editberita').submit();
         });
 
-        // edit tipe
+        /*edit tipe*/
         $('#btn-editipe').click(function(){
             $('#btn-editipe').html('<i class="fa fa-refresh fa-spin"></i> Menyimpan ...');
             $('#btn-editipe').addClass('disabled');
             $('#form-editipe').submit();
         });
 
-        // hapus berita
+        /*hapus berita*/
         $('#btn-hapusberita').click(function(){
             $('#btn-hapusberita').html('<i class="fa fa-refresh fa-spin"></i> Menghapus...');
             $('#btn-hapusberita').addClass('disabled');
             $('#form-hapusberita').submit();
         });
 
-        // hapus tipe
+        /*hapus tipe*/
         $('#btn-hapustipe').click(function(){
             $('#btn-hapustipe').html('<i class="fa fa-refresh fa-spin"></i> Menghapus ...');
             $('#btn-hapustipe').addClass('disabled');
             $('#form-hapustipe').submit();
         });
 
-        // baca rilis semua
+        /*baca rilis semua*/
         $('#btn-rilisberita').click(function(){
             $('#btn-rilisberita').html('<i class="fa fa-refresh fa-spin"></i> Menyimpan ...');
             $('#btn-rilisberita').addClass('disabled');
             $('#form-rilisberita').submit();
         });
 
-        // baca draft semua
+        /*baca draft semua*/
         $('#btn-draftberita').click(function(){
             $('#btn-draftberita').html('<i class="fa fa-refresh fa-spin"></i> Menyimpan ...');
             $('#btn-draftberita').addClass('disabled');
             $('#form-draftberita').submit();
-        });
-
-        // hapus semua laporan
-        $('#btn-hapusemua').click(function(){
-            $('#form-hapusemua').submit();
-            $('#btn-hapusemua').addClass('disabled');
         });
 
         $('#form-rilisberita').submit(function(){

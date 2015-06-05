@@ -1,21 +1,30 @@
+<!--<yudev> Sistem Informasi Manajemen Kegiatan Penelitian
+  ██████╗ ██████╗ ███╗   ███╗    ██████╗ ███████╗███╗   ██╗███████╗
+  ██╔══██╗╚════██╗████╗ ████║    ██╔══██╗██╔════╝████╗  ██║██╔════╝
+  ██████╔╝ █████╔╝██╔████╔██║    ██████╔╝█████╗  ██╔██╗ ██║███████╗
+  ██╔═══╝  ╚═══██╗██║╚██╔╝██║    ██╔═══╝ ██╔══╝  ██║╚██╗██║╚════██║
+  ██║     ██████╔╝██║ ╚═╝ ██║    ██║     ███████╗██║ ╚████║███████║
+  ╚═╝     ╚═════╝ ╚═╝     ╚═╝    ╚═╝     ╚══════╝╚═╝  ╚═══╝╚══════╝
+  @ yufieko
+</yudev>-->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Login | P3M PENS</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.2 -->
-    <link href="<?=base_url();?>public/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="<?=base_url();?>public/plugins/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="<?=base_url();?>public/dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <!-- iCheck -->
-    <link href="<?=base_url();?>public/plugins/iCheck/square/blue.css" rel="stylesheet" type="text/css" />
     <!-- favicon -->
-    <link rel="shortcut icon" href="<?=base_url();?>public/dist/img/favicon.ico" />
+    <link rel="shortcut icon" href="<?=base_url('public/dist/img/favicon.ico');?>" />
+    <!-- Bootstrap 3.3.2 -->
+    <link href="<?=base_url('public/bootstrap/css/bootstrap.min.css');?>" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome Icons -->
+    <link href="<?=base_url('public/plugins/font-awesome-4.3.0/css/font-awesome.min.css');?>" rel="stylesheet" type="text/css" />
+    <!-- Theme style -->
+    <link href="<?=base_url('public/dist/css/AdminLTE.min.css');?>" rel="stylesheet" type="text/css" />
+    <!-- iCheck -->
+    <link href="<?=base_url('public/plugins/iCheck/square/blue.css');?>" rel="stylesheet" type="text/css" />
     <!-- Custom CSS -->
-    <link href="<?=base_url();?>public/dist/css/custom.css" rel="stylesheet" type="text/css" />
+    <link href="<?=base_url('public/dist/css/custom.css');?>" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -78,17 +87,19 @@
     <!-- /.login-box -->
 
     <!-- jQuery 2.1.3 -->
-    <script src="<?=base_url();?>public/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <script src="<?=base_url('public/plugins/jQuery/jQuery-2.1.4.min.js');?>"></script>
     <!-- Bootstrap 3.3.2 JS -->
-    <script src="<?=base_url();?>public/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="<?=base_url('public/bootstrap/js/bootstrap.min.js');?>" type="text/javascript"></script>
     <!-- iCheck -->
-    <script src="<?=base_url();?>public/plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+    <script src="<?=base_url('public/plugins/iCheck/icheck.min.js');?>" type="text/javascript"></script>
+    <!-- Pace -->
+    <script src="<?=base_url('public/plugins/pace-1.0.2/pace.min.js');?>" type="text/javascript"></script>
     <script>
     $(function() {
         $('input').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
+            increaseArea: '20%'
         });
     });
     </script>

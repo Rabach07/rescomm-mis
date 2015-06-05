@@ -119,16 +119,16 @@ class Berita_model extends CI_Model {
     }
 
     function buatchartpg($limit) {
-        $alldate = "( SELECT DATE_ADD(curdate()-1, INTERVAL 1 day) - INTERVAL (a.a + (10 * b.a) ) DAY as Date 
+        $alldate = "( SELECT DATE_ADD(curdate()+1, INTERVAL - 1 day) - INTERVAL (a.a + (10 * b.a) ) DAY as Date 
                     FROM (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as a
                     CROSS JOIN (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as b
                     LIMIT ". $limit .") AS all_dates";
 
         $this->db->select("DATE_FORMAT(all_dates.Date, '%d %b %Y') AS tanggal, COALESCE(SUM(be.lihat_jumlah),'0') AS jumlah ")
             ->from($alldate)
-            ->join("tb_beritalihat be", "all_dates.Date = DATE_FORMAT(be.lihat_tanggal, '%Y-%m-%d')","left")
+            ->join("tb_beritalihat be", "DATE_FORMAT(all_dates.Date, '%Y-%m-%d') = DATE_FORMAT(be.lihat_tanggal, '%Y-%m-%d')","left",FALSE)
             ->group_by('tanggal')
-            ->order_by('tanggal','asc');
+            ->order_by('all_dates.Date','asc');
 
         $query = $this->db->get();
         // $output = array();

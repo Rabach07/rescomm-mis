@@ -1,17 +1,17 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Penelitian_model extends CI_Model {
+class Topik_model extends CI_Model {
 
 	function get_total($parameter = NULL) {
         if(!empty($parameter)){
             $this->db->select('count(*) AS Total')
-                ->from('tb_penelitian')
+                ->from('tb_topik')
                 ->where($parameter);
             $query = $this->db->get();
             return ($query->num_rows() > 0 ? $query->row()->Total : 0);
         }else{
             $this->db->select('count(*) AS Total')
-                ->from('tb_penelitian');
+                ->from('tb_topik');
             $query = $this->db->get();
             return ($query->num_rows() > 0 ? $query->row()->Total : 0);
         }
@@ -26,80 +26,49 @@ class Penelitian_model extends CI_Model {
         return ($query->num_rows() > 0 ? $query->row()->Total : 0);
     }
 
-
     function insert($data) {
-        $this->db->insert('tb_penelitian', $data);
+        $this->db->insert('tb_topik', $data);
     }
 
     function delete($id) {
-        $this->db->where('pen_id', $id)
-            ->delete('tb_penelitian');
+        $this->db->where('topik_id', $id)
+            ->delete('tb_topik');
     }
 
     function deleteWith($data) {
         $this->db->where($data)
-            ->delete('tb_penelitian');
+            ->delete('tb_topik');
     }
 
     function deleteAll() {
-        $this->db->empty_table('tb_penelitian');
+        $this->db->empty_table('tb_topik');
     }
 
     function update($id, $data) {
-        $this->db->where('pen_id', $id)
-            ->update('tb_penelitian', $data);
+        $this->db->where('topik_id', $id)
+            ->update('tb_topik', $data);
     }
 
     function updateAll($data) {
-        $this->db->update('tb_penelitian', $data);
+        $this->db->update('tb_topik', $data);
     }
 
     function select($data, $no = 0) {
         $this->db->select('*')
-            ->from('tb_penelitian')
+            ->from('tb_topik')
             ->where($data)
             ->limit($no);
         $query = $this->db->get();
         return ($query->num_rows() > 0 ? $query : NULL);
     }
 
-    function getlist($q = ""){
+    function get_list_topik(){
         $this->db->select("*")
-            ->from('tb_penelitian')
-            ->where('pen_status', 1)
-            ->like('pen_judul', $q);
-        $query = $this->db->get();
-        
-        // if($query->num_rows > 0){
-        //     foreach ($query->result() as $row){
-        //         $new_row['label']=htmlentities(stripslashes($row->user_login));
-        //         $new_row['value']=htmlentities(stripslashes($row->user_id));
-        //         $row_set[] = $new_row; //build an array
-        //     }
-        //     echo json_encode($row_set); //format the array into json data
-        // }
-
-        return $query;
-    }
-
-    function get_list_grup($q = ""){
-        $this->db->select("*")
-            ->from('tb_grupriset')
-            ->where('grupriset_status', 1)
-            ->like('grupriset_nama', $q);
+            ->from('tb_topik')
+            ->order_by('topik_nama');
         $query = $this->db->get();
 
-        return $query;
-    }
-
-    function get_list_pusat($q = ""){
-        $this->db->select("*")
-            ->from('tb_pusatriset')
-            ->where('pusatriset_status', 1)
-            ->like('pusatriset_nama', $q);
-        $query = $this->db->get();
-
-        return $query;
+        return ($query->num_rows() > 0 ? $query : NULL);
     }
 
     function buatcharthn($limit,$status) {
@@ -110,7 +79,7 @@ class Penelitian_model extends CI_Model {
                     CROSS JOIN (select 0 as a union all select 1 union all select 2 union all select 3 union all select 4 union all select 5 union all select 6 union all select 7 union all select 8 union all select 9) as b
                     LIMIT ". $limit .") AS all_dates";
 
-        $this->db->select("YEAR(all_dates.Date) AS tahun, COALESCE(COUNT(h.hispen_id),'0') AS jumlah ")
+        $this->db->select("YEAR(all_dates.Date) AS tahun, COALESCE(COUNT(h.histopik_id),'0') AS jumlah ")
             ->from($alldate)
             ->join("tb_historypenelitian h", $on,"left",FALSE)
             ->group_by('tahun')
