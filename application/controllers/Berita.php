@@ -16,6 +16,7 @@ class Berita extends MY_Controller {
 
         $this->load->view('Backend/header_view', $this->datah);
         $this->load->view('Backend/Berita/Berita_view', $this->data);
+        // $this->output->cache(60);
     }
 
 	public function getberita() {
